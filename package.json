@@ -124,8 +124,17 @@
       "import/no-unresolved": 2,
       "import/no-webpack-loader-syntax": 0,
       "import/prefer-default-export": 0,
-      "indent": ["error", 4, { "SwitchCase": 1 }],
-      "react/jsx-indent": ["error", 4],
+      "indent": [
+        "error",
+        4,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "react/jsx-indent": [
+        "error",
+        4
+      ],
       "jsx-a11y/aria-props": 2,
       "jsx-a11y/heading-has-content": 0,
       "jsx-a11y/href-no-hash": 2,
@@ -254,7 +263,7 @@
     "babel-plugin-transform-react-inline-elements": "6.22.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.5",
     "babel-preset-env": "1.5.1",
-    "babel-preset-react": "6.24.1",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "bulma": "^0.5.3",
     "bulma-loader": "^1.0.1",
