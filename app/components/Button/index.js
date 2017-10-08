@@ -5,9 +5,7 @@
 */
 
 import React from 'react';
-// import styled from 'styled-components';
-
-import { FormattedMessage } from 'react-intl';
+import PropType from 'prop-types';
 import { button } from './style.scss';
 
 class Button extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -21,7 +19,7 @@ class Button extends React.PureComponent { // eslint-disable-line react/prefer-s
 }
 
 Button.propTypes = {
-
+    children: PropType.node.isRequired,
 };
 
 export default Button;
