@@ -10,14 +10,13 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import Button from 'components/Button';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
     render() {
         return (
             <div>
-                <h1>'This is HomePage component!'</h1>
+                <h1>This is HomePage component!</h1>
                 <Button>Hey Pete Pete!</Button>
             </div>
         );
