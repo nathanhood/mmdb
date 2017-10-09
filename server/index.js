@@ -2,22 +2,46 @@
 
 const express = require('express');
 const logger = require('./logger');
-
 const argv = require('./argv');
 const port = require('./port');
-const setup = require('./middlewares/frontendMiddleware');
+// const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
 const resolve = require('path').resolve;
+// const app = express();
+// const appPath = resolve(process.cwd(), 'app');
+// const App = require(`${appPath}/containers/Homepage`);
+const fs = require('fs');
+// var { renderToString } = require('react-dom/server');
+// const webpackConfig = require('../internals/webpack/webpack.server.babel');
+// const webpack = require('webpack');
+
+// import logger from './logger';
+// import argv from './argv';
+// import port from './port';
+// import { resolve } from 'path';
+// import express from 'express';
+// import fs from 'fs';
+// import handleRender from '../build/server.js';
+const handleRender = require('../build/server.js');
+
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 
 // In production we need to pass these values in instead of relying on webpack
-setup(app, {
-    outputPath: resolve(process.cwd(), 'build'),
-    publicPath: '/',
+// setup(app, {
+//     outputPath: resolve(process.cwd(), 'build'),
+//     publicPath: '/',
+// });
+
+// Serve static files
+// app.use('/', express.static(resolve(process.cwd(), 'build')));
+
+app.get('/', (req, res) => {
+    // TODO: Create store
+    res.send(handleRender.default());
 });
 
 // get the intended host and port number, use localhost and port 3000 if not provided
