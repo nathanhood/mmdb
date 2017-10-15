@@ -23,7 +23,7 @@ const resolve = require('path').resolve;
 // import express from 'express';
 // import fs from 'fs';
 // import handleRender from '../build/server.js';
-const handleRender = require('../build/server.js');
+const handleRender = require('./build/server.js');
 
 const app = express();
 
