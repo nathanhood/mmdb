@@ -24,7 +24,6 @@ const resolve = require('path').resolve;
 // import fs from 'fs';
 // import handleRender from '../build/server.js';
 const handleRender = require('./build/server.js');
-const addDevMiddlewares = require('./middlewares/addDevMiddlewares');
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
