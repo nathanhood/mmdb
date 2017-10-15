@@ -8,9 +8,9 @@ module.exports = require('./webpack.base.babel')({
     ],
 
     output: {
+        path: path.resolve(process.cwd(), 'server/build'),
         filename: 'server.js',
-        chunkFilename: '[name].chunk.js',
-        libraryTarget: 'commonjs2'
+        libraryTarget: 'commonjs2',
     },
 
     // Specify that output will be processed in node environment
@@ -20,12 +20,12 @@ module.exports = require('./webpack.base.babel')({
         presets: [
             ['env', {
                 targets: {
-                    node: 'current'
-                }
+                    node: 'current',
+                },
             }],
-            "react",
-            "stage-0"
-        ]
+            'react',
+            'stage-0',
+        ],
     },
 
     styleLoaders: [
@@ -33,7 +33,7 @@ module.exports = require('./webpack.base.babel')({
             loader: 'css-loader/locals',
             options: {
                 modules: true,
-                importLoaders: 1,
+                importLoaders: 2,
                 localIdentName: '[name]__[local]___[hash:base64:5]',
             },
         },
@@ -53,6 +53,6 @@ module.exports = require('./webpack.base.babel')({
 
         // Leave all node related dependencies out of bundle
         // since they will be available in any Node process
-        externals: [nodeExternals()]
+        externals: [nodeExternals()],
     },
 });
