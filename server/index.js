@@ -34,9 +34,10 @@ const app = express();
 //     outputPath: resolve(process.cwd(), 'build'),
 //     publicPath: '/',
 // });
+// Add webpack dev server middleware for hot reloading
 if (isDev) {
-    const webpackConfig = require('../internals/webpack/webpack.dev.babel');
-    const addDevMiddlewares = require('./middlewares/addDevMiddlewares');
+    const webpackConfig = require('../internals/webpack/webpack.dev.babel'); // eslint-disable-line global-require
+    const addDevMiddlewares = require('./middlewares/addDevMiddlewares'); // eslint-disable-line global-require
     addDevMiddlewares(app, webpackConfig);
 }
 
