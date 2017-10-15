@@ -24,7 +24,7 @@ const resolve = require('path').resolve;
 // import fs from 'fs';
 // import handleRender from '../build/server.js';
 const handleRender = require('./build/server.js');
-
+const addDevMiddlewares = require('./middlewares/addDevMiddlewares');
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
@@ -35,6 +35,11 @@ const app = express();
 //     outputPath: resolve(process.cwd(), 'build'),
 //     publicPath: '/',
 // });
+if (isDev) {
+    const webpackConfig = require('../internals/webpack/webpack.dev.babel');
+    const addDevMiddlewares = require('./middlewares/addDevMiddlewares');
+    addDevMiddlewares(app, webpackConfig);
+}
 
 // Serve static files
 app.use('/', express.static(resolve(process.cwd(), 'build')));
