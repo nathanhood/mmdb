@@ -37,7 +37,7 @@ const app = express();
 // });
 
 // Serve static files
-// app.use('/', express.static(resolve(process.cwd(), 'build')));
+app.use('/', express.static(resolve(process.cwd(), 'build')));
 
 app.get('/', (req, res) => {
     // TODO: Create store
