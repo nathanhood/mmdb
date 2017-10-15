@@ -4,6 +4,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -11,7 +12,37 @@ const webpack = require('webpack');
 // in the next major version of loader-utils.'
 process.noDeprecation = true;
 
-module.exports = (options) => {
+module.exports = (options = {}) => {
+    let styleLoaders = options.styleLoaders || [
+        'style-loader',
+        {
+            loader: 'css-loader',
+            options: {
+                modules: true,
+                importLoaders: 2,
+                localIdentName: '[name]__[local]___[hash:base64:5]',
+            },
+        },
+        'sass-loader',
+        {
+            loader: 'bulma-loader',
+            options: {
+                theme: 'app/variables.sass',
+            },
+        },
+    ];
+
+    if (options.extractCSS) {
+        if (styleLoaders[0] === 'style-loader') {
+            styleLoaders.shift();
+        }
+
+        styleLoaders = ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: styleLoaders,
+        });
+    }
+
     const base = {
         entry: options.entry,
         output: Object.assign({ // Compile into js/build.js
@@ -34,24 +65,7 @@ module.exports = (options) => {
                     // for a list of loaders, see https://webpack.js.org/loaders/#styling
                     test: /\.css$|\.scss$/,
                     exclude: /node_modules/,
-                    use: options.styleLoaders || [
-                        'style-loader',
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                modules: true,
-                                importLoaders: 2,
-                                localIdentName: '[name]__[local]___[hash:base64:5]',
-                            },
-                        },
-                        'sass-loader',
-                        {
-                            loader: 'bulma-loader',
-                            options: {
-                                theme: 'app/variables.sass',
-                            },
-                        },
-                    ],
+                    use: styleLoaders,
                 },
                 {
                     // Preprocess 3rd party .css files located in node_modules
