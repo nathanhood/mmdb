@@ -4,10 +4,10 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import HomePage from '../app/containers/HomePage';
 
-function renderFullPage(html) {
-    const page = fs.readFileSync(resolve(process.cwd() + '/app/index.html'));
+function renderFullPage(html) { // eslint-disable-line no-unused-vars
+    const page = fs.readFileSync(resolve(process.cwd() + '/server/templates/index.html'));
 
-    return eval('`' + page + '`');
+    return eval('`' + page + '`'); // eslint-disable-line no-eval
 }
 
 export default () => {
