@@ -2,6 +2,7 @@
 
 const chalk = require('chalk');
 const ip = require('ip');
+const isProd = process.env.NODE_ENV === 'production';
 
 const divider = chalk.gray('\n-----------------------------------');
 
@@ -17,7 +18,8 @@ const logger = {
 
     // Called when express.js app starts on given port w/o errors
     appStarted: (port, host, tunnelStarted) => {
-        console.log(`Server started ! ${chalk.green('✓')}`);
+        console.log(`Server started! ${chalk.green('✓')}`);
+        console.log(isProd ? 'Production mode' : 'Development mode');
 
         // If the tunnel started, log that and the URL it's available at
         if (tunnelStarted) {
@@ -27,7 +29,7 @@ const logger = {
         console.log(`
 ${chalk.bold('Access URLs:')}${divider}
 Localhost: ${chalk.magenta(`http://${host}:${port}`)}
-            LAN: ${chalk.magenta(`http://${ip.address()}:${port}`) +
+LAN: ${chalk.magenta(`http://${ip.address()}:${port}`) +
 (tunnelStarted ? `\n        Proxy: ${chalk.magenta(tunnelStarted)}` : '')}${divider}
 ${chalk.blue(`Press ${chalk.italic('CTRL-C')} to stop`)}
         `);
