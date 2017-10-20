@@ -2,7 +2,7 @@ import fs from 'fs';
 import { resolve } from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import HomePage from '../app/containers/HomePage';
+import Dashboard from '../app/containers/Dashboard';
 
 function renderFullPage(html) { // eslint-disable-line no-unused-vars
     const page = fs.readFileSync(resolve(process.cwd() + '/server/templates/index.html'));
@@ -11,7 +11,7 @@ function renderFullPage(html) { // eslint-disable-line no-unused-vars
 }
 
 export default () => {
-    const html = renderToString(<HomePage />);
+    const html = renderToString(<Dashboard />);
 
     return renderFullPage(html);
 };
