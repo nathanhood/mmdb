@@ -25,9 +25,9 @@ module.exports = (options = {}) => {
         },
         'sass-loader',
         {
-            loader: 'bulma-loader',
+            loader: 'sass-resources-loader',
             options: {
-                theme: 'app/variables.sass',
+                resources: ['./app/variables.scss'],
             },
         },
     ];
