@@ -8,6 +8,9 @@
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
 
+// Styling reset
+import 'sanitize.css/sanitize.css';
+
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -35,6 +38,9 @@ import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
+
+// Import CSS reset and Global Styles
+import './global-styles.scss';
 
 import configureStore from './configureStore';
 
