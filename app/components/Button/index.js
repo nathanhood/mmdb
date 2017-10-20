@@ -1,17 +1,10 @@
-/**
-*
-* Button
-*
-*/
-
 import React from 'react';
 import PropType from 'prop-types';
-import { button } from './style.scss';
 
-class Button extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class Button extends React.PureComponent {
     render() {
         return (
-            <button className={button}>
+            <button>
                 {this.props.children}
             </button>
         );
