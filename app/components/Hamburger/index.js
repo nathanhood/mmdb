@@ -1,15 +1,61 @@
 import React from 'react';
-import joinClasses from '../../utils/joinClasses';
-import { bar, first, second, third, hamburger } from './style.scss';
+import styled from 'styled-components';
+import theme from 'theme';
+
+const StyledHamburger = styled.div`
+    position: relative;
+    width: 15px;
+    height: 13px;
+`;
+
+const Bar = styled.div`
+    position: absolute;
+    height: 3px;
+    background: ${theme.black};
+    overflow: hidden;
+    &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: ${theme.gray};
+        position: absolute;
+        top: 0;
+        left: 100%;
+        z-index: 1;
+        transition: all .3s ease-in-out;
+    }
+    &:nth-child(1) {
+        top: 0;
+        width: 9px;
+        &::after {
+            transition-delay: .1s;
+        }
+    }
+    &:nth-child(2) {
+        top: 5px;
+        width: 15px;
+        &::after {
+            transition-delay: .2s;
+        }
+    }
+    &:nth-child(3) {
+        top: 10px;
+        width: 12px;
+        &::after {
+            transition-delay: .3s;
+        }
+    }
+`;
 
 class Hamburger extends React.PureComponent {
     render() {
         return (
-            <div className={hamburger}>
-                <div className={joinClasses(bar, first)}></div>
-                <div className={joinClasses(bar, second)}></div>
-                <div className={joinClasses(bar, third)}></div>
-            </div>
+            <StyledHamburger>
+                <Bar />
+                <Bar />
+                <Bar />
+            </StyledHamburger>
         );
     }
 }
