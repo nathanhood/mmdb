@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import theme from 'theme';
 import Hamburger, { Bar } from 'components/Hamburger';
+import SearchButton from 'components/SearchButton';
 
 const Logo = styled.h1`
     font-family: Poppins, sans-serif;
@@ -44,6 +45,9 @@ class Header extends React.PureComponent {
                     <Hamburger />
                 </MenuButton>
                 <Logo>MMDb</Logo>
+                <MenuButton>
+                    <SearchButton />
+                </MenuButton>
             </StyledHeader>
         );
     }
