@@ -23,13 +23,6 @@ module.exports = (options = {}) => {
                 localIdentName: '[name]__[local]___[hash:base64:5]',
             },
         },
-        'sass-loader',
-        {
-            loader: 'sass-resources-loader',
-            options: {
-                resources: ['./app/variables.scss'],
-            },
-        },
     ];
 
     if (options.extractCSS) {
@@ -131,7 +124,7 @@ module.exports = (options = {}) => {
             new webpack.NamedModulesPlugin(),
         ]),
         resolve: {
-            modules: ['app', 'node_modules'],
+            modules: ['app', 'node_modules', 'theme'],
             extensions: [
                 '.js',
                 '.jsx',

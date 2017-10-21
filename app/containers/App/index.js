@@ -13,19 +13,23 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
 import Dashboard from 'containers/Dashboard/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
+import theme from '../../variables';
 
 export default function App() {
     return (
-        <div>
-            <Header />
-            <Switch>
-                <Route exact path="/" component={Dashboard} />
-                <Route component={NotFoundPage} />
-            </Switch>
-        </div>
+        <ThemeProvider theme={theme}>
+            <div>
+                <Header />
+                <Switch>
+                    <Route exact path="/" component={Dashboard} />
+                    <Route component={NotFoundPage} />
+                </Switch>
+            </div>
+        </ThemeProvider>
     );
 }

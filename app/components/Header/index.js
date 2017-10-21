@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import theme from 'theme';
 import Hamburger from 'components/Hamburger';
 import { header } from './style.scss';
 
@@ -19,7 +20,7 @@ const MenuButton = styled.div`
     align-items: center;
     height: 100%;
     width: 65px;
-    border-right: 1px solid lightGray;
+    border-right: 1px solid ${theme.lightGray};
     flex: 0 0 65px;
     &:hover {
         &:first-child {
