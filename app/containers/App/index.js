@@ -21,9 +21,7 @@ import Header from 'components/Header';
 export default function App() {
     return (
         <div>
-            <Header>
-
-            </Header>
+            <Header />
             <Switch>
                 <Route exact path="/" component={Dashboard} />
                 <Route component={NotFoundPage} />
