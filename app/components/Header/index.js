@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import theme from 'theme';
 import Hamburger, { Bar } from 'components/Hamburger';
 import SearchButton from 'components/SearchButton';
@@ -46,7 +47,7 @@ class Header extends React.PureComponent {
                 </MenuButton>
                 <Logo>MMDb</Logo>
                 <MenuButton>
-                    <SearchButton />
+                    <SearchButton clickHandler={this.props.toggleSearch} />
                 </MenuButton>
             </StyledHeader>
         );
@@ -54,7 +55,7 @@ class Header extends React.PureComponent {
 }
 
 Header.propTypes = {
-
+    toggleSearch: PropTypes.func,
 };
 
 export default Header;

@@ -10,3 +10,4 @@
  */
 
 export const DEFAULT_LOCALE = 'en';
+export const SEARCH_VISIBILITY = 'header/SEARCH_VISIBILITY';
