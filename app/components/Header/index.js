@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import theme from 'theme';
 import Hamburger from 'components/Hamburger';
-import { header } from './style.scss';
 
 const Logo = styled.h1`
     font-family: Poppins, sans-serif;
@@ -30,16 +29,22 @@ const MenuButton = styled.div`
         }
     }
 `;
+const StyledHeader = styled.header`
+    border-bottom: 1px solid ${theme.lightGray};
+    height: 70px;
+    display: flex;
+    align-items: center;
+`;
 
 class Header extends React.PureComponent {
     render() {
         return (
-            <header role="banner" className={header}>
+            <StyledHeader role="banner">
                 <MenuButton>
                     <Hamburger />
                 </MenuButton>
                 <Logo>MMDb</Logo>
-            </header>
+            </StyledHeader>
         );
     }
 }
