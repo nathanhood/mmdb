@@ -8,7 +8,7 @@ const StyledHamburger = styled.div`
     height: 13px;
 `;
 
-const Bar = styled.div`
+export const Bar = styled.div`
     position: absolute;
     height: 3px;
     background: ${theme.black};

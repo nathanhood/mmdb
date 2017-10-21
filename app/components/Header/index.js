@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import theme from 'theme';
-import Hamburger from 'components/Hamburger';
+import Hamburger, { Bar } from 'components/Hamburger';
 
 const Logo = styled.h1`
     font-family: Poppins, sans-serif;
@@ -22,7 +22,7 @@ const MenuButton = styled.div`
     border-right: 1px solid ${theme.lightGray};
     flex: 0 0 65px;
     &:hover {
-        &:first-child {
+        ${Bar} {
             &::after {
                 left: 0;
             }
