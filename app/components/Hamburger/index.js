@@ -48,16 +48,12 @@ export const Bar = styled.div`
     }
 `;
 
-class Hamburger extends React.PureComponent {
-    render() {
-        return (
-            <StyledHamburger>
-                <Bar />
-                <Bar />
-                <Bar />
-            </StyledHamburger>
-        );
-    }
-}
+const Hamburger = () => (
+    <StyledHamburger>
+        <Bar />
+        <Bar />
+        <Bar />
+    </StyledHamburger>
+);
 
 export default Hamburger;
