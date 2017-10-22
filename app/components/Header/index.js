@@ -1,9 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import theme from 'theme';
 import Hamburger, { Bar } from 'components/Hamburger';
 import SearchButton from 'components/SearchButton';
+import Search from 'components/Search';
+import { toggleSearch } from './actions';
+
 
 const Logo = styled.h1`
     font-family: Poppins, sans-serif;
@@ -40,6 +45,17 @@ const StyledHeader = styled.header`
 
 class Header extends React.PureComponent {
     render() {
+        if (this.props.showSearch) {
+            return (
+                <StyledHeader role="banner">
+                    <Search />
+                    <MenuButton>
+                        <SearchButton clickHandler={this.props.toggleSearch} />
+                    </MenuButton>
+                </StyledHeader>
+            );
+        }
+
         return (
             <StyledHeader role="banner">
                 <MenuButton>
@@ -56,6 +72,16 @@ class Header extends React.PureComponent {
 
 Header.propTypes = {
     toggleSearch: PropTypes.func,
+    showSearch: PropTypes.bool,
 };
 
-export default Header;
+const WithConnect = connect(
+    (state) => ({
+        showSearch: state.showSearch,
+    }),
+    (dispatch) => ({
+        toggleSearch: () => dispatch(toggleSearch()),
+    }),
+);
+
+export default compose(WithConnect)(Header);

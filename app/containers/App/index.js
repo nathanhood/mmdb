@@ -14,21 +14,17 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 
 import Dashboard from 'containers/Dashboard/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Header from 'components/Header';
+import HeaderContainer from 'containers/HeaderContainer';
 import theme from '../../variables';
-import { toggleSearch } from './actions';
 
-function App(props) {
+function App() {
     return (
         <ThemeProvider theme={theme}>
             <div>
-                <Header toggleSearch={props.searchVisibility} />
+                <HeaderContainer />
                 <Switch>
                     <Route exact path="/" component={Dashboard} />
                     <Route component={NotFoundPage} />
@@ -38,18 +34,4 @@ function App(props) {
     );
 }
 
-App.propTypes = {
-    // showSearch: PropTypes.bool,
-    searchVisibility: PropTypes.func,
-};
-
-const WithConnect = connect(
-    (state) => ({
-        showSearch: state.showSearch,
-    }),
-    (dispatch) => ({
-        searchVisibility: () => dispatch(toggleSearch()),
-    }),
-);
-
-export default compose(WithConnect)(App);
+export default App;

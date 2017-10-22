@@ -17,8 +17,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
-import { createStore } from 'redux';
-import reducer from 'containers/App/reducer';
+import configureStore from './configureStore';
 
 // Import root app
 import App from 'containers/App';
@@ -41,18 +40,17 @@ import 'file-loader?name=[name].[ext]!./.htaccess';
 // Import CSS reset and Global Styles
 import './global-styles.scss';
 
-// import configureStore from './configureStore';
-
 // Import i18n messages
 import { translationMessages } from './i18n';
 
 // Create redux store with history
 const initialState = {
-    showSearch: false,
+    headerContainer: {
+        showSearch: false,
+    },
 };
-const store = createStore(reducer, initialState);
 const history = createHistory();
-// const store = configureStore(initialState, history);
+const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
 const render = () => {

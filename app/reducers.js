@@ -2,10 +2,11 @@
  * Combine all reducers in this file and export the combined reducers.
  */
 
-import { combineReducers } from 'redux-immutable';
+import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
+import headerContainerReducer from 'containers/HeaderContainer/reducer';
 
 /*
  * routeReducer
@@ -43,6 +44,7 @@ export default function createReducer(injectedReducers) {
     return combineReducers({
         route: routeReducer,
         language: languageProviderReducer,
+        headerContainer: headerContainerReducer,
         ...injectedReducers,
     });
 }

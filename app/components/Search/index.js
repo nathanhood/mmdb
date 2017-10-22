@@ -6,7 +6,7 @@ class Search extends React.PureComponent {
     render() {
         return (
             <div>
-                hey
+                <input type="text" />
             </div>
         );
     }
