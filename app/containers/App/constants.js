@@ -1,1 +1,2 @@
 export const DEFAULT_LOCALE = 'en';
+export const TOGGLE_SEARCH_VISIBILITY = 'TOGGLE_SEARCH_VISIBILITY';

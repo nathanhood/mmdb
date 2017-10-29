@@ -7,7 +7,6 @@ import theme from 'theme';
 import Hamburger, { Bar } from 'components/Hamburger';
 import SearchButton from 'components/SearchButton';
 import Search from 'components/Search';
-import { toggleSearch } from './actions';
 
 
 const Logo = styled.h1`
@@ -44,6 +43,11 @@ const StyledHeader = styled.header`
 `;
 
 class Header extends React.PureComponent {
+    propTypes = {
+        toggleSearch: PropTypes.func,
+        showSearch: PropTypes.bool,
+    };
+
     render() {
         if (this.props.showSearch) {
             return (
@@ -70,18 +74,4 @@ class Header extends React.PureComponent {
     }
 }
 
-Header.propTypes = {
-    toggleSearch: PropTypes.func,
-    showSearch: PropTypes.bool,
-};
-
-const WithConnect = connect(
-    (state) => ({
-        showSearch: state.showSearch,
-    }),
-    (dispatch) => ({
-        toggleSearch: () => dispatch(toggleSearch()),
-    }),
-);
-
-export default compose(WithConnect)(Header);
+export default Header;

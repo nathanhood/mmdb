@@ -44,11 +44,7 @@ import './global-styles.scss';
 import { translationMessages } from './i18n';
 
 // Create redux store with history
-const initialState = {
-    headerContainer: {
-        showSearch: false,
-    },
-};
+const initialState = {};
 const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
