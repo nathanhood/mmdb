@@ -7,8 +7,19 @@ import theme from 'theme';
 import Hamburger, { Bar } from 'components/Hamburger';
 import SearchButton from 'components/SearchButton';
 import Search from 'components/Search';
+import { transitionOpacity } from 'mixins';
+import HeaderButton from 'components/HeaderButton';
 
 
+const MenuButton = HeaderButton.extend`
+    &:hover {
+        ${Bar} {
+            &::after {
+                left: 0;
+            }
+        }
+    }
+`;
 const Logo = styled.h1`
     font-family: Poppins, sans-serif;
     letter-spacing: 1px;
@@ -18,51 +29,33 @@ const Logo = styled.h1`
     flex: 0 0 calc(100% - 130px);
     text-align: center;
 `;
-const MenuButton = styled.div`
-    display: inline-flex;
-    cursor: pointer;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 65px;
-    border-right: 1px solid ${theme.lightGray};
-    flex: 0 0 65px;
-    &:hover {
-        ${Bar} {
-            &::after {
-                left: 0;
-            }
-        }
-    }
-`;
 const StyledHeader = styled.header`
     border-bottom: 1px solid ${theme.lightGray};
     height: 70px;
+    position: relative;
+`;
+const StyledInnerHeader = styled.div`
     display: flex;
     align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    ${transitionOpacity}
 `;
 
 const Header = (props) => {
-    if (props.showSearch) {
-        return (
-            <StyledHeader role="banner">
-                <Search />
+    return (
+        <StyledHeader role="banner">
+            <Search close={props.toggleSearch} show={props.showSearch} />
+            <StyledInnerHeader show={!props.showSearch}>
+                <MenuButton>
+                    <Hamburger />
+                </MenuButton>
+                <Logo>MMDb</Logo>
                 <MenuButton>
                     <SearchButton clickHandler={props.toggleSearch} />
                 </MenuButton>
-            </StyledHeader>
-        );
-    }
-
-    return (
-        <StyledHeader role="banner">
-            <MenuButton>
-                <Hamburger />
-            </MenuButton>
-            <Logo>MMDb</Logo>
-            <MenuButton>
-                <SearchButton clickHandler={props.toggleSearch} />
-            </MenuButton>
+            </StyledInnerHeader>
         </StyledHeader>
     );
 }
