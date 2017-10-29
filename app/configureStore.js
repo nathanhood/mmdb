@@ -9,11 +9,19 @@ import createReducer from './reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
+const logger = store => next => action => {
+  console.log('dispatching', action)
+  let result = next(action)
+  console.log('next state', store.getState())
+  return result
+}
+
 export default function configureStore(initialState = {}, history) {
     // Create the store with two middlewares
     // 1. sagaMiddleware: Makes redux-sagas work
     // 2. routerMiddleware: Syncs the location/URL path to the state
     const middlewares = [
+        logger,
         sagaMiddleware,
         routerMiddleware(history),
     ];
