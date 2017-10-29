@@ -42,36 +42,34 @@ const StyledHeader = styled.header`
     align-items: center;
 `;
 
-class Header extends React.PureComponent {
-    propTypes = {
-        toggleSearch: PropTypes.func,
-        showSearch: PropTypes.bool,
-    };
-
-    render() {
-        if (this.props.showSearch) {
-            return (
-                <StyledHeader role="banner">
-                    <Search />
-                    <MenuButton>
-                        <SearchButton clickHandler={this.props.toggleSearch} />
-                    </MenuButton>
-                </StyledHeader>
-            );
-        }
-
+const Header = (props) => {
+    if (props.showSearch) {
         return (
             <StyledHeader role="banner">
+                <Search />
                 <MenuButton>
-                    <Hamburger />
-                </MenuButton>
-                <Logo>MMDb</Logo>
-                <MenuButton>
-                    <SearchButton clickHandler={this.props.toggleSearch} />
+                    <SearchButton clickHandler={props.toggleSearch} />
                 </MenuButton>
             </StyledHeader>
         );
     }
+
+    return (
+        <StyledHeader role="banner">
+            <MenuButton>
+                <Hamburger />
+            </MenuButton>
+            <Logo>MMDb</Logo>
+            <MenuButton>
+                <SearchButton clickHandler={props.toggleSearch} />
+            </MenuButton>
+        </StyledHeader>
+    );
 }
+
+Header.propTypes = {
+    toggleSearch: PropTypes.func,
+    showSearch: PropTypes.bool,
+};
 
 export default Header;
