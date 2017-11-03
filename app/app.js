@@ -44,15 +44,15 @@ import './global-styles.scss';
 import { translationMessages } from './i18n';
 
 // Create redux store with history
-const initialState = {};
-const history = createHistory();
-const store = configureStore(initialState, history);
+const INITIAL_STATE = {};
+const HISTORY = createHistory();
+const STORE = configureStore(INITIAL_STATE, HISTORY);
 const MOUNT_NODE = document.getElementById('app');
 
 const render = () => {
     ReactDOM.render(
-        <Provider store={store}>
-            <ConnectedRouter history={history}>
+        <Provider store={STORE}>
+            <ConnectedRouter history={HISTORY}>
                 <App />
             </ConnectedRouter>
         </Provider>,
