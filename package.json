@@ -50,9 +50,6 @@
   },
   "pre-commit": "lint:staged",
   "babel": {
-    "plugins": [
-      "styled-components"
-    ],
     "presets": [
       [
         "env",
@@ -66,18 +63,31 @@
     "env": {
       "production": {
         "only": [
-          "app"
+          "app",
+          "server"
         ],
         "plugins": [
           "transform-react-remove-prop-types",
           "transform-react-constant-elements",
-          "transform-react-inline-elements"
+          "transform-react-inline-elements",
+          [
+            "babel-plugin-styled-components",
+            {
+              "ssr": true
+            }
+          ]
         ]
       },
       "test": {
         "plugins": [
           "transform-es2015-modules-commonjs",
-          "dynamic-import-node"
+          "dynamic-import-node",
+          [
+            "babel-plugin-styled-components",
+            {
+              "ssr": true
+            }
+          ]
         ]
       }
     }
@@ -259,7 +269,7 @@
     "babel-plugin-dynamic-import-node": "1.0.2",
     "babel-plugin-react-intl": "2.3.1",
     "babel-plugin-react-transform": "2.0.2",
-    "babel-plugin-styled-components": "1.1.4",
+    "babel-plugin-styled-components": "^1.1.4",
     "babel-plugin-transform-es2015-modules-commonjs": "6.24.1",
     "babel-plugin-transform-react-constant-elements": "6.23.0",
     "babel-plugin-transform-react-inline-elements": "6.22.0",
@@ -282,7 +292,7 @@
     "eslint-plugin-redux-saga": "0.3.0",
     "eventsource-polyfill": "0.9.6",
     "exports-loader": "0.6.4",
-    "extract-text-webpack-plugin": "^3.0.1",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "0.11.1",
     "html-loader": "0.4.5",
     "html-webpack-plugin": "2.29.0",

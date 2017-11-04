@@ -16,15 +16,18 @@ const logger = store => next => action => {
   return result
 }
 
-export default function configureStore(initialState = {}, history) {
+export default function configureStore(initialState = {}, history, ssr = false) {
     // Create the store with two middlewares
     // 1. sagaMiddleware: Makes redux-sagas work
     // 2. routerMiddleware: Syncs the location/URL path to the state
     const middlewares = [
-        logger,
         sagaMiddleware,
         routerMiddleware(history),
     ];
+
+    if (!ssr) {
+        middlewares.unshift(logger);
+    }
 
     const enhancers = [
         applyMiddleware(...middlewares),
