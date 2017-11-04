@@ -5,7 +5,6 @@
 import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import appReducer from 'containers/App/reducer';
 
 /*
@@ -43,7 +42,6 @@ function routeReducer(state = routeInitialState, action) {
 export default function createReducer(injectedReducers) {
     return combineReducers({
         route: routeReducer,
-        language: languageProviderReducer,
         app: appReducer,
         ...injectedReducers,
     });
