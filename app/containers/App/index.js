@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 import Dashboard from 'containers/Dashboard/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
-import theme from '../../variables';
+import theme from 'variables';
 import { toggleSearchVisibility } from './actions';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
