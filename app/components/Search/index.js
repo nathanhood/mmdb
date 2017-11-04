@@ -38,6 +38,7 @@ const CloseSearch = styled.div`
 `;
 
 const StyledInput = styled.input`
+    border: 0;
     flex: 1 0 calc(100% - 65px);
     padding-left: 25px;
 `;
