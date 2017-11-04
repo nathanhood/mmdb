@@ -8,9 +8,6 @@
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
 
-// Styling reset
-import 'sanitize.css/sanitize.css';
-
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
