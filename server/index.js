@@ -36,7 +36,6 @@ app.use(compression());
 app.use('/', express.static(resolve(process.cwd(), 'build')));
 
 app.get('*', (req, res) => {
-    // TODO: Create store
     res.send(handleRender.default());
 });
 
