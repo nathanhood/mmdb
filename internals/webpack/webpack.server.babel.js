@@ -28,24 +28,6 @@ module.exports = require('./webpack.base.babel')({
         ],
     },
 
-    styleLoaders: [
-        {
-            loader: 'css-loader/locals',
-            options: {
-                modules: true,
-                importLoaders: 2,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-            },
-        },
-        'sass-loader',
-        {
-            loader: 'bulma-loader',
-            options: {
-                theme: 'app/variables.sass',
-            },
-        },
-    ],
-
     plugins: [],
 
     overrides: {

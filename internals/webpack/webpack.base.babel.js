@@ -15,14 +15,7 @@ process.noDeprecation = true;
 module.exports = (options = {}) => {
     let styleLoaders = options.styleLoaders || [
         'style-loader',
-        {
-            loader: 'css-loader',
-            options: {
-                modules: true,
-                importLoaders: 2,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-            },
-        },
+        'css-loader',
     ];
 
     if (options.extractCSS) {
@@ -56,7 +49,7 @@ module.exports = (options = {}) => {
                     // Preprocess our own .css files
                     // This is the place to add your own loaders (e.g. sass/less etc.)
                     // for a list of loaders, see https://webpack.js.org/loaders/#styling
-                    test: /\.css$|\.scss$/,
+                    test: /\.css$/,
                     exclude: /node_modules/,
                     use: styleLoaders,
                 },
