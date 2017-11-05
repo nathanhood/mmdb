@@ -1,16 +1,16 @@
-'use strict';
+const db = require('./index');
+
 module.exports = (sequelize, DataTypes) => {
-  var user = sequelize.define('user', {
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
+    var User = sequelize.define('User', {
+        firstName: DataTypes.STRING,
+        lastName: DataTypes.STRING,
+        email: DataTypes.STRING,
+        password: DataTypes.STRING
+    });
+
+    User.associate = function(models) {
+        this.belongsToMany(models.Movie, { through: models.UserMovie });
     }
-  });
-  return user;
+
+    return User;
 };
