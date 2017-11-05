@@ -1,5 +1,6 @@
 /* eslint consistent-return:0 */
 
+require('dotenv').config({ path: __dirname + '../.env'});
 const express = require('express');
 const logger = require('./logger');
 const argv = require('./argv');
