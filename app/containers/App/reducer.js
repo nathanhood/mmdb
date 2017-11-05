@@ -3,7 +3,7 @@
  * App reducer
  *
  */
-
+/* eslint-disable no-unused-vars */
 import {
     TOGGLE_SEARCH_VISIBILITY,
 } from './constants';

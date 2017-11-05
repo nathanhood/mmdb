@@ -10,6 +10,6 @@ module.exports = app => {
             } else {
                 res.send(403);
             }
-        })
+        });
     });
 };

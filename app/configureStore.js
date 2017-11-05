@@ -10,11 +10,12 @@ import createReducer from './reducers';
 const sagaMiddleware = createSagaMiddleware();
 
 const logger = store => next => action => {
-  console.log('dispatching', action)
-  let result = next(action)
-  console.log('next state', store.getState())
-  return result
-}
+    /* eslint-disable no-console */
+    console.log('dispatching', action);
+    const result = next(action);
+    console.log('next state', store.getState());
+    return result;
+};
 
 export default function configureStore(initialState = {}, history, ssr = false) {
     // Create the store with two middlewares
