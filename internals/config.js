@@ -28,6 +28,10 @@ const ReactBoilerplate = {
                 'ip',
                 'minimist',
                 'sanitize.css',
+                'sequelize',
+                'dotenv',
+                'mysql2',
+                'sequelize-cli',
             ],
 
             /**
