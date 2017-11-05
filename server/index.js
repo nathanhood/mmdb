@@ -8,13 +8,16 @@ const isDev = process.env.NODE_ENV !== 'production';
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
 const resolve = require('path').resolve;
 const compression = require('compression');
-const handleRender = require('./build/server.js');
+const webRouter = require('./routes/web');
+const apiRouter = require('./routes/api');
+const authMiddleware = require('./middlewares/auth');
 const app = express();
 
-/**
- * API endpoints
- */
-// app.use('/api', myApi);
+// Protect application from unauthorized requests
+authMiddleware(app);
+
+// Evaluate API routes
+app.use('/api/v1', apiRouter);
 
 /**
  * Dev Mode middleware for hot reloading
@@ -35,9 +38,8 @@ app.use(compression());
 // Serve static files from 'build' directory
 app.use('/', express.static(resolve(process.cwd(), 'build')));
 
-app.get('*', (req, res) => {
-    res.send(handleRender.default());
-});
+// Evaluate web routes
+app.use('/', webRouter);
 
 // Get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
