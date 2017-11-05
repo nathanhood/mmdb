@@ -4,6 +4,26 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const DEFAULT_TEMPLATE = 'index.html';
+const SERVER_TEMPLATE_PATH = '../server/templates/index.html';
+const htmlConfig = (fileName = DEFAULT_TEMPLATE) => ({
+    template: `app/${DEFAULT_TEMPLATE}`,
+    filename: fileName,
+    minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+    },
+    inject: true,
+});
+
 module.exports = require('./webpack.base.babel')({
     // In production, we skip all hot-reloading stuff
     entry: [
@@ -25,24 +45,8 @@ module.exports = require('./webpack.base.babel')({
             async: true,
         }),
 
-        // Minify and optimize the index.html
-        new HtmlWebpackPlugin({
-            template: 'app/index.html',
-            filename: '../server/templates/index.html',
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeRedundantAttributes: true,
-                useShortDoctype: true,
-                removeEmptyAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                keepClosingSlash: true,
-                minifyJS: true,
-                minifyCSS: true,
-                minifyURLs: true,
-            },
-            inject: true,
-        }),
+        // Create a copy of index.html for server
+        new HtmlWebpackPlugin(htmlConfig(SERVER_TEMPLATE_PATH)),
 
         new ExtractTextPlugin({
             filename: '[name].[chunkhash].css',

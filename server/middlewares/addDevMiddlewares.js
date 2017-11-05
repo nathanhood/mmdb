@@ -9,7 +9,6 @@ function createWebpackMiddleware(compiler, publicPath) {
         publicPath,
         silent: true,
         stats: 'errors-only',
-        index: 'dev.html',
     });
 }
 
@@ -22,15 +21,15 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
 
     // Since webpackDevMiddleware uses memory-fs internally to store build
     // artifacts, we use it instead
-    // const fs = middleware.fileSystem;
+    const fs = middleware.fileSystem;
 
-    // app.get('*', (req, res) => {
-    //     fs.readFile(path.join(compiler.outputPath + '/../', 'dev.html'), (err, file) => {
-    //         if (err) {
-    //             res.sendStatus(404);
-    //         } else {
-    //             res.send(file.toString());
-    //         }
-    //     });
-    // });
+    app.get('*', (req, res) => {
+        fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
+            if (err) {
+                res.sendStatus(404);
+            } else {
+                res.send(file.toString());
+            }
+        });
+    });
 };

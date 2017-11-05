@@ -31,7 +31,7 @@ module.exports = (options = {}) => {
 
     const base = {
         entry: options.entry,
-        output: Object.assign({ // Compile into js/build.js
+        output: Object.assign({ // Compile into build/
             path: path.resolve(process.cwd(), 'build'),
             publicPath: '/',
         }, options.output), // Merge with env dependent settings
