@@ -35,7 +35,11 @@ import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 // Create redux store with history
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+    app: {
+        showSearch: false,
+    },
+};
 const HISTORY = createHistory();
 const STORE = configureStore(INITIAL_STATE, HISTORY);
 const MOUNT_NODE = document.getElementById('app');
