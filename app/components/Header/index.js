@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import theme from 'theme';
 import Hamburger, { Bar } from 'components/Hamburger';
 import SearchButton from 'components/SearchButton';
@@ -58,7 +56,7 @@ const Header = (props) => {
             </StyledInnerHeader>
         </StyledHeader>
     );
-}
+};
 
 Header.propTypes = {
     toggleSearch: PropTypes.func,

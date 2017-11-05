@@ -52,7 +52,7 @@ const Search = (props) => {
             </HeaderButton>
         </StyledContainer>
     );
-}
+};
 
 Search.propTypes = {
     close: PropTypes.func.isRequired,

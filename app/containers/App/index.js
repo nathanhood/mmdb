@@ -33,6 +33,7 @@ class App extends React.PureComponent {
     };
 
     render() {
+        /* eslint-disable no-shadow */
         const {
             toggleSearchVisibility,
             showSearch,
