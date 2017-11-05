@@ -1,7 +1,5 @@
-'use strict';
-
 module.exports = (sequelize, DataTypes) => {
-    var Movie = sequelize.define('Movie', {
+    let Movie = sequelize.define('Movie', {
         tmdbId: DataTypes.INTEGER.UNSIGNED,
         imdbId: DataTypes.STRING,
         title: DataTypes.STRING,

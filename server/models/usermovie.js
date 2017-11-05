@@ -1,14 +1,8 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
-    var userMovie = sequelize.define('UserMovie', {
+    let userMovie = sequelize.define('UserMovie', {
         userId: DataTypes.INTEGER.UNSIGNED,
         movieId: DataTypes.INTEGER.UNSIGNED
-    }, {
-        classMethods: {
-            associate: function(models) {
-                // associations can be defined here
-            }
-        }
     });
+    
     return userMovie;
 };

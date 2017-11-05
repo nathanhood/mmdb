@@ -1,5 +1,3 @@
-'use strict';
-
 const genres = [
     {
         "tmdbId": 28,
