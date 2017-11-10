@@ -4,10 +4,8 @@
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
-import createSagaMiddleware from 'redux-saga';
+import thunk from 'redux-thunk';
 import createReducer from './reducers';
-
-const sagaMiddleware = createSagaMiddleware();
 
 const logger = store => next => action => {
     /* eslint-disable no-console */
@@ -22,7 +20,7 @@ export default function configureStore(initialState = {}, history, ssr = false) 
     // 1. sagaMiddleware: Makes redux-sagas work
     // 2. routerMiddleware: Syncs the location/URL path to the state
     const middlewares = [
-        sagaMiddleware,
+        thunk,
         routerMiddleware(history),
     ];
 
@@ -55,7 +53,6 @@ export default function configureStore(initialState = {}, history, ssr = false) 
     );
 
     // Extensions
-    store.runSaga = sagaMiddleware.run;
     store.injectedReducers = {}; // Reducer registry
     store.injectedSagas = {}; // Saga registry
 

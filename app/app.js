@@ -39,6 +39,10 @@ const INITIAL_STATE = {
     app: {
         showSearch: false,
     },
+    dashboard: {
+        library: [],
+        isLoaded: false,
+    }
 };
 const HISTORY = createHistory();
 const STORE = configureStore(INITIAL_STATE, HISTORY);

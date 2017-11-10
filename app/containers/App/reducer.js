@@ -9,12 +9,12 @@ import {
 } from './constants';
 
 const actions = {
-    TOGGLE_SEARCH_VISIBILITY: (state) => ({ ...state, showSearch: !state.showSearch }),
+    [TOGGLE_SEARCH_VISIBILITY]: (state) => ({ ...state, showSearch: !state.showSearch }),
 };
 
 function appReducer(state = {}, action) {
     if (actions[action.type]) {
-        return actions[action.type](state);
+        return actions[action.type](state, action);
     }
 
     return state;

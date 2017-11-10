@@ -6,6 +6,7 @@ import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import appReducer from 'containers/App/reducer';
+import dashboardReducer from 'containers/Dashboard/reducer';
 
 /*
  * routeReducer
@@ -43,6 +44,7 @@ export default function createReducer(injectedReducers) {
     return combineReducers({
         route: routeReducer,
         app: appReducer,
+        dashboard: dashboardReducer,
         ...injectedReducers,
     });
 }

@@ -1,11 +1,52 @@
 import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import CardList from 'components/CardList';
+import injectReducer from 'utils/injectReducer';
+import reducer from './reducer';
+import { prepareLibraryForListing } from './thunks';
 
-export default class Dashboard extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class Dashboard extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+    static propTypes = {
+        library: PropTypes.array,
+        isLoaded: PropTypes.bool,
+        onLoad: PropTypes.func,
+    };
+
+    constructor(props) {
+        super(props);
+        props.onLoad();
+    }
+
     render() {
+        const { library, isLoaded } = this.props;
+
+        if (!isLoaded) {
+            return null;
+        }
+
         return (
             <div>
-                Dashboard
+                <CardList items={library} />
             </div>
         );
     }
 }
+
+const withConnect = connect(
+    (state) => ({
+        library: state.dashboard.library,
+        isLoaded: state.dashboard.isLoaded,
+    }),
+    (dispatch) => ({
+        onLoad: () => dispatch(prepareLibraryForListing()),
+    })
+);
+
+const withReducer = injectReducer({ key: 'dashboard', reducer });
+
+export default compose(
+    withReducer,
+    withConnect,
+)(Dashboard);
