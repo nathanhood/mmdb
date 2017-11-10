@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Shared.associate = function(models) {
       // TODO: Shared relationships
-    }
+    };
 
     return Shared;
 };

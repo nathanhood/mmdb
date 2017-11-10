@@ -3,6 +3,6 @@ module.exports = (sequelize, DataTypes) => {
         movieId: DataTypes.INTEGER.UNSIGNED,
         genreId: DataTypes.INTEGER.UNSIGNED
     });
-    
+
     return MovieGenre;
 };
