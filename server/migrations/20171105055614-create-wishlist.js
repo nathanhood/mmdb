@@ -1,6 +1,6 @@
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('wishlists', {
+        return queryInterface.createTable('Wishlists', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -26,7 +26,7 @@ module.exports = {
             }
         });
     },
-    down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('wishlists');
+    down: (queryInterface) => {
+        return queryInterface.dropTable('Wishlists');
     }
 };

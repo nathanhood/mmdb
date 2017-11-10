@@ -21,9 +21,5 @@ module.exports = (sequelize, DataTypes) => {
         this.belongsToMany(models.User, { through: models.UserMovie });
     };
 
-    // TODO: Temporary fix for table names on linux.  Sequalize
-    // TODO: seems to want to use the capitalized table name
-    Movie.tableName = 'movies';
-
     return Movie;
 };
