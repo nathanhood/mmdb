@@ -30,8 +30,8 @@ const PosterImage = styled.img`
 `;
 
 const Title = styled.h2`
-    margin-top: 4px;
-    margin-bottom: 6px;
+    margin-top: 6px;
+    margin-bottom: 8px;
     font-family: ${theme.font};
     font-size: 19px;
 `;
@@ -47,7 +47,7 @@ const ReleaseDate = styled.div`
 const Genre = styled.span`
     color: ${theme.teal};
     font-family: ${theme.font};
-    font-size: 13px;
+    font-size: 14px;
 `;
 
 const ActionBar = styled.div`
@@ -67,11 +67,11 @@ function MovieCard({ imageUrl, title, releaseDate, isFavorite, genres }) {
                 <PosterImage src={imageUrl} alt="" />
             </PosterContainer>
             <InfoContainer>
-                <Title>{title}</Title>
-                <ReleaseDate>{moment(releaseDate).format('MMMM D YYYY')}</ReleaseDate>
                 {genres.map((genre, i) => (
                     <Genre key={genre.id}>{i === genres.length - 1 ? genre.name : `${genre.name} | `}</Genre>
                 ))}
+                <Title>{title}</Title>
+                <ReleaseDate>{moment(releaseDate).format('YYYY')}</ReleaseDate>
                 <ActionBar>
                     <Icon
                       size={20}
