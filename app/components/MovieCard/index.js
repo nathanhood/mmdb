@@ -74,9 +74,10 @@ function MovieCard({ imageUrl, title, releaseDate, isFavorite, genres }) {
                 <ReleaseDate>{moment(releaseDate).format('YYYY')}</ReleaseDate>
                 <ActionBar>
                     <Icon
-                      size={20}
+                      size={18}
+                      strokeWidth="2"
                       fill={isFavorite ? themeVars.loveRed : 'none'}
-                      color={isFavorite ? themeVars.loveRed : themeVars.black}
+                      color={isFavorite ? themeVars.loveRed : themeVars.gray}
                       icon={feather.icons.heart}
                     />
                 </ActionBar>

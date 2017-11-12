@@ -37,7 +37,7 @@ Icon.defaultProps = {
     color: 'currentColor',
     size: '20',
     fill: 'none',
-    strokeWidth: 1,
+    strokeWidth: 2,
 };
 
 export default Icon;
