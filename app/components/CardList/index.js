@@ -6,7 +6,8 @@ import LibraryCard from 'components/LibraryCard';
 import MovieCard from 'components/MovieCard';
 
 const StyledContainer = styled.div`
-    padding-top: 20px;
+    padding-top: 25px;
+    padding-bottom: 1px;
     margin-left: ${theme.gutter};
     margin-right: ${theme.gutter};
 `;
