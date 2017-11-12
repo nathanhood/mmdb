@@ -75,8 +75,8 @@ function MovieCard({ imageUrl, title, releaseDate, isFavorite, genres }) {
                 <ActionBar>
                     <Icon
                       size={20}
-                      fill={isFavorite ? themeVars.red : 'none'}
-                      color={isFavorite ? themeVars.red : themeVars.black}
+                      fill={isFavorite ? themeVars.loveRed : 'none'}
+                      color={isFavorite ? themeVars.loveRed : themeVars.black}
                       icon={feather.icons.heart}
                     />
                 </ActionBar>

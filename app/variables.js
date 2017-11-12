@@ -5,7 +5,7 @@ const theme = {
     white: '#fff',
     teal: '#22d0b2',
     blue: '#3776d9',
-    red: '#d62626',
+    loveRed: '#ed4e4e',
     backgroundColor: '#f9f9f9',
     gutter: '5%',
     font: 'Roboto, Arial, sans-serif',
