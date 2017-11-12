@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
@@ -25,6 +25,11 @@ import theme from 'variables';
 import { toggleSearchVisibility } from './actions';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
+
+const StyledContainer = styled.div`
+    background: ${theme.backgroundColor};
+    font: ${theme.font};
+`;
 
 class App extends React.PureComponent {
     static propTypes = {
@@ -41,13 +46,13 @@ class App extends React.PureComponent {
 
         return (
             <ThemeProvider theme={theme}>
-                <div>
+                <StyledContainer>
                     <Header showSearch={showSearch} toggleSearch={toggleSearchVisibility} />
                     <Switch>
                         <Route exact path="/" component={Dashboard} />
                         <Route component={NotFoundPage} />
                     </Switch>
-                </div>
+                </StyledContainer>
             </ThemeProvider>
         );
     }

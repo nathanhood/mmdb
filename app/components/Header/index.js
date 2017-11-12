@@ -28,6 +28,7 @@ const Logo = styled.h1`
     text-align: center;
 `;
 const StyledHeader = styled.header`
+    background: ${theme.white};
     border-bottom: 1px solid ${theme.lightGray};
     height: 70px;
     position: relative;
