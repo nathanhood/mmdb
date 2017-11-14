@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import feather from 'feather-icons';
-import moment from 'moment';
+import moment from 'moment/moment';
 import theme from 'theme';
 import Icon from 'components/Icon';
 import themeVars from 'variables';
