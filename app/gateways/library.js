@@ -1,5 +1,3 @@
 import axios from './index';
 
-export const getLibrary = () => {
-    return axios.get('movie-library');
-};
+export const getLibrary = () => axios.get('movie-library');
