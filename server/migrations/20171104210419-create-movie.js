@@ -28,11 +28,11 @@ module.exports = {
             releaseDate: {
                 type: Sequelize.DATE
             },
-            posterId: {
-                type: Sequelize.INTEGER.UNSIGNED
+            poster: {
+                type: Sequelize.STRING
             },
-            backdropId: {
-                type: Sequelize.INTEGER.UNSIGNED
+            backdrop: {
+                type: Sequelize.STRING
             },
             rating: {
                 type: Sequelize.STRING

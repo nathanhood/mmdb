@@ -371,7 +371,7 @@ module.exports = {
         updatedAt: new Date(),
     }));
 
-    const movies = seedData.map((movie, i) => ({
+    const movies = seedData.map((movie) => ({
         tmdbId: movie.id,
         imdbId: movie.imdb_id,
         title: movie.title,
@@ -379,8 +379,8 @@ module.exports = {
         overview: movie.overview,
         tagline: movie.tagline,
         releaseDate: new Date(movie.release_date),
-        posterId: i + 1,
-        backdropId: i + 1,
+        poster: movie.poster_path,
+        backdrop: movie.backdrop_path,
         rating: (Math.ceil(Math.random() * 100)),
         status: 'Released',
         budget: 100,
