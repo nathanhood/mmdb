@@ -14,6 +14,8 @@ module.exports = app => {
 
                 if (now.getTime() - stats.mtimeMs > TWO_DAYS) {
                     setConfig().then(() => next());
+                } else {
+                    next();
                 }
             });
         } else {
