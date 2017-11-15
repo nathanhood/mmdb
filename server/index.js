@@ -3,6 +3,7 @@
 const resolve = require('path').resolve;
 require('dotenv').config({ path: resolve(__dirname, '../.env') });
 const express = require('express');
+const bodyParser = require('body-parser');
 const logger = require('./logger');
 const argv = require('./argv');
 const port = require('./port');
@@ -16,6 +17,9 @@ const app = express();
 
 // Protect application from unauthorized requests
 authMiddleware(app);
+
+// Parse request body
+app.use(bodyParser.json());
 
 // Evaluate API routes
 app.use('/api/v1', apiRouter);
