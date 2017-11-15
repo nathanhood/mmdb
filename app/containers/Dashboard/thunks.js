@@ -1,14 +1,14 @@
-import { getLibrary } from 'gateways/library';
+import { getMovies } from 'gateways/movies';
 import {
     populateDashboard,
     startLoading,
     endLoading
 } from './actions';
 
-export const prepareLibraryForListing = () => (dispatch) => {
+export const prepareMoviesForDashboard = () => (dispatch) => {
     dispatch(startLoading());
 
-    getLibrary().then(({ data: results }) => {
+    getMovies().then(({ data: results }) => {
         dispatch(populateDashboard(results));
         dispatch(endLoading());
     });

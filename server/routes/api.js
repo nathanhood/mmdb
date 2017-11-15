@@ -4,6 +4,6 @@ const checkTmdbConfig = require('../middlewares/tmdb');
 
 checkTmdbConfig(router);
 
-router.get('/movie-library', MovieLibraryController.get);
+router.get('/movies', MovieLibraryController.get);
 
 module.exports = router;

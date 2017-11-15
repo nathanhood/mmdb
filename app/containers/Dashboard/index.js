@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import CardList from 'components/CardList';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
-import { prepareLibraryForListing } from './thunks';
+import { prepareMoviesForDashboard } from './thunks';
 
 class Dashboard extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
@@ -40,7 +40,7 @@ const withConnect = connect(
         isLoaded: state.dashboard.isLoaded,
     }),
     (dispatch) => ({
-        onLoad: () => dispatch(prepareLibraryForListing()),
+        onLoad: () => dispatch(prepareMoviesForDashboard()),
     })
 );
 
