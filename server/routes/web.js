@@ -1,8 +1,6 @@
-const handleRender = require('../build/server.js');
 const router = require('express').Router();
+const dashboardController = require('../controllers/pages/dashboardController');
 
-router.get('/', (req, res) => {
-    res.send(handleRender.default());
-});
+router.get('/', dashboardController.get);
 
 module.exports = router;

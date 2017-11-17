@@ -16,7 +16,10 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
 
     constructor(props) {
         super(props);
-        props.onLoad();
+
+        if (!props.isLoaded) {
+            props.onLoad();
+        }
     }
 
     render() {

@@ -3,37 +3,28 @@ import { resolve } from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
-import { ThemeProvider, ServerStyleSheet } from 'styled-components';
-import PropTypes from 'prop-types';
+import { ServerStyleSheet } from 'styled-components';
 import createHistory from 'history/createMemoryHistory';
 
 
 // Import all components
+import App from 'containers/App';
 import Dashboard from 'containers/Dashboard';
-import Header from 'components/Header';
 import configureStore from 'configureStore';
-import theme from 'variables';
 
-
-// Create redux store with history
-const INITIAL_STATE = {};
-const HISTORY = createHistory();
-const STORE = configureStore(INITIAL_STATE, HISTORY, true);
-
-
-const App = (props) => (
-    <Provider store={STORE}>
-        <ThemeProvider theme={theme}>
-            <div>
-                <Header />
-                {props.children}
-            </div>
-        </ThemeProvider>
-    </Provider>
-);
-
-App.propTypes = {
-    children: PropTypes.element
+/**
+ * Retrieve component to be rendered
+ *
+ * @param  {string} component
+ * @return {object}
+ */
+const getComponent = (component) => {
+    switch (component) {
+        case 'Dashboard':
+            return Dashboard;
+        default:
+            return null;
+    }
 };
 
 /**
@@ -51,9 +42,28 @@ function renderFullPage(html, criticalCSS) { // eslint-disable-line no-unused-va
     return eval('`' + page + '`'); // eslint-disable-line no-eval
 }
 
-export default () => {
+export default (componentPath, data) => {
+    const PageComponent = getComponent(componentPath);
     const sheet = new ServerStyleSheet();
-    const html = renderToString(sheet.collectStyles(<App><Dashboard /></App>));
+
+    // Initial React state
+    const INITIAL_STATE = {
+        app: {
+            PageComponent,
+            SSR: true,
+            showSearch: false,
+            toggleSearch: () => {},
+        },
+    };
+
+    // Create redux store with history
+    const HISTORY = createHistory();
+    const STORE = configureStore({ ...INITIAL_STATE, ...data }, HISTORY, true);
+    const html = renderToString(sheet.collectStyles(
+        <Provider store={STORE}>
+            <App />
+        </Provider>
+    ));
 
     return renderFullPage(html, sheet.getStyleTags());
 };

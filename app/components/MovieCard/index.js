@@ -88,7 +88,7 @@ function MovieCard({ imageUrl, title, releaseDate, isFavorite, genres }) {
 MovieCard.propTypes = {
     imageUrl: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    releaseDate: PropTypes.string.isRequired,
+    releaseDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
     genres: PropTypes.array.isRequired,
     isFavorite: PropTypes.bool,
 };

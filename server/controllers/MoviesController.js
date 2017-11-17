@@ -1,8 +1,9 @@
 const DB = require('../models');
 const MovieApiService = require('../services/MovieApiService');
+const { getUserMoviesWithGenres } = require('../services/moviesService');
 
 const get = (req, res) => {
-    req.user.getMovies({ include: [DB.Genre] }).then(movies => {
+    getUserMoviesWithGenres(req.user).then(movies => {
         res.json(movies);
     });
 };

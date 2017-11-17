@@ -4,7 +4,7 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = require('./webpack.base.babel')({
     // Add hot reloading in development
     entry: [
-        path.join(process.cwd(), 'server/webpackEntry.js'), // Start with js/webpackEntry.js
+        path.join(process.cwd(), 'server/SSR.js'), // Start with js/SSR.js
     ],
 
     output: {
