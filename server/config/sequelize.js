@@ -8,20 +8,21 @@ module.exports = {
         password: ENV.DEV_DB_PASSWORD,
         database: ENV.DEV_DB_DATABASE,
         host: ENV.DEV_DB_HOST,
-        dialect: 'mysql'
+        dialect: 'mysql',
     },
     test: {
         username: 'root',
         password: null,
         database: 'mmdb',
         host: '127.0.0.1',
-        dialect: 'mysql'
+        dialect: 'mysql',
     },
     production: {
         username: ENV.PROD_DB_USER,
         password: ENV.PROD_DB_PASSWORD,
         database: ENV.PROD_DB_DATABASE,
         host: ENV.PROD_DB_HOST,
-        dialect: 'mysql'
+        dialect: 'mysql',
+        logging: false,
     }
 };
