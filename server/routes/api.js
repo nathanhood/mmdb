@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const MoviesController = require('../controllers/MoviesController');
-const checkTmdbConfig = require('../middlewares/tmdb');
+const checkTmdbConfig = require('../middlewares/movieApiMiddlware');
 
 checkTmdbConfig(router);
 

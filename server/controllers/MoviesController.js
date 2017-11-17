@@ -1,5 +1,5 @@
 const DB = require('../models');
-const Tmdb = require('../gateways/tmdb');
+const MovieApiService = require('../services/MovieApiService');
 
 const get = (req, res) => {
     req.user.getMovies({ include: [DB.Genre] }).then(movies => {
@@ -9,12 +9,12 @@ const get = (req, res) => {
 
 const store = (req, res) => {
     const movieId = req.body.id;
-    const gateway = new Tmdb();
+    const movieApi = new MovieApiService();
 
-    DB.Movie.findOne({ where: { tmdbId: movieId } })
+    DB.Movie.findOneByTmbdId(movieId)
         .then((movie) => {
             if (!movie) {
-                return gateway.getMovieById(req.body.id)
+                return movieApi.getMovieByTmdbId(req.body.id)
                     .then((movieData) => Promise.all([
                         DB.Movie.create(movieData),
                         DB.Genre.findAll({ where: { tmdbId: { in: movieData.genreIds } } }),

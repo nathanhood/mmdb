@@ -6,7 +6,7 @@ const fetch = axios.create({
     baseURL: 'https://api.themoviedb.org/3/',
 });
 
-class Tmdb {
+class TmdbGateway {
     constructor() {
         this.apiKey = process.env.TMDB_API_KEY;
         this.urls = {
@@ -19,25 +19,7 @@ class Tmdb {
         }
     }
 
-    getConfig() {
-        return fetch.get(this.urls.configuration).catch((e) => {
-            // TODO: Add server logging system
-            throw e;
-        });
-    }
-
-    getMovieById(id) {
-        return fetch.get(`${this.urls.movies}/${id}`, {
-            params: this.baseParams
-        }).then(({ data }) => {
-            return this.transformMovie(data);
-        }).catch((e) => {
-            // TODO: Add server logging system
-            throw e;
-        });
-    }
-
-    transformMovie(movie) {
+    _transformMovie(movie) {
         return {
             tmdbId: movie.id,
             imdbId: movie.imdb_id,
@@ -55,8 +37,25 @@ class Tmdb {
             poster: movie.poster_path,
             backdrop: movie.backdrop_path,
             genreIds: movie.genres.map((genre) => genre.id),
-        }
+        };
+    }
+
+    getConfig() {
+        return fetch.get(this.urls.configuration, { params: this.baseParams })
+            .catch((e) => {
+                // TODO: Add server logging system
+                throw e;
+            });
+    }
+
+    getMovieById(id) {
+        return fetch.get(`${this.urls.movies}/${id}`, { params: this.baseParams })
+            .then(({ data }) => this._transformMovie(data))
+            .catch((e) => {
+                // TODO: Add server logging system
+                throw e;
+            });
     }
 }
 
-module.exports = Tmdb;
+module.exports = TmdbGateway;

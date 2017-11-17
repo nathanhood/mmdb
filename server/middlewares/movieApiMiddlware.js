@@ -1,10 +1,11 @@
 const fs = require('fs-extra');
 const path = require('path');
-const Tmdb = require('../gateways/tmdb');
+const MovieApiService = require('../services/MovieApiService');
 
 const TWO_DAYS = 172800000;
 const CONFIG_PATH = path.resolve(__dirname, '../config/tmdb.json');
-const setConfig = () => new Tmdb().getConfig().then(({ data }) => fs.writeJson(CONFIG_PATH, data));
+const setConfig = () => new MovieApiService().getConfig()
+    .then(({ data }) => fs.writeJson(CONFIG_PATH, data));
 
 module.exports = app => {
     return app.use('/', (req, res, next) => {

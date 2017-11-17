@@ -22,5 +22,9 @@ module.exports = (sequelize, DataTypes) => {
         this.belongsToMany(models.Genre, { through: models.MovieGenre });
     };
 
+    Movie.findOneByTmbdId = function(tmdbId) {
+        return this.findOne({ where: { tmdbId: tmdbId } });
+    };
+
     return Movie;
 };

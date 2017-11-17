@@ -12,7 +12,7 @@ const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngr
 const compression = require('compression');
 const webRouter = require('./routes/web');
 const apiRouter = require('./routes/api');
-const authMiddleware = require('./middlewares/auth');
+const authMiddleware = require('./middlewares/authMiddleware');
 const app = express();
 
 // Protect application from unauthorized requests
