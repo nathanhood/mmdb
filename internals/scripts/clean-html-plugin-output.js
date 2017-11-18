@@ -5,6 +5,7 @@ CleanHtmlPluginOutput.prototype.apply = function(compiler) {
         compilation.plugin('html-webpack-plugin-before-html-processing', (htmlPluginData, callback) => {
             const criticalCSS = '';
             const html = '';
+            const preloadedState = '';
 
             htmlPluginData.html = eval('`' + htmlPluginData.html + '`');
 

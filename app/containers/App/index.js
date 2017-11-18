@@ -35,8 +35,6 @@ class App extends React.PureComponent {
     static propTypes = {
         showSearch: PropTypes.bool.isRequired,
         toggleSearchVisibility: PropTypes.func.isRequired,
-        SSR: PropTypes.bool,
-        PageComponent: PropTypes.element,
     };
 
     render() {
@@ -44,20 +42,7 @@ class App extends React.PureComponent {
         const {
             toggleSearchVisibility,
             showSearch,
-            SSR,
-            PageComponent,
         } = this.props;
-
-        if (SSR) {
-            return (
-                <ThemeProvider theme={theme}>
-                    <StyledContainer>
-                        <Header showSearch={showSearch} toggleSearch={toggleSearchVisibility} />
-                        <PageComponent />
-                    </StyledContainer>
-                </ThemeProvider>
-            );
-        }
 
         return (
             <ThemeProvider theme={theme}>
@@ -76,7 +61,6 @@ class App extends React.PureComponent {
 const withConnect = connect(
     (state) => ({
         showSearch: state.app.showSearch,
-        SSR: state.app.SSR,
         PageComponent: state.app.PageComponent,
     }),
     (dispatch) => ({

@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from './configureStore';
+import initialState from './initialState';
 
 // Import root app
 import App from 'containers/App';
@@ -35,15 +36,7 @@ import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 // Create redux store with history
-const INITIAL_STATE = {
-    app: {
-        showSearch: false,
-    },
-    dashboard: {
-        library: [],
-        isLoaded: false,
-    }
-};
+const INITIAL_STATE = window.__MMDB_PRELOADED_STATE || initialState;
 const HISTORY = createHistory();
 const STORE = configureStore(INITIAL_STATE, HISTORY);
 const MOUNT_NODE = document.getElementById('app');
