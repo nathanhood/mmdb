@@ -29,7 +29,7 @@ function renderFullPage(html, criticalCSS, preloadedState) { // eslint-disable-l
     return eval('`' + page + '`'); // eslint-disable-line no-eval
 }
 
-export default (componentPath, data) => {
+export default (data) => {
     const sheet = new ServerStyleSheet();
 
     // Create redux store with history
