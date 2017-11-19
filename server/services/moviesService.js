@@ -5,6 +5,15 @@ const getUserMoviesWithGenres = (User) => {
         .then((movies) => movies.map((movie) => movie.get({ plain: true })));
 };
 
+const countUserMovies = (userId) => {
+    return DB.Movie.count({
+        include: [
+            { model: DB.User, where: { id: userId } },
+        ],
+    });
+};
+
 module.exports = {
     getUserMoviesWithGenres,
+    countUserMovies,
 };

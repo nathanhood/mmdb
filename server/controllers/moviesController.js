@@ -1,11 +1,17 @@
 const DB = require('../models');
 const MovieApiService = require('../services/MovieApiService');
-const { getUserMoviesWithGenres } = require('../services/moviesService');
+const { getUserMoviesWithGenres, countUserMovies } = require('../services/moviesService');
 const movieTransformer = require('../transformers/movieTransformer');
+const paginate = require('../utils/pagination')();
 
 const get = (req, res) => {
-    getUserMoviesWithGenres(req.user).then(movies => {
-        res.json(movieTransformer.transformMany(movies));
+    getUserMoviesWithGenres(req.user).then((movies) => {
+        const { limit, page } = req.query;
+
+        paginate(countUserMovies(req.user.id), page, limit)
+            .then((pagination) => {
+                res.json(movieTransformer.transformMany({ ...pagination, movies }));
+            });
     });
 };
 

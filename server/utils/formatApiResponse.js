@@ -1,17 +1,20 @@
 /**
  * Format array of data for API response
  *
- * @param  {Array} entities
+ * @param  {Object}
  * @return {Object}
  */
-const forMany = (entities = []) => {
-    if (!Array.isArray(entities)) {
-        throw new TypeError(`Expected an array. ${typeof entities} provided.`);
+const forMany = ({ page, totalPages, totalResults, payload }) => {
+    if (!Array.isArray(payload)) {
+        throw new TypeError(`Expected an array. ${typeof payload} provided.`);
     }
 
     return {
-        count: entities.length,
-        payload: entities,
+        page,
+        pageResults: payload.length,
+        totalPages,
+        totalResults,
+        payload,
     };
 };
 

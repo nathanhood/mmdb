@@ -38,7 +38,10 @@ const transformMovie = (movie) => ({
     },
 });
 
-const transformMovies = (movies) => movies.map((movie) => transformMovie(movie));
+const transformMovies = (data) => ({
+    ...data,
+    payload: data.movies.map((movie) => transformMovie(movie)),
+});
 
 module.exports = {
     transformOne: transformMovie,
