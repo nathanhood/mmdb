@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const MoviesController = require('../controllers/MoviesController');
+const moviesController = require('../controllers/moviesController');
 const checkTmdbConfig = require('../middlewares/movieApiMiddlware');
 
 checkTmdbConfig(router);
 
-router.get('/movies', MoviesController.get);
-router.post('/movies', MoviesController.store);
+router.get('/movies', moviesController.get);
+router.post('/movies', moviesController.store);
 
 module.exports = router;
