@@ -4,6 +4,7 @@ const MovieApiService = require('../services/MovieApiService');
 
 const TWO_DAYS = 172800000;
 const CONFIG_PATH = path.resolve(__dirname, '../config/tmdb.json');
+
 const setConfig = () => new MovieApiService().getConfig()
     .then(({ data }) => fs.writeJson(CONFIG_PATH, data));
 

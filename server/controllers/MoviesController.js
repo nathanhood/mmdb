@@ -1,10 +1,11 @@
 const DB = require('../models');
 const MovieApiService = require('../services/MovieApiService');
 const { getUserMoviesWithGenres } = require('../services/moviesService');
+const movieTransformer = require('../transformers/movieTransformer');
 
 const get = (req, res) => {
     getUserMoviesWithGenres(req.user).then(movies => {
-        res.json(movies);
+        res.json(movieTransformer.transformMany(movies));
     });
 };
 
