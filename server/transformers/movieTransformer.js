@@ -2,10 +2,12 @@ const _ = require('lodash');
 const imageConfig = require('../config/tmdb.json').images;
 const formatApiResponse = require('../utils/formatApiResponse');
 
+const ORIGINAL_IMAGE_SIZE = 'original';
+const BASE_IMAGE_URL = imageConfig.base_url;
+
 const getImageUrl = (baseUrl, size, imagePath) => `${baseUrl}${size}${imagePath}`;
 
 const getAllImageSizes = (imagePath, type) => {
-    const baseUrl = imageConfig.base_url;
     const sizes = imageConfig[`${type}_sizes`];
 
     if (!imagePath) {
@@ -16,17 +18,22 @@ const getAllImageSizes = (imagePath, type) => {
         throw new Error(`Incorrect image type ${type} provided`);
     }
 
-    return sizes.map((size) => ({
-        size,
-        name: imagePath.replace('/', ''),
-        url: getImageUrl(baseUrl, size, imagePath),
-    }));
+    return sizes.filter((size) => size !== ORIGINAL_IMAGE_SIZE)
+        .map((size) => ({
+            width: parseInt(size.replace(/[^0-9]/g, '')),
+            name: imagePath.replace('/', ''),
+            url: getImageUrl(BASE_IMAGE_URL, size, imagePath),
+        }));
 };
 
 const transformMovie = (movie) => ({
     ...movie,
     images: {
-        poster: getAllImageSizes(movie.poster, 'poster'),
+        poster: {
+            altText: movie.title,
+            original: getImageUrl(BASE_IMAGE_URL, ORIGINAL_IMAGE_SIZE, movie.poster),
+            sizes: getAllImageSizes(movie.poster, 'poster'),
+        },
         backdrop: getAllImageSizes(movie.backdrop, 'backdrop'),
     },
 });

@@ -21,7 +21,7 @@ function CardList({ items }) {
                     <MovieCard
                       title={item.title}
                       releaseDate={item.releaseDate}
-                      imageUrl={'http://via.placeholder.com/200x300'}
+                      poster={item.images.poster}
                       rating={item.rating}
                       isFavorite={item.UserMovie.isFavorite}
                       genres={item.Genres}

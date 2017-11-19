@@ -9,7 +9,7 @@ export const prepareMoviesForDashboard = () => (dispatch) => {
     dispatch(startLoading());
 
     getMovies().then(({ data: results }) => {
-        dispatch(populateDashboard(results));
+        dispatch(populateDashboard(results.payload));
         dispatch(endLoading());
     });
 };

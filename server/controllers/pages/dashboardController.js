@@ -5,7 +5,7 @@ const get = (req, res) => {
     getUserMoviesWithGenres(req.user).then((movies) => {
         res.send(handleRender({
             dashboard: {
-                library: movies.map((movie) => movie.get({ plain: true })),
+                library: movies,
                 isLoaded: true,
             },
         }));

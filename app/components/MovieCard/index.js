@@ -5,6 +5,7 @@ import feather from 'feather-icons';
 import moment from 'moment/moment';
 import theme from 'theme';
 import Icon from 'components/Icon';
+import PosterImage from 'components/PosterImage';
 import themeVars from 'variables';
 
 const Container = styled.div`
@@ -22,11 +23,6 @@ const InfoContainer = styled.div`
 const PosterContainer = styled.div`
     flex: 1 1 auto;
     width: 33%;
-`;
-
-const PosterImage = styled.img`
-    height: auto;
-    width: 100%;
 `;
 
 const Title = styled.h2`
@@ -60,11 +56,11 @@ const ActionBar = styled.div`
     padding-right: 5px;
 `;
 
-function MovieCard({ imageUrl, title, releaseDate, isFavorite, genres }) {
+function MovieCard({ poster, title, releaseDate, isFavorite, genres }) {
     return (
         <Container>
             <PosterContainer>
-                <PosterImage src={imageUrl} alt="" />
+                <PosterImage images={poster.sizes} alt={poster.altText} />
             </PosterContainer>
             <InfoContainer>
                 {genres.map((genre, i) => (
@@ -86,7 +82,7 @@ function MovieCard({ imageUrl, title, releaseDate, isFavorite, genres }) {
 }
 
 MovieCard.propTypes = {
-    imageUrl: PropTypes.string.isRequired,
+    poster: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     releaseDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
     genres: PropTypes.array.isRequired,
