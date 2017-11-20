@@ -12,6 +12,10 @@ class MovieApiService {
     getMovieByTmdbId(id) {
         return this.gateway.getMovieById(id);
     }
+
+    searchForNewMovie(query, page) {
+        return this.gateway.searchForMovie(query, page);
+    }
 }
 
 module.exports = MovieApiService;

@@ -12,6 +12,7 @@ class TmdbGateway {
         this.urls = {
             configuration: 'configuration',
             movies: 'movie',
+            searchMovies: 'search/movie',
         };
 
         this.baseParams = {
@@ -40,6 +41,20 @@ class TmdbGateway {
         };
     }
 
+    _transformSearchResult(movie) {
+        return {
+            tmdbId: movie.id,
+            title: movie.title,
+            slug: slugify(movie.title),
+            overview: movie.overview,
+            releaseDate: toSQLDateTime(movie.release_date),
+            language: movie.original_language,
+            poster: movie.poster_path,
+            backdrop: movie.backdrop_path,
+            genreIds: movie.genre_ids,
+        };
+    }
+
     getConfig() {
         return fetch.get(this.urls.configuration, { params: this.baseParams })
             .catch((e) => {
@@ -55,6 +70,22 @@ class TmdbGateway {
                 // TODO: Add server logging system
                 throw e;
             });
+    }
+
+    searchForMovie(query = '', page = 1) {
+        return fetch.get(this.urls.searchMovies, {
+            params: { ...this.baseParams, query, page },
+        }).then(({ data }) => {
+            return {
+                page: data.page,
+                totalPages: data.total_pages,
+                totalResults: data.total_results,
+                movies: data.results.map((movie) => this._transformSearchResult(movie)),
+            };
+        }).catch((e) => {
+            // TODO: Add server logging system
+            throw e;
+        });
     }
 }
 
