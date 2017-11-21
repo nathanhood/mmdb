@@ -29,6 +29,7 @@ import injectReducer from 'utils/injectReducer';
 const StyledContainer = styled.div`
     background: ${theme.backgroundColor};
     font: ${theme.font};
+    height: 100%;
 `;
 
 class App extends React.PureComponent {
