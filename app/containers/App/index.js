@@ -22,7 +22,7 @@ import Dashboard from 'containers/Dashboard/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import theme from 'variables';
-import { toggleSearchVisibility } from './actions';
+import { showSearch, hideSearch } from './actions';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
 
@@ -34,23 +34,25 @@ const StyledContainer = styled.div`
 
 class App extends React.PureComponent {
     static propTypes = {
-        showSearch: PropTypes.bool.isRequired,
-        toggleSearchVisibility: PropTypes.func.isRequired,
+        searchIsVisible: PropTypes.bool.isRequired,
+        showSearch: PropTypes.func.isRequired,
     };
 
     render() {
         /* eslint-disable no-shadow */
         const {
-            toggleSearchVisibility,
             showSearch,
+            hideSearch,
+            searchIsVisible,
+            searchType,
         } = this.props;
 
         return (
             <ThemeProvider theme={theme}>
                 <StyledContainer>
-                    <Header showSearch={showSearch} toggleSearch={toggleSearchVisibility} />
+                    <Header searchIsVisible={searchIsVisible} hideSearch={hideSearch} showSearch={showSearch} searchType={searchType} />
                     <Switch>
-                        <Route exact path="/" component={Dashboard} />
+                        <Route exact path="/" render={() => <Dashboard showSearch={showSearch} />} />
                         <Route component={NotFoundPage} />
                     </Switch>
                 </StyledContainer>
@@ -61,11 +63,13 @@ class App extends React.PureComponent {
 
 const withConnect = connect(
     (state) => ({
-        showSearch: state.app.showSearch,
+        searchIsVisible: state.app.searchIsVisible,
+        searchType: state.app.searchType,
         PageComponent: state.app.PageComponent,
     }),
     (dispatch) => ({
-        toggleSearchVisibility: () => dispatch(toggleSearchVisibility())
+        showSearch: (type) => dispatch(showSearch(type)),
+        hideSearch: () => dispatch(hideSearch()),
     })
 );
 

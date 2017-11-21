@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from 'theme';
+import feather from 'feather-icons';
 import Hamburger, { Bar } from 'components/Hamburger';
-import SearchButton from 'components/SearchButton';
+import Icon from 'components/Icon';
 import Search from 'components/Search';
 import { transitionOpacity } from 'mixins';
 import HeaderButton from 'components/HeaderButton';
@@ -51,8 +52,11 @@ const Header = (props) => {
                     <Hamburger />
                 </MenuButton>
                 <Logo>MMDb</Logo>
-                <MenuButton>
-                    <SearchButton clickHandler={props.toggleSearch} />
+                <MenuButton onClick={() => showSearch('library')}>
+                    <Icon
+                      size={22}
+                      icon={feather.icons.search}
+                    />
                 </MenuButton>
             </StyledInnerHeader>
         </StyledHeader>
