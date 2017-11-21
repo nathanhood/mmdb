@@ -1,6 +1,6 @@
 const DB = require('../models');
 const MovieApiService = require('../services/MovieApiService');
-const { getUserMoviesWithGenres, countUserMovies } = require('../services/moviesService');
+const { getUserMoviesWithGenres, countUserMovies } = require('../models/services/movie');
 const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
 

@@ -1,4 +1,4 @@
-const DB = require('../models/index');
+const DB = require('../index');
 
 const getUserMoviesWithGenres = (User) => {
     return User.getMovies({ include: [DB.Genre] })

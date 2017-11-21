@@ -1,4 +1,4 @@
-const { getUserMoviesWithGenres } = require('../../services/moviesService');
+const { getUserMoviesWithGenres } = require('../../models/services/movie');
 const handleRender = require('../../build/server.js').default;
 const movieTransformer = require('../../transformers/movieTransformer');
 
