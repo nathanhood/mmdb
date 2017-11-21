@@ -1,3 +1,5 @@
+import { lighten } from 'polished';
+
 const theme = {
     black: '#202121',
     gray: '#a6abab',
@@ -11,5 +13,8 @@ const theme = {
     gutter: '5%',
     font: 'Roboto, Arial, sans-serif',
 };
+
+theme.fixedButtonColor = theme.darkTeal;
+theme.fixedButtonActiveColor = lighten(0.04, theme.fixedButtonColor);
 
 export default theme;

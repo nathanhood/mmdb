@@ -5,11 +5,20 @@
  */
 /* eslint-disable no-unused-vars */
 import {
-    TOGGLE_SEARCH_VISIBILITY,
+    SHOW_SEARCH,
+    HIDE_SEARCH
 } from './constants';
 
 const actions = {
-    [TOGGLE_SEARCH_VISIBILITY]: (state) => ({ ...state, showSearch: !state.showSearch }),
+    [SHOW_SEARCH]: (state, { payload: { type } }) => ({
+        ...state,
+        searchIsVisible: true,
+        searchType: type,
+    }),
+    [HIDE_SEARCH]: (state) => ({
+        ...state,
+        searchIsVisible: false,
+    }),
 };
 
 function appReducer(state = {}, action) {

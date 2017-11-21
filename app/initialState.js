@@ -1,6 +1,6 @@
 export default {
     app: {
-        showSearch: false,
+        searchIsVisible: false,
     },
     dashboard: {
         isLoaded: process.env.NODE_ENV === 'production',

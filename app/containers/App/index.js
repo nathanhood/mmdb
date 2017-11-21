@@ -36,6 +36,8 @@ class App extends React.PureComponent {
     static propTypes = {
         searchIsVisible: PropTypes.bool.isRequired,
         showSearch: PropTypes.func.isRequired,
+        hideSearch: PropTypes.func.isRequired,
+        searchType: PropTypes.string,
     };
 
     render() {

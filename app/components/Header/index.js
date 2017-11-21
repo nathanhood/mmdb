@@ -8,6 +8,7 @@ import Icon from 'components/Icon';
 import Search from 'components/Search';
 import { transitionOpacity } from 'mixins';
 import HeaderButton from 'components/HeaderButton';
+import { LIBRARY_SEARCH_TYPE } from 'containers/App/constants';
 
 
 const MenuButton = HeaderButton.extend`
@@ -43,16 +44,16 @@ const StyledInnerHeader = styled.div`
     ${transitionOpacity}
 `;
 
-const Header = (props) => {
+const Header = ({ hideSearch, showSearch, searchIsVisible, searchType }) => {
     return (
         <StyledHeader role="banner">
-            <Search close={props.toggleSearch} show={props.showSearch} />
-            <StyledInnerHeader show={!props.showSearch}>
+            <Search close={hideSearch} show={searchIsVisible} type={searchType} />
+            <StyledInnerHeader show={!searchIsVisible}>
                 <MenuButton>
                     <Hamburger />
                 </MenuButton>
                 <Logo>MMDb</Logo>
-                <MenuButton onClick={() => showSearch('library')}>
+                <MenuButton onClick={() => showSearch(LIBRARY_SEARCH_TYPE)}>
                     <Icon
                       size={22}
                       icon={feather.icons.search}
@@ -64,8 +65,10 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
-    toggleSearch: PropTypes.func,
-    showSearch: PropTypes.bool,
+    hideSearch: PropTypes.func,
+    showSearch: PropTypes.func,
+    searchIsVisible: PropTypes.bool,
+    searchType: PropTypes.string,
 };
 
 export default Header;

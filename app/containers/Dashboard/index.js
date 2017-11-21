@@ -6,12 +6,15 @@ import CardList from 'components/CardList';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import { prepareMoviesForDashboard } from './thunks';
+import FixedActionButton from 'components/FixedActionButton';
+import { REGULAR_SEARCH_TYPE } from 'containers/App/constants';
 
 class Dashboard extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
         library: PropTypes.array,
         isLoaded: PropTypes.bool,
         onLoad: PropTypes.func,
+        showSearch: PropTypes.func,
     };
 
     constructor(props) {
@@ -23,7 +26,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
     }
 
     render() {
-        const { library, isLoaded } = this.props;
+        const { library, isLoaded, showSearch } = this.props;
 
         if (!isLoaded) {
             return null;
@@ -32,6 +35,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         return (
             <div>
                 <CardList items={library} />
+                <FixedActionButton clickHandler={() => showSearch(REGULAR_SEARCH_TYPE)} />
             </div>
         );
     }
