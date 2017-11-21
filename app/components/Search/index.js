@@ -53,6 +53,9 @@ const StyledInput = styled.input`
     border: 0;
     flex: 1 0 calc(100% - 65px);
     padding-left: 25px;
+    &:focus {
+        outline: none;
+    }
     &::placeholder {
         color: ${theme.white};
     }
@@ -79,36 +82,44 @@ const LibraryStyledInput = StyledInput.extend`
     }
 `;
 
-const Search = ({ show, type, close }) => {
-    if (type === LIBRARY_SEARCH_TYPE) {
+class Search extends React.PureComponent {
+    static propTypes = {
+        close: PropTypes.func.isRequired,
+        show: PropTypes.bool.isRequired,
+        type: PropTypes.string,
+    };
+
+    componentDidUpdate() {
+        this.input.focus();
+    }
+
+    render() {
+        const { show, type, close } = this.props;
+
+        if (type === LIBRARY_SEARCH_TYPE) {
+            return (
+                <TransitionContainer show={show}>
+                    <LibraryStyledContainer>
+                        <LibraryStyledInput type="text" placeholder="Search your library" innerRef={(comp) => { this.input = comp }} />
+                        <HeaderButton onClick={close}>
+                            <LibraryCloseSearch />
+                        </HeaderButton>
+                    </LibraryStyledContainer>
+                </TransitionContainer>
+            );
+        }
+
         return (
             <TransitionContainer show={show}>
-                <LibraryStyledContainer>
-                    <LibraryStyledInput type="text" placeholder="Find a movie" />
+                <StyledContainer>
+                    <StyledInput type="text" placeholder="Find a new movie" innerRef={(comp) => { this.input = comp }} />
                     <HeaderButton onClick={close}>
-                        <LibraryCloseSearch />
+                        <CloseSearch />
                     </HeaderButton>
-                </LibraryStyledContainer>
+                </StyledContainer>
             </TransitionContainer>
         );
     }
-
-    return (
-        <TransitionContainer show={show}>
-            <StyledContainer>
-                <StyledInput type="text" placeholder="Find a movie" />
-                <HeaderButton onClick={close}>
-                    <CloseSearch />
-                </HeaderButton>
-            </StyledContainer>
-        </TransitionContainer>
-    );
-};
-
-Search.propTypes = {
-    close: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired,
-    type: PropTypes.string,
-};
+}
 
 export default Search;
