@@ -1,5 +1,9 @@
 export const DEFAULT_LOCALE = 'en';
 export const SHOW_SEARCH = 'SHOW_SEARCH';
 export const HIDE_SEARCH = 'HIDE_SEARCH';
-export const REGULAR_SEARCH_TYPE = 'search';
-export const LIBRARY_SEARCH_TYPE = 'library';
+export const STANDARD_SEARCH_TYPE = 'STANDARD_SEARCH';
+export const LIBRARY_SEARCH_TYPE = 'LIBRARY_SEARCH';
+export const START_LOADING = 'START_LOADING';
+export const END_LOADING = 'END_LOADING';
+export const POPULATE_SEARCH_RESULTS = 'POPULATE_SEARCH_RESULTS';
+export const SHOW_SEARCH_RESULTS = 'SHOW_SEARCH_RESULTS';

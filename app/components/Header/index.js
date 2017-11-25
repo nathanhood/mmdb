@@ -32,7 +32,7 @@ const Logo = styled.h1`
 const StyledHeader = styled.header`
     background: ${theme.white};
     border-bottom: 1px solid ${theme.lightGray};
-    height: 70px;
+    height: ${theme.headerHeight};
     position: relative;
 `;
 const StyledInnerHeader = styled.div`
@@ -44,10 +44,10 @@ const StyledInnerHeader = styled.div`
     ${transitionOpacity}
 `;
 
-const Header = ({ hideSearch, showSearch, searchIsVisible, searchType }) => {
+const Header = ({ hideSearch, showSearch, searchIsVisible, searchType, submitSearch }) => {
     return (
         <StyledHeader role="banner">
-            <Search close={hideSearch} show={searchIsVisible} type={searchType} />
+            <Search closeHandler={hideSearch} isVisible={searchIsVisible} type={searchType} submitHandler={submitSearch} />
             <StyledInnerHeader show={!searchIsVisible}>
                 <MenuButton>
                     <Hamburger />
@@ -69,6 +69,7 @@ Header.propTypes = {
     showSearch: PropTypes.func,
     searchIsVisible: PropTypes.bool,
     searchType: PropTypes.string,
+    submitSearch: PropTypes.func,
 };
 
 export default Header;

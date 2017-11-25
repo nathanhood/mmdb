@@ -12,6 +12,7 @@ const theme = {
     backgroundColor: '#f9f9f9',
     gutter: '5%',
     font: 'Roboto, Arial, sans-serif',
+    headerHeight: '70px',
 };
 
 theme.fixedButtonColor = theme.darkTeal;

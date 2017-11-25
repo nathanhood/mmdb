@@ -9,7 +9,6 @@ import PosterImage from 'components/PosterImage';
 import themeVars from 'variables';
 
 const Container = styled.div`
-    background: ${theme.white};
     display: flex;
     align-items: stretch;
 `;

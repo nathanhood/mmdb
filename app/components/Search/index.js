@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { transitionOpacity } from 'mixins';
 import HeaderButton from 'components/HeaderButton';
 import theme from 'theme';
-import { LIBRARY_SEARCH_TYPE } from 'containers/App/constants';
+import { LIBRARY_SEARCH_TYPE, STANDARD_SEARCH_TYPE } from 'containers/App/constants';
 
 const TransitionContainer = styled.div`
     width: 100%;
@@ -84,24 +84,56 @@ const LibraryStyledInput = StyledInput.extend`
 
 class Search extends React.PureComponent {
     static propTypes = {
-        close: PropTypes.func.isRequired,
-        show: PropTypes.bool.isRequired,
-        type: PropTypes.string,
+        closeHandler: PropTypes.func.isRequired,
+        isVisible: PropTypes.bool.isRequired,
+        type: PropTypes.oneOf([STANDARD_SEARCH_TYPE, LIBRARY_SEARCH_TYPE]),
+        submitHandler: PropTypes.func.isRequired,
     };
+
+    state = {
+        searchValue: '',
+    };
+
+    componentWillUpdate() {
+        if (!this.props.isVisible) {
+            this.resetSearchValue();
+        }
+    }
 
     componentDidUpdate() {
         this.input.focus();
     }
 
+    updateSearchValue = (e) => {
+        this.setState({ searchValue: e.target.value });
+    }
+
+    submitSearchValue = (e) => {
+        if (e.key === 'Enter') {
+            this.props.submitHandler(this.state.searchValue);
+        }
+    };
+
+    resetSearchValue = () => {
+        this.setState({ searchValue: '' });
+    };
+
     render() {
-        const { show, type, close } = this.props;
+        const { isVisible, type, closeHandler } = this.props;
 
         if (type === LIBRARY_SEARCH_TYPE) {
             return (
-                <TransitionContainer show={show}>
+                <TransitionContainer show={isVisible}>
                     <LibraryStyledContainer>
-                        <LibraryStyledInput type="text" placeholder="Search your library" innerRef={(comp) => { this.input = comp }} />
-                        <HeaderButton onClick={close}>
+                        <LibraryStyledInput
+                          value={this.state.searchValue}
+                          type="text"
+                          placeholder="Search your library"
+                          innerRef={(comp) => { this.input = comp }}
+                          onChange={this.updateSearchValue}
+                          onKeyUp={this.submitSearchValue}
+                        />
+                        <HeaderButton onClick={closeHandler}>
                             <LibraryCloseSearch />
                         </HeaderButton>
                     </LibraryStyledContainer>
@@ -110,10 +142,17 @@ class Search extends React.PureComponent {
         }
 
         return (
-            <TransitionContainer show={show}>
+            <TransitionContainer show={isVisible}>
                 <StyledContainer>
-                    <StyledInput type="text" placeholder="Find a new movie" innerRef={(comp) => { this.input = comp }} />
-                    <HeaderButton onClick={close}>
+                    <StyledInput
+                      value={this.state.searchValue}
+                      type="text"
+                      placeholder="Find a new movie"
+                      innerRef={(comp) => { this.input = comp }}
+                      onChange={this.updateSearchValue}
+                      onKeyUp={this.submitSearchValue}
+                    />
+                    <HeaderButton onClick={closeHandler}>
                         <CloseSearch />
                     </HeaderButton>
                 </StyledContainer>

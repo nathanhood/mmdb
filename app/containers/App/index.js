@@ -21,15 +21,17 @@ import PropTypes from 'prop-types';
 import Dashboard from 'containers/Dashboard/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
+import SearchResults from 'components/SearchResults';
 import theme from 'variables';
 import { showSearch, hideSearch } from './actions';
+import { prepareSearchResults } from './thunks';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
 
 const StyledContainer = styled.div`
     background: ${theme.backgroundColor};
-    font: ${theme.font};
-    height: 100%;
+    font-family: ${theme.font};
+    min-height: 100%;
 `;
 
 class App extends React.PureComponent {
@@ -38,6 +40,9 @@ class App extends React.PureComponent {
         showSearch: PropTypes.func.isRequired,
         hideSearch: PropTypes.func.isRequired,
         searchType: PropTypes.string,
+        submitSearch: PropTypes.func.isRequired,
+        searchResultsAreVisible: PropTypes.bool,
+        searchResults: PropTypes.array,
     };
 
     render() {
@@ -47,12 +52,23 @@ class App extends React.PureComponent {
             hideSearch,
             searchIsVisible,
             searchType,
+            submitSearch,
+            searchResultsAreVisible,
+            searchResults,
         } = this.props;
 
         return (
             <ThemeProvider theme={theme}>
                 <StyledContainer>
-                    <Header searchIsVisible={searchIsVisible} hideSearch={hideSearch} showSearch={showSearch} searchType={searchType} />
+                    <Header
+                      searchIsVisible={searchIsVisible}
+                      hideSearch={hideSearch}
+                      showSearch={showSearch}
+                      searchType={searchType}
+                      submitSearch={submitSearch}
+                    />
+
+                    <SearchResults isVisible={searchResultsAreVisible} items={searchResults} />
                     <Switch>
                         <Route exact path="/" render={() => <Dashboard showSearch={showSearch} />} />
                         <Route component={NotFoundPage} />
@@ -67,11 +83,16 @@ const withConnect = connect(
     (state) => ({
         searchIsVisible: state.app.searchIsVisible,
         searchType: state.app.searchType,
+        searchResultsAreVisible: state.app.searchResultsAreVisible,
         PageComponent: state.app.PageComponent,
+        searchResults: state.app.searchResults,
     }),
     (dispatch) => ({
         showSearch: (type) => dispatch(showSearch(type)),
         hideSearch: () => dispatch(hideSearch()),
+        submitSearch: (query) => {
+            dispatch(prepareSearchResults(query));
+        },
     })
 );
 

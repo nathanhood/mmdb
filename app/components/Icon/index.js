@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const StyledSVG = styled.svg`
     fill: ${props => props.fill} !important;
+    margin-left: ${props => props.spacing || 0};
 `;
 
 const Icon = (props) => {

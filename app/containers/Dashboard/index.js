@@ -2,12 +2,12 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CardList from 'components/CardList';
+import LibraryList from 'components/LibraryList';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import { prepareMoviesForDashboard } from './thunks';
 import FixedActionButton from 'components/FixedActionButton';
-import { REGULAR_SEARCH_TYPE } from 'containers/App/constants';
+import { STANDARD_SEARCH_TYPE } from 'containers/App/constants';
 
 class Dashboard extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
@@ -34,8 +34,8 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
 
         return (
             <div>
-                <CardList items={library} />
-                <FixedActionButton clickHandler={() => showSearch(REGULAR_SEARCH_TYPE)} />
+                <LibraryList items={library} />
+                <FixedActionButton clickHandler={() => showSearch(STANDARD_SEARCH_TYPE)} />
             </div>
         );
     }

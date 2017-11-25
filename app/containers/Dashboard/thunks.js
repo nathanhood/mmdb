@@ -8,7 +8,7 @@ import {
 export const prepareMoviesForDashboard = () => (dispatch) => {
     dispatch(startLoading());
 
-    getMovies().then(({ data: results }) => {
+    getMovies().then((results) => {
         dispatch(populateDashboard(results.payload));
         dispatch(endLoading());
     });

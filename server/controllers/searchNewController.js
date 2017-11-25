@@ -3,7 +3,7 @@ const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
 
 const searchMovies = (req, res) => {
-    new MovieApiService().searchForNewMovie(req.query.text, req.query.page || 1)
+    new MovieApiService().searchForNewMovie(req.query.query, req.query.page || 1)
         .then((results) => {
             const { totalResults, page, movies } = results;
 

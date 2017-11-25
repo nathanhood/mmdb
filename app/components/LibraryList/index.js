@@ -1,23 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import theme from 'theme';
-import LibraryCard from 'components/LibraryCard';
+import Card from 'components/Card';
 import MovieCard from 'components/MovieCard';
-
-const StyledContainer = styled.div`
-    padding-top: 25px;
-    padding-bottom: 1px;
-    margin-left: ${theme.gutter};
-    margin-right: ${theme.gutter};
-`;
+import ListContainer from 'components/ListContainer';
 
 
-function CardList({ items }) {
+function LibraryList({ items }) {
     return (
-        <StyledContainer>
+        <ListContainer>
             {items.map((item) => (
-                <LibraryCard key={item.id}>
+                <Card key={item.id}>
                     <MovieCard
                       title={item.title}
                       releaseDate={item.releaseDate}
@@ -26,14 +18,14 @@ function CardList({ items }) {
                       isFavorite={item.UserMovie.isFavorite}
                       genres={item.Genres}
                     />
-                </LibraryCard>
+                </Card>
             ))}
-        </StyledContainer>
+        </ListContainer>
     );
 }
 
-CardList.propTypes = {
+LibraryList.propTypes = {
     items: PropTypes.array.isRequired,
 };
 
-export default CardList;
+export default LibraryList;

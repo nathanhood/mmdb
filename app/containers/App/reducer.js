@@ -6,11 +6,14 @@
 /* eslint-disable no-unused-vars */
 import {
     SHOW_SEARCH,
-    HIDE_SEARCH
+    HIDE_SEARCH,
+    POPULATE_SEARCH_RESULTS,
+    SHOW_SEARCH_RESULTS,
+    HIDE_SEARCH_RESULTS
 } from './constants';
 
 const actions = {
-    [SHOW_SEARCH]: (state, { payload: { type } }) => ({
+    [SHOW_SEARCH]: (state, { payload: type }) => ({
         ...state,
         searchIsVisible: true,
         searchType: type,
@@ -18,6 +21,15 @@ const actions = {
     [HIDE_SEARCH]: (state) => ({
         ...state,
         searchIsVisible: false,
+        searchResultsAreVisible: false,
+    }),
+    [POPULATE_SEARCH_RESULTS]: (state, { payload: searchResults }) => ({
+        ...state,
+        searchResults,
+    }),
+    [SHOW_SEARCH_RESULTS]: (state) => ({
+        ...state,
+        searchResultsAreVisible: true,
     }),
 };
 

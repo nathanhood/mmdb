@@ -21,6 +21,10 @@ const StyledImage = styled.img`
 `;
 
 function PosterImage({ images, altText }) {
+    if (!images) {
+        return <PlaceholderContainer />;
+    }
+
     let largestImage = images[0];
 
     images.forEach((image) => {
@@ -39,7 +43,7 @@ function PosterImage({ images, altText }) {
 }
 
 PosterImage.propTypes = {
-    images: PropTypes.array.isRequired,
+    images: PropTypes.array,
     altText: PropTypes.string,
 };
 

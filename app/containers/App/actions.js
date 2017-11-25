@@ -1,17 +1,34 @@
 import {
     SHOW_SEARCH,
     HIDE_SEARCH,
+    START_LOADING,
+    END_LOADING,
+    POPULATE_SEARCH_RESULTS,
+    SHOW_SEARCH_RESULTS,
 } from './constants';
 
-export function showSearch(type) {
-    return {
-        type: SHOW_SEARCH,
-        payload: { type },
-    };
-}
+export const startLoading = () => ({
+    type: START_LOADING,
+});
 
-export function hideSearch() {
-    return {
-        type: HIDE_SEARCH,
-    };
-}
+export const endLoading = () => ({
+    type: END_LOADING,
+});
+
+export const showSearch = (type) => ({
+    type: SHOW_SEARCH,
+    payload: type,
+});
+
+export const hideSearch = () => ({
+    type: HIDE_SEARCH,
+});
+
+export const populateSearchResults = (list) => ({
+    type: POPULATE_SEARCH_RESULTS,
+    payload: list,
+});
+
+export const showSearchResults = () => ({
+    type: SHOW_SEARCH_RESULTS,
+});
