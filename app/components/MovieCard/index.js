@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import feather from 'feather-icons';
-import moment from 'moment/moment';
 import theme from 'theme';
 import Icon from 'components/Icon';
 import PosterImage from 'components/PosterImage';
 import themeVars from 'variables';
+import { formatYear } from 'utils/datetime';
 
 const Container = styled.div`
     display: flex;
@@ -66,7 +66,7 @@ function MovieCard({ poster, title, releaseDate, isFavorite, genres }) {
                     <Genre key={genre.id}>{i === genres.length - 1 ? genre.name : `${genre.name} | `}</Genre>
                 ))}
                 <Title>{title}</Title>
-                <ReleaseDate>{moment(releaseDate).format('YYYY')}</ReleaseDate>
+                <ReleaseDate>{formatYear(releaseDate)}</ReleaseDate>
                 <ActionBar>
                     <Icon
                       size={18}

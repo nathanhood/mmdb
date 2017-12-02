@@ -43,6 +43,7 @@ const SearchCard = ({ title, poster }) => {
             </PosterContainer>
             <InfoContainer>
                 <Title>{title}</Title>
+                <ReleaseDate>{formatYear(releaseDate)}</ReleaseDate>
             </InfoContainer>
             <ActionsContainer>
                 <Icon
