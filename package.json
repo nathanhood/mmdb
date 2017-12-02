@@ -114,6 +114,7 @@
       }
     },
     "rules": {
+      "no-prototype-builtins": 0,
       "radix": 0,
       "no-underscore-dangle": 0,
       "semi": 0,

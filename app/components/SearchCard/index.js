@@ -6,6 +6,7 @@ import theme from 'theme';
 import PosterImage from 'components/PosterImage';
 import Icon from 'components/Icon';
 import themeVars from 'variables';
+import { formatYear } from 'utils/datetime';
 
 const Container = styled.div`
     display: flex;
@@ -32,10 +33,18 @@ const InfoContainer = styled.div`
 
 const ActionsContainer = styled.div`
     padding-left: 15px;
-    flex: 1 0 75px;
+    flex: 1 0 77px;
 `;
 
-const SearchCard = ({ title, poster }) => {
+const ReleaseDate = styled.div`
+    color: ${theme.gray};
+    font-family: ${theme.font};
+    font-weight: 300;
+    font-size: 13px;
+    margin-bottom: 4px;
+`;
+
+const SearchCard = ({ title, poster, releaseDate, isOwned, isFavorite }) => {
     return (
         <Container>
             <PosterContainer>
@@ -48,13 +57,17 @@ const SearchCard = ({ title, poster }) => {
             <ActionsContainer>
                 <Icon
                   icon={feather.icons.star}
-                  color={themeVars.gray}
+                  size={22}
+                  color={isFavorite ? themeVars.wishYellow : themeVars.gray}
+                  fill={isFavorite ? themeVars.wishYellow : themeVars.white}
                 />
                 <Icon
                   icon={feather.icons['plus-circle']}
-                  size={21}
+                  size={24}
                   spacing="15px"
-                  color={themeVars.gray}
+                  color={isOwned ? themeVars.darkTeal : themeVars.gray}
+                  fill={themeVars.white}
+                  invert={isOwned}
                 />
             </ActionsContainer>
         </Container>
@@ -64,6 +77,9 @@ const SearchCard = ({ title, poster }) => {
 SearchCard.propTypes = {
     poster: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
+    releaseDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    isOwned: PropTypes.bool,
+    isFavorite: PropTypes.bool,
 };
 
 export default SearchCard;

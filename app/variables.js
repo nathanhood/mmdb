@@ -9,6 +9,7 @@ const theme = {
     darkTeal: '#18907B',
     blue: '#3776d9',
     loveRed: '#ed4e4e',
+    wishYellow: '#ffe100',
     backgroundColor: '#f9f9f9',
     gutter: '5%',
     font: 'Roboto, Arial, sans-serif',

@@ -13,6 +13,8 @@ function SearchList({ items }) {
                     <SearchCard
                       title={item.title}
                       poster={item.images.poster}
+                      releaseDate={item.releaseDate}
+                      isOwned={item.isOwnedByUser}
                     />
                 </Card>
             ))}

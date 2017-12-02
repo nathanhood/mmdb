@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledSVG = styled.svg`
-    fill: ${props => props.fill} !important;
+    fill: ${(props) => props.invert ? props.color : props.fill} !important;
     margin-left: ${props => props.spacing || 0};
+    line,
+    path {
+        stroke: ${(props) => props.invert ? props.fill : props.color};
+    }
 `;
 
-const Icon = (props) => {
-    const { color, size, strokeWidth, icon, ...otherProps } = props;
-
+const Icon = ({ color, size, strokeWidth, icon, ...otherProps }) => {
     return (
         <StyledSVG
           xmlns="http://www.w3.org/2000/svg"
@@ -21,6 +23,7 @@ const Icon = (props) => {
           strokeLinecap="round"
           strokeLinejoin="round"
           dangerouslySetInnerHTML={{ __html: icon }}
+          color={color}
           {...otherProps}
         />
     );
