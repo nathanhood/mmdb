@@ -13,3 +13,5 @@ export const getMovieSearchResults = (query, page = 1) => {
         params: { query, page },
     }).then(extractDataFromResponse);
 };
+
+export const addMovieToUserLibrary = (id) => fetch.post('movies', { id }).then(extractDataFromResponse);

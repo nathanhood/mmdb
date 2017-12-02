@@ -24,7 +24,10 @@ import Header from 'components/Header';
 import SearchResults from 'components/SearchResults';
 import theme from 'variables';
 import { showSearch, hideSearch } from './actions';
-import { prepareSearchResults } from './thunks';
+import {
+    prepareSearchResults,
+    addMovieToLibrary
+} from './thunks';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
 
@@ -43,6 +46,7 @@ class App extends React.PureComponent {
         submitSearch: PropTypes.func.isRequired,
         searchResultsAreVisible: PropTypes.bool,
         searchResults: PropTypes.array,
+        addMovieToLibrary: PropTypes.func.isRequired,
     };
 
     render() {
@@ -55,6 +59,7 @@ class App extends React.PureComponent {
             submitSearch,
             searchResultsAreVisible,
             searchResults,
+            addMovieToLibrary,
         } = this.props;
 
         return (
@@ -68,7 +73,11 @@ class App extends React.PureComponent {
                       submitSearch={submitSearch}
                     />
 
-                    <SearchResults isVisible={searchResultsAreVisible} items={searchResults} />
+                    <SearchResults
+                      isVisible={searchResultsAreVisible}
+                      items={searchResults}
+                      addMovieToLibrary={addMovieToLibrary}
+                    />
                     <Switch>
                         <Route exact path="/" render={() => <Dashboard showSearch={showSearch} />} />
                         <Route component={NotFoundPage} />
@@ -93,6 +102,7 @@ const withConnect = connect(
         submitSearch: (query) => {
             dispatch(prepareSearchResults(query));
         },
+        addMovieToLibrary: (id) => dispatch(addMovieToLibrary(id)),
     })
 );
 

@@ -22,7 +22,7 @@ const store = (req, res) => {
     DB.Movie.findOneByTmbdId(movieId)
         .then((movie) => {
             if (!movie) {
-                return movieApi.getMovieByTmdbId(req.body.id)
+                return movieApi.getMovieByTmdbId(movieId)
                     .then((movieData) => Promise.all([
                         DB.Movie.create(movieData),
                         DB.Genre.findAll({ where: { tmdbId: { in: movieData.genreIds } } }),

@@ -41,7 +41,7 @@ module.exports = {
                 type: Sequelize.STRING
             },
             runtime: {
-                type: Sequelize.TINYINT
+                type: Sequelize.INTEGER.UNSIGNED
             },
             revenue: {
                 type: Sequelize.INTEGER.UNSIGNED

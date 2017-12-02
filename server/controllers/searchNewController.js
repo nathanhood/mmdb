@@ -25,8 +25,9 @@ const searchMovies = (req, res) => {
                 ...pagination,
                 movies: movies.map((movie) => ({
                     ...movie,
+                    id: movie.tmdbId,
                     genres: movie.genreIds.map((genreId) => genreDictionary[genreId]),
-                    isOwnedByUser: ownedMovieDictionary.hasOwnProperty(movie.tmdbId),
+                    isOwned: ownedMovieDictionary.hasOwnProperty(movie.tmdbId),
                 })),
             }));
         }).catch((e) => {

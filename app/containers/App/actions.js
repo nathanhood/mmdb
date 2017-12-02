@@ -5,6 +5,7 @@ import {
     END_LOADING,
     POPULATE_SEARCH_RESULTS,
     SHOW_SEARCH_RESULTS,
+    CLAIM_SEARCH_RESULT_AS_OWNED
 } from './constants';
 
 export const startLoading = () => ({
@@ -31,4 +32,9 @@ export const populateSearchResults = (list) => ({
 
 export const showSearchResults = () => ({
     type: SHOW_SEARCH_RESULTS,
+});
+
+export const claimSearchResultAsOwned = (movieId) => ({
+    type: CLAIM_SEARCH_RESULT_AS_OWNED,
+    payload: movieId,
 });

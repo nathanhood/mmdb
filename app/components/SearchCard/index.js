@@ -44,7 +44,7 @@ const ReleaseDate = styled.div`
     margin-bottom: 4px;
 `;
 
-const SearchCard = ({ title, poster, releaseDate, isOwned, isFavorite }) => {
+const SearchCard = ({ id, title, poster, releaseDate, isOwned, isFavorite, addToLibraryHandler }) => {
     return (
         <Container>
             <PosterContainer>
@@ -68,6 +68,7 @@ const SearchCard = ({ title, poster, releaseDate, isOwned, isFavorite }) => {
                   color={isOwned ? themeVars.darkTeal : themeVars.gray}
                   fill={themeVars.white}
                   invert={isOwned}
+                  onClick={() => addToLibraryHandler(id)}
                 />
             </ActionsContainer>
         </Container>
@@ -75,11 +76,13 @@ const SearchCard = ({ title, poster, releaseDate, isOwned, isFavorite }) => {
 }
 
 SearchCard.propTypes = {
+    id: PropTypes.number.isRequired,
     poster: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     releaseDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
     isOwned: PropTypes.bool,
     isFavorite: PropTypes.bool,
+    addToLibraryHandler: PropTypes.func.isRequired,
 };
 
 export default SearchCard;

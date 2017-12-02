@@ -5,16 +5,18 @@ import Card from 'components/Card';
 import SearchCard from 'components/SearchCard';
 
 
-function SearchList({ items }) {
+function SearchList({ items, addMovieToLibrary }) {
     return (
         <ListContainer>
             {items.map((item) => (
-                <Card key={item.tmdbId}>
+                <Card key={item.id}>
                     <SearchCard
+                      id={item.id}
                       title={item.title}
                       poster={item.images.poster}
                       releaseDate={item.releaseDate}
-                      isOwned={item.isOwnedByUser}
+                      isOwned={item.isOwned}
+                      addToLibraryHandler={addMovieToLibrary}
                     />
                 </Card>
             ))}
@@ -24,6 +26,7 @@ function SearchList({ items }) {
 
 SearchList.propTypes = {
     items: PropTypes.array.isRequired,
+    addMovieToLibrary: PropTypes.func,
 };
 
 export default SearchList;

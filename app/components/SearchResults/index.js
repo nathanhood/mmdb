@@ -14,14 +14,14 @@ const StyledContainer = styled.div`
     z-index: 99;
 `;
 
-const SearchResults = ({ isVisible, items }) => {
+const SearchResults = ({ isVisible, items, ...otherProps }) => {
     if (!isVisible) {
         return null;
     }
 
     return (
         <StyledContainer>
-            <SearchList items={items} />
+            <SearchList items={items} {...otherProps} />
         </StyledContainer>
     );
 }

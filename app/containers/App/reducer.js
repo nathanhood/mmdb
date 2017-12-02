@@ -9,8 +9,10 @@ import {
     HIDE_SEARCH,
     POPULATE_SEARCH_RESULTS,
     SHOW_SEARCH_RESULTS,
-    HIDE_SEARCH_RESULTS
+    HIDE_SEARCH_RESULTS,
+    CLAIM_SEARCH_RESULT_AS_OWNED
 } from './constants';
+import { log } from 'util';
 
 const actions = {
     [SHOW_SEARCH]: (state, { payload: type }) => ({
@@ -30,6 +32,13 @@ const actions = {
     [SHOW_SEARCH_RESULTS]: (state) => ({
         ...state,
         searchResultsAreVisible: true,
+    }),
+    [CLAIM_SEARCH_RESULT_AS_OWNED]: (state, { payload: id }) => ({
+        ...state,
+        searchResults: state.searchResults.map((result) => ({
+            ...result,
+            isOwned: result.isOwned || result.tmdbId === id,
+        })),
     }),
 };
 
