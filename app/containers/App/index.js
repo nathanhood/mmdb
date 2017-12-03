@@ -61,6 +61,25 @@ class App extends React.PureComponent {
             searchResults,
             addMovieToLibrary,
         } = this.props;
+        let pageContent;
+
+        if (searchResultsAreVisible) {
+            pageContent = (
+                <SearchResults
+                  items={searchResults}
+                  addMovieToLibrary={addMovieToLibrary}
+                />
+            );
+        } else {
+            pageContent = (
+                <Switch>
+                    <Route exact path="/" render={() => <Dashboard showSearch={showSearch} />} />
+                    <Route component={NotFoundPage} />
+                </Switch>
+            );
+        }
+
+        console.log(pageContent);
 
         return (
             <ThemeProvider theme={theme}>
@@ -73,15 +92,7 @@ class App extends React.PureComponent {
                       submitSearch={submitSearch}
                     />
 
-                    <SearchResults
-                      isVisible={searchResultsAreVisible}
-                      items={searchResults}
-                      addMovieToLibrary={addMovieToLibrary}
-                    />
-                    <Switch>
-                        <Route exact path="/" render={() => <Dashboard showSearch={showSearch} />} />
-                        <Route component={NotFoundPage} />
-                    </Switch>
+                    {pageContent}
                 </StyledContainer>
             </ThemeProvider>
         );

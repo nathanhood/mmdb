@@ -14,11 +14,7 @@ const StyledContainer = styled.div`
     z-index: 99;
 `;
 
-const SearchResults = ({ isVisible, items, ...otherProps }) => {
-    if (!isVisible) {
-        return null;
-    }
-
+const SearchResults = ({ items, ...otherProps }) => {
     return (
         <StyledContainer>
             <SearchList items={items} {...otherProps} />
@@ -27,7 +23,6 @@ const SearchResults = ({ isVisible, items, ...otherProps }) => {
 }
 
 SearchResults.propTypes = {
-    isVisible: PropTypes.bool,
     items: PropTypes.array,
 };
 
