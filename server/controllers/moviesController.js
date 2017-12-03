@@ -1,6 +1,6 @@
 const DB = require('../models');
 const MovieApiService = require('../services/MovieApiService');
-const { getUserMoviesWithGenres, countUserMovies } = require('../models/services/movie');
+const { getUserMoviesWithGenres, countUserMovies, addUserMovie } = require('../models/services/movie');
 const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
 
@@ -37,14 +37,29 @@ const store = (req, res) => {
 
             return movie.addGenres(genres).then(() => movie);
         }).then((movie) => {
-            return req.user.addMovies([movie]);
-        }).then(() => {
-            // TODO: Update once API response structure is established
-            res.json({ success: true });
+            return addUserMovie(req.user, movie);
+        }).then((movie) => {
+            res.json(movieTransformer.transformOne(movie));
         });
-}
+};
+
+const destroy = async (req, res) => {
+    const userMovie = await DB.UserMovie.find({
+        where: {
+            userId: req.user.id,
+            movieId: req.params.id,
+        },
+    });
+
+    if (userMovie) {
+        userMovie.destroy();
+    }
+
+    res.json({ success: true });
+};
 
 module.exports = {
     get,
-    store
+    store,
+    destroy
 };

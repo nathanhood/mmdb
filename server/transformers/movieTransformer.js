@@ -28,6 +28,7 @@ const getAllImageSizes = (imagePath, type) => {
 
 const transformMovie = (movie) => ({
     ...movie,
+    apiId: movie.tmdbId,
     images: {
         poster: {
             altText: movie.title,

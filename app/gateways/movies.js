@@ -15,3 +15,5 @@ export const getMovieSearchResults = (query, page = 1) => {
 };
 
 export const addMovieToUserLibrary = (id) => fetch.post('movies', { id }).then(extractDataFromResponse);
+
+export const removeMovieFromUserLibrary = (id) => fetch.delete(`movies/${id}`).then(extractDataFromResponse);

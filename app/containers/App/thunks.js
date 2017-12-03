@@ -3,11 +3,14 @@ import {
     endLoading,
     populateSearchResults,
     showSearchResults,
-    claimSearchResultAsOwned
+    claimSearchResultAsOwned,
+    unclaimSearchResultAsOwned,
+    setIdOnSearchResult
 } from './actions';
 import {
     getMovieSearchResults,
-    addMovieToUserLibrary
+    addMovieToUserLibrary,
+    removeMovieFromUserLibrary
 } from '../../gateways/movies';
 
 export const prepareSearchResults = (query) => (dispatch) => {
@@ -23,7 +26,17 @@ export const prepareSearchResults = (query) => (dispatch) => {
 export const addMovieToLibrary = (id) => (dispatch) => {
     dispatch(claimSearchResultAsOwned(id));
 
-    addMovieToUserLibrary(id).catch(() => {
+    addMovieToUserLibrary(id).then((movie) => {
+        dispatch(setIdOnSearchResult(movie));
+    }).catch(() => {
+        // TODO: unclaim search result and notify user that something went wrong
+    });
+};
+
+export const removeMovieFromLibrary = (id) => (dispatch) => {
+    dispatch(unclaimSearchResultAsOwned(id));
+
+    removeMovieFromUserLibrary(id).catch(() => {
         // TODO: unclaim search result and notify user that something went wrong
     });
 };

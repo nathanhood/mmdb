@@ -10,7 +10,9 @@ import {
     POPULATE_SEARCH_RESULTS,
     SHOW_SEARCH_RESULTS,
     HIDE_SEARCH_RESULTS,
-    CLAIM_SEARCH_RESULT_AS_OWNED
+    CLAIM_SEARCH_RESULT_AS_OWNED,
+    UNCLAIM_SEARCH_RESULT_AS_OWNED,
+    SET_ID_ON_SEARCH_RESULT
 } from './constants';
 import { log } from 'util';
 
@@ -39,6 +41,23 @@ const actions = {
             ...result,
             isOwned: result.isOwned || result.tmdbId === id,
         })),
+    }),
+    [UNCLAIM_SEARCH_RESULT_AS_OWNED]: (state, { payload: id }) => ({
+        ...state,
+        searchResults: state.searchResults.map((result) => ({
+            ...result,
+            isOwned: result.id === id ? false : result.isOwned,
+        })),
+    }),
+    [SET_ID_ON_SEARCH_RESULT]: (state, { payload: updatedResult }) => ({
+        ...state,
+        searchResults: state.searchResults.map((result) => {
+            if (result.apiId === updatedResult.apiId) {
+                return { ...result, id: updatedResult.id };
+            }
+
+            return result;
+        }),
     }),
 };
 

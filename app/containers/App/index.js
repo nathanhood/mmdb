@@ -26,7 +26,8 @@ import theme from 'variables';
 import { showSearch, hideSearch } from './actions';
 import {
     prepareSearchResults,
-    addMovieToLibrary
+    addMovieToLibrary,
+    removeMovieFromLibrary
 } from './thunks';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
@@ -47,6 +48,7 @@ class App extends React.PureComponent {
         searchResultsAreVisible: PropTypes.bool,
         searchResults: PropTypes.array,
         addMovieToLibrary: PropTypes.func.isRequired,
+        removeMovieFromLibrary: PropTypes.func.isRequired,
     };
 
     render() {
@@ -60,6 +62,7 @@ class App extends React.PureComponent {
             searchResultsAreVisible,
             searchResults,
             addMovieToLibrary,
+            removeMovieFromLibrary,
         } = this.props;
         let pageContent;
 
@@ -68,6 +71,7 @@ class App extends React.PureComponent {
                 <SearchResults
                   items={searchResults}
                   addMovieToLibrary={addMovieToLibrary}
+                  removeMovieFromLibrary={removeMovieFromLibrary}
                 />
             );
         } else {
@@ -78,8 +82,6 @@ class App extends React.PureComponent {
                 </Switch>
             );
         }
-
-        console.log(pageContent);
 
         return (
             <ThemeProvider theme={theme}>
@@ -114,6 +116,7 @@ const withConnect = connect(
             dispatch(prepareSearchResults(query));
         },
         addMovieToLibrary: (id) => dispatch(addMovieToLibrary(id)),
+        removeMovieFromLibrary: (id) => dispatch(removeMovieFromLibrary(id)),
     })
 );
 

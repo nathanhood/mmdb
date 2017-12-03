@@ -9,5 +9,6 @@ router.get('/search/movie', searchNewController.searchMovies);
 
 router.get('/movies', moviesController.get);
 router.post('/movies', moviesController.store);
+router.delete('/movies/:id', moviesController.destroy);
 
 module.exports = router;

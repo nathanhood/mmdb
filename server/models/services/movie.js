@@ -1,5 +1,5 @@
 const DB = require('../index');
-const { toPlainObjects } = require('./common');
+const { toPlainObjects, toPlainObject } = require('./common');
 
 const getUserMoviesWithGenres = (User) => {
     return User.getMovies({ include: [DB.Genre] })
@@ -25,8 +25,13 @@ const findUserMoviesByTmdbId = (userId, movieIds) => {
     }).then(toPlainObjects);
 };
 
+const addUserMovie = (User, Movie) => {
+    return User.addMovies([Movie]).then(() => toPlainObject(Movie));
+}
+
 module.exports = {
     getUserMoviesWithGenres,
     countUserMovies,
     findUserMoviesByTmdbId,
+    addUserMovie,
 };

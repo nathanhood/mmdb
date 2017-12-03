@@ -44,7 +44,26 @@ const ReleaseDate = styled.div`
     margin-bottom: 4px;
 `;
 
-const SearchCard = ({ id, title, poster, releaseDate, isOwned, isFavorite, addToLibraryHandler }) => {
+const SearchCard = ({
+    id,
+    apiId,
+    title,
+    poster,
+    releaseDate,
+    isOwned,
+    isFavorite,
+    addToLibraryHandler,
+    askForFormat,
+    removeFromLibraryHandler,
+}) => {
+    if (askForFormat) {
+        return (
+            <Container>
+                Questions
+            </Container>
+        );
+    }
+
     return (
         <Container>
             <PosterContainer>
@@ -68,7 +87,7 @@ const SearchCard = ({ id, title, poster, releaseDate, isOwned, isFavorite, addTo
                   color={isOwned ? themeVars.darkTeal : themeVars.gray}
                   fill={themeVars.white}
                   invert={isOwned}
-                  onClick={() => addToLibraryHandler(id)}
+                  onClick={() => isOwned ? removeFromLibraryHandler(id) : addToLibraryHandler(apiId)}
                 />
             </ActionsContainer>
         </Container>
@@ -76,13 +95,16 @@ const SearchCard = ({ id, title, poster, releaseDate, isOwned, isFavorite, addTo
 }
 
 SearchCard.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
+    apiId: PropTypes.number.isRequired,
     poster: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     releaseDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
     isOwned: PropTypes.bool,
     isFavorite: PropTypes.bool,
     addToLibraryHandler: PropTypes.func.isRequired,
+    removeFromLibraryHandler: PropTypes.func.isRequired,
+    askForFormat: PropTypes.bool,
 };
 
 export default SearchCard;

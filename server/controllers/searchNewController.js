@@ -23,12 +23,16 @@ const searchMovies = (req, res) => {
 
             res.json(movieTransformer.transformMany({
                 ...pagination,
-                movies: movies.map((movie) => ({
-                    ...movie,
-                    id: movie.tmdbId,
-                    genres: movie.genreIds.map((genreId) => genreDictionary[genreId]),
-                    isOwned: ownedMovieDictionary.hasOwnProperty(movie.tmdbId),
-                })),
+                movies: movies.map((movie) => {
+                    const isOwned = ownedMovieDictionary.hasOwnProperty(movie.tmdbId);
+
+                    return {
+                        ...movie,
+                        id: isOwned ? ownedMovieDictionary[movie.tmdbId].id : 0,
+                        genres: movie.genreIds.map((genreId) => genreDictionary[genreId]),
+                        isOwned,
+                    };
+                }),
             }));
         }).catch((e) => {
             // TODO: Determine error logging and API response format

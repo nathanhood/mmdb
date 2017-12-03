@@ -5,7 +5,9 @@ import {
     END_LOADING,
     POPULATE_SEARCH_RESULTS,
     SHOW_SEARCH_RESULTS,
-    CLAIM_SEARCH_RESULT_AS_OWNED
+    CLAIM_SEARCH_RESULT_AS_OWNED,
+    UNCLAIM_SEARCH_RESULT_AS_OWNED,
+    SET_ID_ON_SEARCH_RESULT
 } from './constants';
 
 export const startLoading = () => ({
@@ -34,7 +36,17 @@ export const showSearchResults = () => ({
     type: SHOW_SEARCH_RESULTS,
 });
 
-export const claimSearchResultAsOwned = (movieId) => ({
+export const claimSearchResultAsOwned = (id) => ({
     type: CLAIM_SEARCH_RESULT_AS_OWNED,
-    payload: movieId,
+    payload: id,
+});
+
+export const unclaimSearchResultAsOwned = (id) => ({
+    type: UNCLAIM_SEARCH_RESULT_AS_OWNED,
+    payload: id,
+});
+
+export const setIdOnSearchResult = (result) => ({
+    type: SET_ID_ON_SEARCH_RESULT,
+    payload: result,
 });
