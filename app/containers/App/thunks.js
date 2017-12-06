@@ -23,10 +23,10 @@ export const prepareSearchResults = (query) => (dispatch) => {
     });
 };
 
-export const addMovieToLibrary = (id) => (dispatch) => {
+export const addMovieToLibrary = ({ id, format }) => (dispatch) => {
     dispatch(claimSearchResultAsOwned(id));
 
-    addMovieToUserLibrary(id).then((movie) => {
+    addMovieToUserLibrary({ id, format }).then((movie) => {
         dispatch(setIdOnSearchResult(movie));
     }).catch(() => {
         // TODO: unclaim search result and notify user that something went wrong

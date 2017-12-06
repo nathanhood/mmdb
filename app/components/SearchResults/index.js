@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from 'theme';
-import SearchList from 'components/SearchList';
+import SearchList from '../SearchList';
 
 const StyledContainer = styled.div`
     background: ${theme.backgroundColor};

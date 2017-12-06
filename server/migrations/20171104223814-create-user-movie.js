@@ -13,6 +13,9 @@ module.exports = {
             movieId: {
                 type: Sequelize.INTEGER.UNSIGNED
             },
+            format: {
+                type: Sequelize.STRING
+            },
             isFavorite: {
                 type: Sequelize.BOOLEAN,
                 defaultValue: false,

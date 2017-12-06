@@ -16,9 +16,24 @@ const StyledSelect = styled.select`
     border-color: ${theme.black};
 `;
 
-function Select({ options, ...otherProps }) {
+function Select({ options, placeholder, onChange, ...otherProps }) {
+    const PLACEHOLDER_VALUE = '__placeholder';
+    const _onChangeHandler = (e) => {
+        const value = e.target.value;
+
+        if (value !== PLACEHOLDER_VALUE) {
+            onChange(e);
+        }
+    };
+    let placeholderOption;
+
+    if (placeholder) {
+        placeholderOption = <option value={PLACEHOLDER_VALUE}>{placeholder}</option>;
+    }
+
     return (
-        <StyledSelect {...otherProps}>
+        <StyledSelect onChange={_onChangeHandler} {...otherProps}>
+            {placeholderOption}
             {options.map((option) => (
                 <option key={option.value} value={option.value}>{option.display}</option>
             ))}
@@ -28,6 +43,8 @@ function Select({ options, ...otherProps }) {
 
 Select.propTypes = {
     options: PropTypes.array.isRequired,
+    onChange: PropTypes.func,
+    placeholder: PropTypes.string,
 };
 
 export default Select;

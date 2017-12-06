@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ListContainer from 'components/ListContainer';
-import Card from 'components/Card';
-import SearchCard from 'components/SearchCard';
+import ListContainer from '../ListContainer';
+import Card from '../Card';
+import SearchCard from '../SearchCard';
 
 
 function SearchList({ items, addMovieToLibrary, removeMovieFromLibrary }) {

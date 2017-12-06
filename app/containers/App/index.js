@@ -20,8 +20,8 @@ import PropTypes from 'prop-types';
 
 import Dashboard from 'containers/Dashboard/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Header from 'components/Header';
-import SearchResults from 'components/SearchResults';
+import Header from '../../components/Header';
+import SearchResults from '../../components/SearchResults';
 import theme from 'variables';
 import { showSearch, hideSearch } from './actions';
 import {
@@ -115,7 +115,7 @@ const withConnect = connect(
         submitSearch: (query) => {
             dispatch(prepareSearchResults(query));
         },
-        addMovieToLibrary: (id) => dispatch(addMovieToLibrary(id)),
+        addMovieToLibrary: (data) => dispatch(addMovieToLibrary(data)),
         removeMovieFromLibrary: (id) => dispatch(removeMovieFromLibrary(id)),
     })
 );

@@ -25,8 +25,8 @@ const findUserMoviesByTmdbId = (userId, movieIds) => {
     }).then(toPlainObjects);
 };
 
-const addUserMovie = (User, Movie) => {
-    return User.addMovies([Movie]).then(() => toPlainObject(Movie));
+const addUserMovie = (User, Movie, format) => {
+    return User.addMovie(Movie, { through: { format } }).then(() => toPlainObject(Movie));
 }
 
 module.exports = {
