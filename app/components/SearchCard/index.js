@@ -45,6 +45,21 @@ const ReleaseDate = styled.div`
     margin-bottom: 4px;
 `;
 
+const Tag = styled.button`
+    font-size: 12px;
+    background: ${theme.lighterGray};
+    border: none;
+    padding: 6px 8px;
+    margin-left: 7px;
+    margin-right: 7px;
+`;
+
+const TagContainer = styled.div`
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
 class SearchCard extends React.PureComponent {
     static propTypes = {
         id: PropTypes.number,
@@ -77,6 +92,15 @@ class SearchCard extends React.PureComponent {
         }));
     };
 
+    _addToLibrary = (apiId, format) => {
+        this.props.addToLibraryHandler({
+            id: apiId,
+            format,
+        });
+
+        this._resetCard();
+    };
+
     render() {
         const {
             id,
@@ -86,13 +110,12 @@ class SearchCard extends React.PureComponent {
             releaseDate,
             isOwned,
             isFavorite,
-            addToLibraryHandler,
             removeFromLibraryHandler,
         } = this.props;
 
         if (this.state.askForFormat) {
             return (
-                <Container>
+                <div>
                     <Select
                       id="format"
                       options={[
@@ -104,16 +127,14 @@ class SearchCard extends React.PureComponent {
                           { display: '4k UltraHD', value: '4k-blu-ray' },
                       ]}
                       placeholder="Format"
-                      onChange={(e) => {
-                          addToLibraryHandler({
-                              id: apiId,
-                              format: e.target.value,
-                          });
-
-                          this._resetCard();
-                      }}
+                      onChange={(e) => this._addToLibrary(apiId, e.target.value)}
                     />
-                </Container>
+                    <TagContainer>
+                        <Tag onClick={() => this._addToLibrary(apiId, 'itunes')}>iTunes</Tag>
+                        <Tag onClick={() => this._addToLibrary(apiId, 'blu-ray')}>Blu-ray</Tag>
+                        <Tag onClick={() => this._addToLibrary(apiId, '4k-blu-ray')}>4k UltraHD</Tag>
+                    </TagContainer>
+                </div>
             );
         }
 

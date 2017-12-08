@@ -12,8 +12,13 @@ const StyledSelect = styled.select`
     background-position: calc(100% - 10px);
     background-repeat: no-repeat;
     padding: 7px 29px 7px 10px;
+    border: {(props) => props.border || '1px solid ' + props.theme.lightGray};
     border-radius: 2px;
-    border-color: ${theme.black};
+    border-color: ${theme.gray};
+    width: {(props) => props.width || '100%'};
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 `;
 
 function Select({ options, placeholder, onChange, ...otherProps }) {
@@ -45,6 +50,8 @@ Select.propTypes = {
     options: PropTypes.array.isRequired,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
+    width: PropTypes.string,
+    border: PropTypes.string,
 };
 
 export default Select;
