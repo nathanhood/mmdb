@@ -1,9 +1,19 @@
 const DB = require('../index');
 const { toPlainObjects, toPlainObject } = require('./common');
 
-const getUserMoviesWithGenres = (User) => {
-    return User.getMovies({ include: [DB.Genre] })
-        .then((movies) => toPlainObjects(movies));
+const getUserMoviesWithGenres = (userId, limit, offset, order = 'ASC') => {
+    return DB.Movie.findAll({
+        include: [
+            { model: DB.User, where: { id: userId }, required: true },
+            DB.Genre,
+        ],
+        limit,
+        offset,
+        order: [
+            ['createdAt', order],
+        ],
+    }).then((movies) => toPlainObjects(movies));
+};
 };
 
 const countUserMovies = (userId) => {

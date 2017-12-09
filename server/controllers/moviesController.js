@@ -5,13 +5,16 @@ const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
 
 const get = (req, res) => {
-    getUserMoviesWithGenres(req.user).then((movies) => {
-        const { limit, page } = req.query;
+    const { order, limit, page } = req.query;
+    const { id: userId } = req.user;
 
-        paginate(countUserMovies(req.user.id), page, limit)
-            .then((pagination) => {
+    paginate(countUserMovies(userId), page, limit)
+        .then((pagination) => {
+            getUserMoviesWithGenres(userId, pagination.limit, pagination.offset, order).then((movies) => {
                 res.json(movieTransformer.transformMany({ ...pagination, movies }));
             });
+        });
+};
     });
 };
 
