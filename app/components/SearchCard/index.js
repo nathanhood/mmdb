@@ -8,6 +8,7 @@ import Icon from '../Icon';
 import themeVars from 'variables';
 import { formatYear } from 'utils/datetime';
 import Select from '../Form/Select';
+import Tag from '../Tag';
 
 const Container = styled.div`
     display: flex;
@@ -43,15 +44,6 @@ const ReleaseDate = styled.div`
     font-weight: 300;
     font-size: 13px;
     margin-bottom: 4px;
-`;
-
-const Tag = styled.button`
-    font-size: 12px;
-    background: ${theme.lighterGray};
-    border: none;
-    padding: 6px 8px;
-    margin-left: 7px;
-    margin-right: 7px;
 `;
 
 const TagContainer = styled.div`
