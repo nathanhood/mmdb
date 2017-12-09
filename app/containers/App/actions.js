@@ -7,7 +7,8 @@ import {
     SHOW_SEARCH_RESULTS,
     CLAIM_SEARCH_RESULT_AS_OWNED,
     UNCLAIM_SEARCH_RESULT_AS_OWNED,
-    SET_ID_ON_SEARCH_RESULT
+    SET_ID_ON_SEARCH_RESULT,
+    POPULATE_RECENT_FORMATS
 } from './constants';
 
 export const startLoading = () => ({
@@ -49,4 +50,9 @@ export const unclaimSearchResultAsOwned = (id) => ({
 export const setIdOnSearchResult = (result) => ({
     type: SET_ID_ON_SEARCH_RESULT,
     payload: result,
+});
+
+export const populateRecentFormats = (recentFormats) => ({
+    type: POPULATE_RECENT_FORMATS,
+    payload: recentFormats,
 });

@@ -26,18 +26,25 @@ const getAllImageSizes = (imagePath, type) => {
         }));
 };
 
-const transformMovie = (movie) => ({
-    ...movie,
-    apiId: movie.tmdbId,
-    images: {
-        poster: {
-            altText: movie.title,
-            original: getImageUrl(BASE_IMAGE_URL, ORIGINAL_IMAGE_SIZE, movie.poster),
-            sizes: getAllImageSizes(movie.poster, 'poster'),
+const transformMovie = (movie) => {
+    const { isFavorite, format, definition } = (!_.isEmpty(movie.Users) && movie.Users[0].UserMovie) || {};
+
+    return {
+        ...movie,
+        apiId: movie.tmdbId,
+        isFavorite,
+        format,
+        definition,
+        images: {
+            poster: {
+                altText: movie.title,
+                original: getImageUrl(BASE_IMAGE_URL, ORIGINAL_IMAGE_SIZE, movie.poster),
+                sizes: getAllImageSizes(movie.poster, 'poster'),
+            },
+            backdrop: getAllImageSizes(movie.backdrop, 'backdrop'),
         },
-        backdrop: getAllImageSizes(movie.backdrop, 'backdrop'),
-    },
-});
+    };
+};
 
 const transformMovies = (data) => ({
     ...data,

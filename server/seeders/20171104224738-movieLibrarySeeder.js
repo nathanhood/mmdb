@@ -404,16 +404,13 @@ module.exports = {
         updatedAt: new Date(),
     }));
 
-    return queryInterface.bulkInsert('Images', posters, {})
-        .then(() => queryInterface.bulkInsert('Images', backdrops, {}))
-        .then(() => queryInterface.bulkInsert('Movies', movies, {}))
+    return queryInterface.bulkInsert('Movies', movies, {})
         .then(() => queryInterface.bulkInsert('MovieGenres', movieGenre, {}))
         .then(() => queryInterface.bulkInsert('UserMovies', userMovies, {}));
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Images', null, {})
-        .then(() => queryInterface.bulkDelete('Movies'))
+    return queryInterface.bulkDelete('Movies')
         .then(() => queryInterface.bulkDelete('UserMovies'));
   }
 };

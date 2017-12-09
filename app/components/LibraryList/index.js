@@ -15,7 +15,7 @@ function LibraryList({ items }) {
                       releaseDate={item.releaseDate}
                       poster={item.images.poster}
                       rating={item.rating}
-                      isFavorite={item.UserMovie.isFavorite}
+                      isFavorite={item.isFavorite}
                       genres={item.Genres}
                     />
                 </Card>

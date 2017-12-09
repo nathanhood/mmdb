@@ -12,7 +12,8 @@ import {
     HIDE_SEARCH_RESULTS,
     CLAIM_SEARCH_RESULT_AS_OWNED,
     UNCLAIM_SEARCH_RESULT_AS_OWNED,
-    SET_ID_ON_SEARCH_RESULT
+    SET_ID_ON_SEARCH_RESULT,
+    POPULATE_RECENT_FORMATS
 } from './constants';
 import { log } from 'util';
 
@@ -58,6 +59,10 @@ const actions = {
 
             return result;
         }),
+    }),
+    [POPULATE_RECENT_FORMATS]: (state, { payload: recentFormats }) => ({
+        ...state,
+        recentFormats,
     }),
 };
 

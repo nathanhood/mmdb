@@ -14,6 +14,15 @@ const getUserMoviesWithGenres = (userId, limit, offset, order = 'ASC') => {
         ],
     }).then((movies) => toPlainObjects(movies));
 };
+
+const getRecentUserMovieAdditions = (userId, limit) => {
+    return DB.UserMovie.findAll({
+        where: { userId },
+        order: [
+            ['createdAt', 'DESC'],
+        ],
+        limit,
+    }).then((movies) => toPlainObjects(movies));
 };
 
 const countUserMovies = (userId) => {
@@ -44,4 +53,5 @@ module.exports = {
     countUserMovies,
     findUserMoviesByTmdbId,
     addUserMovie,
+    getRecentUserMovieAdditions,
 };

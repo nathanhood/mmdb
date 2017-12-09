@@ -5,11 +5,11 @@ import Card from '../Card';
 import SearchCard from '../SearchCard';
 
 
-function SearchList({ items, addMovieToLibrary, removeMovieFromLibrary }) {
+function SearchList({ items, addMovieToLibrary, removeMovieFromLibrary, recentFormats }) {
     return (
         <ListContainer>
             {items.map((item) => (
-                <Card key={item.id + item.apiId}>
+                <Card key={item.id.toString() + item.apiId.toString()}>
                     <SearchCard
                       id={item.id}
                       apiId={item.apiId}
@@ -19,6 +19,7 @@ function SearchList({ items, addMovieToLibrary, removeMovieFromLibrary }) {
                       isOwned={item.isOwned}
                       addToLibraryHandler={addMovieToLibrary}
                       removeFromLibraryHandler={removeMovieFromLibrary}
+                      recentFormats={recentFormats}
                     />
                 </Card>
             ))}
@@ -30,6 +31,7 @@ SearchList.propTypes = {
     items: PropTypes.array.isRequired,
     addMovieToLibrary: PropTypes.func,
     removeMovieFromLibrary: PropTypes.func,
+    recentFormats: PropTypes.array,
 };
 
 export default SearchList;

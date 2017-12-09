@@ -1,6 +1,11 @@
 const DB = require('../models');
 const MovieApiService = require('../services/MovieApiService');
-const { getUserMoviesWithGenres, countUserMovies, addUserMovie } = require('../models/services/movie');
+const {
+    getUserMoviesWithGenres,
+    countUserMovies,
+    addUserMovie,
+    getRecentUserMovieAdditions
+} = require('../models/services/movie');
 const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
 
@@ -15,6 +20,12 @@ const get = (req, res) => {
             });
         });
 };
+
+const getRecentFormats = (req, res) => {
+    const { id: userId } = req.user;
+
+    getRecentUserMovieAdditions(userId, 3).then((movies) => {
+        res.json({ payload: movies });
     });
 };
 
@@ -65,5 +76,6 @@ const destroy = async (req, res) => {
 module.exports = {
     get,
     store,
-    destroy
+    destroy,
+    getRecentFormats,
 };

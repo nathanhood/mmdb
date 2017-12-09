@@ -8,6 +8,7 @@ checkTmdbConfig(router);
 router.get('/search/movie', searchNewController.searchMovies);
 
 router.get('/movies', moviesController.get);
+router.get('/movies/recent-formats', moviesController.getRecentFormats);
 router.post('/movies', moviesController.store);
 router.delete('/movies/:id', moviesController.destroy);
 

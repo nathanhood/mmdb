@@ -5,12 +5,14 @@ import {
     showSearchResults,
     claimSearchResultAsOwned,
     unclaimSearchResultAsOwned,
-    setIdOnSearchResult
+    setIdOnSearchResult,
+    populateRecentFormats
 } from './actions';
 import {
     getMovieSearchResults,
     addMovieToUserLibrary,
-    removeMovieFromUserLibrary
+    removeMovieFromUserLibrary,
+    getRecentMovieFormats,
 } from '../../gateways/movies';
 
 export const prepareSearchResults = (query) => (dispatch) => {
@@ -38,5 +40,20 @@ export const removeMovieFromLibrary = (id) => (dispatch) => {
 
     removeMovieFromUserLibrary(id).catch(() => {
         // TODO: unclaim search result and notify user that something went wrong
+    });
+};
+
+export const prepareRecentFormats = () => (dispatch, getState) => {
+    const state = getState();
+    const formats = state.app.formats.movie;
+
+    getRecentMovieFormats().then((result) => {
+        const recentFormats = result.map((format) => formats.find((f) => f.value === format));
+
+        while (recentFormats.length < 3) {
+            recentFormats.push(formats.find((f) => !result.includes(f.value)));
+        }
+
+        dispatch(populateRecentFormats(recentFormats));
     });
 };

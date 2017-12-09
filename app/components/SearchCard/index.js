@@ -63,6 +63,16 @@ class SearchCard extends React.PureComponent {
         isFavorite: PropTypes.bool,
         addToLibraryHandler: PropTypes.func.isRequired,
         removeFromLibraryHandler: PropTypes.func.isRequired,
+        recentFormats: PropTypes.array,
+    };
+
+    static defaultProps = {
+        recentFormats: [],
+    };
+
+    static contextTypes = {
+        formats: PropTypes.object,
+        definitions: PropTypes.object,
     };
 
     state = {
@@ -103,6 +113,7 @@ class SearchCard extends React.PureComponent {
             isOwned,
             isFavorite,
             removeFromLibraryHandler,
+            recentFormats,
         } = this.props;
 
         if (this.state.askForFormat) {
@@ -110,21 +121,16 @@ class SearchCard extends React.PureComponent {
                 <div>
                     <Select
                       id="format"
-                      options={[
-                          { display: 'Amazon', value: 'amazon' },
-                          { display: 'Google Play', value: 'google-play' },
-                          { display: 'iTunes', value: 'itunes' },
-                          { display: 'DVD', value: 'dvd' },
-                          { display: 'Blu-ray', value: 'blu-ray' },
-                          { display: '4k UltraHD', value: '4k-blu-ray' },
-                      ]}
+                      options={this.context.formats.movie}
                       placeholder="Format"
                       onChange={(e) => this._addToLibrary(apiId, e.target.value)}
                     />
                     <TagContainer>
-                        <Tag onClick={() => this._addToLibrary(apiId, 'itunes')}>iTunes</Tag>
-                        <Tag onClick={() => this._addToLibrary(apiId, 'blu-ray')}>Blu-ray</Tag>
-                        <Tag onClick={() => this._addToLibrary(apiId, '4k-blu-ray')}>4k UltraHD</Tag>
+                        {recentFormats.map((format) => (
+                            <Tag key={format.value} onClick={() => this._addToLibrary(apiId, format.value)}>
+                                {format.display}
+                            </Tag>
+                        ))}
                     </TagContainer>
                 </div>
             );

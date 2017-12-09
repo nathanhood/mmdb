@@ -27,7 +27,8 @@ import { showSearch, hideSearch } from './actions';
 import {
     prepareSearchResults,
     addMovieToLibrary,
-    removeMovieFromLibrary
+    removeMovieFromLibrary,
+    prepareRecentFormats,
 } from './thunks';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
@@ -49,7 +50,27 @@ class App extends React.PureComponent {
         searchResults: PropTypes.array,
         addMovieToLibrary: PropTypes.func.isRequired,
         removeMovieFromLibrary: PropTypes.func.isRequired,
+        formats: PropTypes.object.isRequired,
+        definitions: PropTypes.object.isRequired,
+        prepareRecentFormats: PropTypes.func.isRequired,
+        recentFormats: PropTypes.array,
     };
+
+    static childContextTypes = {
+        formats: PropTypes.object,
+        definitions: PropTypes.object,
+    };
+
+    getChildContext() {
+        return {
+            formats: this.props.formats,
+            definitions: this.props.definitions,
+        };
+    }
+
+    componentDidMount() {
+        this.props.prepareRecentFormats();
+    }
 
     render() {
         /* eslint-disable no-shadow */
@@ -63,6 +84,7 @@ class App extends React.PureComponent {
             searchResults,
             addMovieToLibrary,
             removeMovieFromLibrary,
+            recentFormats,
         } = this.props;
         let pageContent;
 
@@ -72,6 +94,7 @@ class App extends React.PureComponent {
                   items={searchResults}
                   addMovieToLibrary={addMovieToLibrary}
                   removeMovieFromLibrary={removeMovieFromLibrary}
+                  recentFormats={recentFormats}
                 />
             );
         } else {
@@ -108,6 +131,9 @@ const withConnect = connect(
         searchResultsAreVisible: state.app.searchResultsAreVisible,
         PageComponent: state.app.PageComponent,
         searchResults: state.app.searchResults,
+        formats: state.app.formats,
+        definitions: state.app.definitions,
+        recentFormats: state.app.recentFormats,
     }),
     (dispatch) => ({
         showSearch: (type) => dispatch(showSearch(type)),
@@ -117,6 +143,7 @@ const withConnect = connect(
         },
         addMovieToLibrary: (data) => dispatch(addMovieToLibrary(data)),
         removeMovieFromLibrary: (id) => dispatch(removeMovieFromLibrary(id)),
+        prepareRecentFormats: () => dispatch(prepareRecentFormats()),
     })
 );
 
