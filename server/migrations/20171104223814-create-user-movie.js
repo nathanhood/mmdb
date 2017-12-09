@@ -16,6 +16,9 @@ module.exports = {
             format: {
                 type: Sequelize.STRING
             },
+            definition: {
+                type: Sequelize.STRING
+            },
             isFavorite: {
                 type: Sequelize.BOOLEAN,
                 defaultValue: false,
