@@ -14,10 +14,10 @@ import {
     UNCLAIM_SEARCH_RESULT_AS_OWNED,
     SET_ID_ON_SEARCH_RESULT,
     POPULATE_RECENT_FORMATS
-} from './constants';
+} from './actions';
 import { log } from 'util';
 
-const actions = {
+const reducerMap = {
     [SHOW_SEARCH]: (state, { payload: type }) => ({
         ...state,
         searchIsVisible: true,
@@ -67,8 +67,8 @@ const actions = {
 };
 
 function appReducer(state = {}, action) {
-    if (actions[action.type]) {
-        return actions[action.type](state, action);
+    if (reducerMap[action.type]) {
+        return reducerMap[action.type](state, action);
     }
 
     return state;
