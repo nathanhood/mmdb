@@ -28,10 +28,10 @@ export const prepareSearchResults = (query) => (dispatch) => {
     });
 };
 
-export const addMovieToLibrary = ({ id, format }) => (dispatch) => {
+export const addMovieToLibrary = ({ id, format, definition }) => (dispatch) => {
     dispatch(claimSearchResultAsOwned(id));
 
-    addMovieToUserLibrary({ id, format }).then((movie) => {
+    addMovieToUserLibrary({ id, format, definition }).then((movie) => {
         dispatch(setIdOnSearchResult(movie));
         dispatch(prepareRecentFormats(true));
     }).catch(() => {

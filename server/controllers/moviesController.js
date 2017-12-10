@@ -30,8 +30,11 @@ const getRecentFormats = (req, res) => {
 };
 
 const store = (req, res) => {
-    const movieId = req.body.id;
-    const format = req.body.format;
+    const {
+        id: movieId,
+        format,
+        definition,
+    } = req.body;
     const movieApi = new MovieApiService();
 
     DB.Movie.findOneByTmbdId(movieId)
@@ -52,7 +55,7 @@ const store = (req, res) => {
 
             return movie.addGenres(genres).then(() => movie);
         }).then((movie) => {
-            return addUserMovie(req.user, movie, format);
+            return addUserMovie(req.user, movie, format, definition);
         }).then((movie) => {
             res.json(movieTransformer.transformOne(movie));
         });

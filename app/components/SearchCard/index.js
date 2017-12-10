@@ -47,10 +47,13 @@ const ReleaseDate = styled.div`
 `;
 
 const TagContainer = styled.div`
-    margin-top: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
+`;
+
+const SelectDiv = styled.div`
+    margin-bottom: 15px;
 `;
 class SearchCard extends React.PureComponent {
     static propTypes = {
@@ -78,26 +81,59 @@ class SearchCard extends React.PureComponent {
     state = {
         askForFormat: false,
         format: null,
+        definition: null,
     };
 
     _askForFormat = () => {
         this.setState((prevState) => ({
             ...prevState,
             askForFormat: true,
+            askForDefinition: false,
         }));
     };
+
+    _askForDefinition = () => {
+        this.setState((prevState) => ({
+            ...prevState,
+            askForFormat: false,
+            askForDefinition: true,
+        }));
+    };
+
+    _setFormat = (format) => {
+        this.setState((prevState) => ({
+            ...prevState,
+            format,
+        }));
+    };
+
+    _setDefinition = (definition, cb) => {
+        this.setState((prevState) => ({
+            ...prevState,
+            definition,
+        }), cb);
+    }
 
     _resetCard = () => {
         this.setState((prevState) => ({
             ...prevState,
             askForFormat: false,
+            format: null,
+            definition: null,
         }));
     };
 
-    _addToLibrary = (apiId, format) => {
+    _addToLibrary = (apiId) => {
+        if (!this.state.format) {
+            this._askForFormat();
+        } else if (!this.state.definition) {
+            this._askForDefinition();
+        }
+
         this.props.addToLibraryHandler({
             id: apiId,
-            format,
+            format: this.state.format,
+            definition: this.state.definition,
         });
 
         this._resetCard();
@@ -119,18 +155,52 @@ class SearchCard extends React.PureComponent {
         if (this.state.askForFormat) {
             return (
                 <div>
-                    <Select
-                      id="format"
-                      options={this.context.formats.movie}
-                      placeholder="Format"
-                      onChange={(e) => this._addToLibrary(apiId, e.target.value)}
-                    />
+                    <SelectDiv>
+                        <Select
+                          id="format"
+                          options={this.context.formats.movie}
+                          placeholder="Format"
+                          onChange={(e) => {
+                              this._setFormat(e.target.value);
+                              this._askForDefinition();
+                          }}
+                        />
+                    </SelectDiv>
                     <TagContainer>
                         {recentFormats.map((format) => (
-                            <Tag key={format.value} onClick={() => this._addToLibrary(apiId, format.value)}>
+                            <Tag
+                              key={format.value}
+                              onClick={() => {
+                                  this._setFormat(format.value);
+                                  this._askForDefinition();
+                              }}
+                            >
                                 {format.display}
                             </Tag>
                         ))}
+                    </TagContainer>
+                </div>
+            );
+        } else if (this.state.askForDefinition) {
+            return (
+                <div>
+                    <TagContainer>
+                        {Object.keys(this.context.definitions.movie).map((key) => {
+                            const definition = this.context.definitions.movie[key];
+
+                            return (
+                                <Tag
+                                  key={definition.value}
+                                  onClick={() => {
+                                      this._setDefinition(definition.value, () => {
+                                          this._addToLibrary(apiId);
+                                      });
+                                  }}
+                                >
+                                    {definition.display}
+                                </Tag>
+                            );
+                        })}
                     </TagContainer>
                 </div>
             );

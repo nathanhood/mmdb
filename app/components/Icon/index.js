@@ -11,13 +11,13 @@ const StyledSVG = styled.svg`
     }
 `;
 
-const Icon = ({ color, size, strokeWidth, icon, ...otherProps }) => {
+const Icon = ({ color, size, strokeWidth, icon, viewBox, ...otherProps }) => {
     return (
         <StyledSVG
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
-          viewBox="0 0 24 24"
+          viewBox={viewBox || '0 0 24 24'}
           stroke={color}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
@@ -35,6 +35,7 @@ Icon.propTypes = {
     fill: PropTypes.string,
     strokeWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    viewBox: PropTypes.string,
 };
 
 Icon.defaultProps = {
