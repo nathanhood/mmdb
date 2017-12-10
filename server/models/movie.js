@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     Movie.associate = function(models) {
         this.belongsToMany(models.User, { through: models.UserMovie });
         this.belongsToMany(models.Genre, { through: models.MovieGenre });
+        this.hasMany(models.UserMovie);
     };
 
     Movie.findOneByTmbdId = function(tmdbId) {

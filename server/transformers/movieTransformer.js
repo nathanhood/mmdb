@@ -27,14 +27,9 @@ const getAllImageSizes = (imagePath, type) => {
 };
 
 const transformMovie = (movie) => {
-    const { isFavorite, format, definition } = (!_.isEmpty(movie.Users) && movie.Users[0].UserMovie) || {};
-
     return {
         ...movie,
         apiId: movie.tmdbId,
-        isFavorite,
-        format,
-        definition,
         images: {
             poster: {
                 altText: movie.title,

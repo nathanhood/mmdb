@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
     User.associate = function(models) {
         this.belongsToMany(models.Movie, { through: models.UserMovie });
+        this.hasMany(models.UserMovie);
     };
 
     return User;
