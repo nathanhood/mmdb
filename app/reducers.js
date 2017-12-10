@@ -7,6 +7,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 import appReducer from 'containers/App/reducer';
 import dashboardReducer from 'containers/Dashboard/reducer';
+import { resourceReducer } from './common/reducers';
 
 /*
  * routeReducer
@@ -45,6 +46,7 @@ export default function createReducer(injectedReducers) {
         route: routeReducer,
         app: appReducer,
         dashboard: dashboardReducer,
+        resourceCache: resourceReducer,
         ...injectedReducers,
     });
 }

@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from 'theme';
 import feather from 'feather-icons';
-import Hamburger, { Bar } from 'components/Hamburger';
-import Icon from 'components/Icon';
-import Search from 'components/Search';
+import Hamburger, { Bar } from '../Hamburger';
+import Icon from '../Icon';
+import Search from '../Search';
 import { transitionOpacity } from 'mixins';
-import HeaderButton from 'components/HeaderButton';
+import HeaderButton from '../HeaderButton';
 import { LIBRARY_SEARCH_TYPE } from 'containers/App/constants';
 
 

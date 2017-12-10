@@ -1,15 +1,18 @@
-import { getMovies } from '../../gateways/movies';
+import { getRecentUserMovies } from '../../gateways/movies';
+import { prepareResource } from '../../utils/resourceCache';
 import {
     populateDashboard,
     startLoading,
     endLoading
 } from './actions';
+import { LIBRARY_RECENT_RESOURCE_KEY } from '../../common/constants';
 
-export const prepareMoviesForDashboard = () => (dispatch) => {
+export const prepareMoviesForDashboard = (forceUpdate) => (dispatch) => {
     dispatch(startLoading());
 
-    getMovies('DESC').then((results) => {
-        dispatch(populateDashboard(results.payload));
-        dispatch(endLoading());
-    });
+    dispatch(prepareResource(LIBRARY_RECENT_RESOURCE_KEY, getRecentUserMovies, forceUpdate))
+        .then((results) => {
+            dispatch(populateDashboard(results.payload));
+            dispatch(endLoading());
+        });
 };

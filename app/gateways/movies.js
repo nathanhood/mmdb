@@ -3,7 +3,7 @@ import _uniqBy from 'lodash/uniqBy';
 
 const extractDataFromResponse = ({ data }) => data;
 
-export const getMovies = (order = 'ASC') => fetch.get('movies', {
+export const getUserMovies = (order = 'ASC') => fetch.get('movies', {
     params: { order },
 }).then(extractDataFromResponse);
 
@@ -26,3 +26,5 @@ export const getRecentMovieFormats = () => {
         params: { limit: 3 },
     }).then(({ data }) => _uniqBy(data.payload, 'format').map((movie) => movie.format));
 };
+
+export const getRecentUserMovies = () => getUserMovies('DESC');

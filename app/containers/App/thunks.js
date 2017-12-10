@@ -14,6 +14,9 @@ import {
     removeMovieFromUserLibrary,
     getRecentMovieFormats,
 } from '../../gateways/movies';
+import { prepareResource } from '../../utils/resourceCache';
+import { RECENT_FORMATS_RESOURCE_KEY } from '../../common/constants';
+import _uniqBy from 'lodash/uniqBy';
 
 export const prepareSearchResults = (query) => (dispatch) => {
     dispatch(startLoading());
@@ -30,6 +33,7 @@ export const addMovieToLibrary = ({ id, format }) => (dispatch) => {
 
     addMovieToUserLibrary({ id, format }).then((movie) => {
         dispatch(setIdOnSearchResult(movie));
+        dispatch(prepareRecentFormats(true));
     }).catch(() => {
         // TODO: unclaim search result and notify user that something went wrong
     });
@@ -43,17 +47,19 @@ export const removeMovieFromLibrary = (id) => (dispatch) => {
     });
 };
 
-export const prepareRecentFormats = () => (dispatch, getState) => {
+export const prepareRecentFormats = (forceUpdate) => (dispatch, getState) => {
     const state = getState();
     const formats = state.app.formats.movie;
 
-    getRecentMovieFormats().then((result) => {
-        const recentFormats = result.map((format) => formats.find((f) => f.value === format));
+    dispatch(prepareResource(RECENT_FORMATS_RESOURCE_KEY, getRecentMovieFormats, forceUpdate))
+        .then((result) => {
+            const recentFormats = _uniqBy(
+                result.map((format) => {
+                    return formats.find((f) => f.value === format)
+                }).concat(formats),
+                'value'
+            ).slice(0, 3);
 
-        while (recentFormats.length < 3) {
-            recentFormats.push(formats.find((f) => !result.includes(f.value)));
-        }
-
-        dispatch(populateRecentFormats(recentFormats));
-    });
+            dispatch(populateRecentFormats(recentFormats));
+        });
 };

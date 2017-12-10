@@ -32,6 +32,8 @@ import {
 } from './thunks';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
+import { prepareMoviesForDashboard } from '../Dashboard/thunks';
+import { markDashboardDirty } from '../../common/actions';
 
 const StyledContainer = styled.div`
     background: ${theme.backgroundColor};
@@ -137,12 +139,21 @@ const withConnect = connect(
     }),
     (dispatch) => ({
         showSearch: (type) => dispatch(showSearch(type)),
-        hideSearch: () => dispatch(hideSearch()),
+        hideSearch: () => {
+            dispatch(hideSearch());
+            dispatch(prepareMoviesForDashboard());
+        },
         submitSearch: (query) => {
             dispatch(prepareSearchResults(query));
         },
-        addMovieToLibrary: (data) => dispatch(addMovieToLibrary(data)),
-        removeMovieFromLibrary: (id) => dispatch(removeMovieFromLibrary(id)),
+        addMovieToLibrary: (data) => {
+            dispatch(addMovieToLibrary(data))
+            dispatch(markDashboardDirty());
+        },
+        removeMovieFromLibrary: (id) => {
+            dispatch(removeMovieFromLibrary(id));
+            dispatch(markDashboardDirty());
+        },
         prepareRecentFormats: () => dispatch(prepareRecentFormats()),
     })
 );

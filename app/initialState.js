@@ -12,5 +12,6 @@ export default {
     dashboard: {
         isLoaded: process.env.NODE_ENV === 'production',
         library: [],
-    }
+    },
+    resourceCache: {},
 };
