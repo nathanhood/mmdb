@@ -101,7 +101,9 @@ class Search extends React.PureComponent {
     }
 
     componentDidUpdate() {
-        this.input.focus();
+        if (this.props.isVisible) {
+            this.input.focus();
+        }
     }
 
     updateSearchValue = (e) => {
@@ -152,7 +154,12 @@ class Search extends React.PureComponent {
                       onChange={this.updateSearchValue}
                       onKeyUp={this.submitSearchValue}
                     />
-                    <HeaderButton onClick={closeHandler}>
+                    <HeaderButton
+                      onClick={(e) => {
+                          this.input.blur();
+                          closeHandler(e);
+                      }}
+                    >
                         <CloseSearch />
                     </HeaderButton>
                 </StyledContainer>
