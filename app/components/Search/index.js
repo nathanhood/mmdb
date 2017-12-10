@@ -53,6 +53,7 @@ const StyledInput = styled.input`
     border: 0;
     flex: 1 0 calc(100% - 65px);
     padding-left: 25px;
+    padding-right: 55px;
     &:focus {
         outline: none;
     }
@@ -82,6 +83,17 @@ const LibraryStyledInput = StyledInput.extend`
     }
 `;
 
+const ClearInputButton = styled.button`
+    border: none;
+    background: transparent;
+    color: ${theme.white};
+    position: absolute;
+    z-index: 100;
+    right: 75px;
+    top: 27px;
+    font-size: 12px;
+    visibility: ${(props) => props.isVisible ? 'visible' : 'hidden'};
+`;
 class Search extends React.PureComponent {
     static propTypes = {
         closeHandler: PropTypes.func.isRequired,
@@ -154,6 +166,12 @@ class Search extends React.PureComponent {
                       onChange={this.updateSearchValue}
                       onKeyUp={this.submitSearchValue}
                     />
+                    <ClearInputButton
+                      onClick={this.resetSearchValue}
+                      isVisible={this.state.searchValue.length > 0}
+                    >
+                        Clear
+                    </ClearInputButton>
                     <HeaderButton
                       onClick={(e) => {
                           this.input.blur();
