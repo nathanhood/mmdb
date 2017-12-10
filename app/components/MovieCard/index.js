@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import feather from 'feather-icons';
-import theme from 'theme';
-import Icon from 'components/Icon';
-import PosterImage from 'components/PosterImage';
-import themeVars from 'variables';
-import { formatYear } from 'utils/datetime';
+import theme from '../../theme';
+import Icon from '../Icon';
+import PosterImage from '../PosterImage';
+import themeVars from '../../variables';
+import { formatYear } from '../../utils/datetime';
 
 const Container = styled.div`
     display: flex;
@@ -36,7 +36,7 @@ const ReleaseDate = styled.div`
     font-family: ${theme.font};
     font-weight: 300;
     font-size: 13px;
-    margin-bottom: 4px;
+    padding-right: 15px;
 `;
 
 const Genre = styled.span`
@@ -55,7 +55,19 @@ const ActionBar = styled.div`
     padding-right: 5px;
 `;
 
-function MovieCard({ poster, title, releaseDate, isFavorite, genres }) {
+const InfoRow = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+function MovieCard({ poster, title, releaseDate, isFavorite, genres, definition }, { definitions }) {
+    const icon = definitions.movie[definition].icon;
+    let DefinitionIcon = null;
+
+    if (icon) {
+        DefinitionIcon = <Icon size="20" viewBox="0 0 128 80" icon={icon} />
+    }
+
     return (
         <Container>
             <PosterContainer>
@@ -66,7 +78,10 @@ function MovieCard({ poster, title, releaseDate, isFavorite, genres }) {
                     <Genre key={genre.id}>{i === genres.length - 1 ? genre.name : `${genre.name} | `}</Genre>
                 ))}
                 <Title>{title}</Title>
-                <ReleaseDate>{formatYear(releaseDate)}</ReleaseDate>
+                <InfoRow>
+                    <ReleaseDate>{formatYear(releaseDate)}</ReleaseDate>
+                    {DefinitionIcon}
+                </InfoRow>
                 <ActionBar>
                     <Icon
                       size={18}
@@ -80,12 +95,17 @@ function MovieCard({ poster, title, releaseDate, isFavorite, genres }) {
     );
 }
 
+MovieCard.contextTypes = {
+    definitions: PropTypes.object,
+};
+
 MovieCard.propTypes = {
     poster: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     releaseDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
     genres: PropTypes.array.isRequired,
     isFavorite: PropTypes.bool,
+    definition: PropTypes.string.isRequired,
 };
 
 export default MovieCard;

@@ -17,6 +17,7 @@ function LibraryList({ items }) {
                       rating={item.rating}
                       isFavorite={item.isFavorite}
                       genres={item.Genres}
+                      definition={item.definition}
                     />
                 </Card>
             ))}

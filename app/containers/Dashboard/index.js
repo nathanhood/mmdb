@@ -15,6 +15,11 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         isLoaded: PropTypes.bool,
         onLoad: PropTypes.func,
         showSearch: PropTypes.func,
+        definitions: PropTypes.object,
+    };
+
+    static childContextTypes = {
+        definitions: PropTypes.object,
     };
 
     constructor(props) {
@@ -23,6 +28,12 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         if (!props.isLoaded) {
             props.onLoad();
         }
+    }
+
+    getChildContext() {
+        return {
+            definitions: this.props.definitions,
+        };
     }
 
     render() {
@@ -45,6 +56,7 @@ const withConnect = connect(
     (state) => ({
         library: state.dashboard.library,
         isLoaded: state.dashboard.isLoaded,
+        definitions: state.app.definitions,
     }),
     (dispatch) => ({
         onLoad: () => dispatch(prepareMoviesForDashboard()),
