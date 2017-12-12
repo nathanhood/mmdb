@@ -55,7 +55,7 @@ const TagContainer = styled.div`
 const SelectDiv = styled.div`
     margin-bottom: 15px;
 `;
-class SearchCard extends React.PureComponent {
+class SearchCard extends React.Component {
     static propTypes = {
         id: PropTypes.number,
         apiId: PropTypes.number.isRequired,
