@@ -74,8 +74,8 @@ function MovieCard({ poster, title, releaseDate, isFavorite, genres, definition 
                 <PosterImage images={poster.sizes} alt={poster.altText} />
             </PosterContainer>
             <InfoContainer>
-                {genres.map((genre, i) => (
-                    <Genre key={genre.id}>{i === genres.length - 1 ? genre.name : `${genre.name} | `}</Genre>
+                {genres.slice(0, 2).map((genre, i) => (
+                    <Genre key={genre.id}>{i >= 1 ? genre.name : `${genre.name} | `}</Genre>
                 ))}
                 <Title>{title}</Title>
                 <InfoRow>
