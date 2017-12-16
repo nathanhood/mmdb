@@ -12,14 +12,20 @@ const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngr
 const compression = require('compression');
 const webRouter = require('./routes/web');
 const apiRouter = require('./routes/api');
+const authRouter = require('./routes/auth');
 const authMiddleware = require('./middlewares/authMiddleware');
 const app = express();
 
-// Protect application from unauthorized requests
-authMiddleware(app);
-
-// Parse request body
+authMiddleware.initialize(app);
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Login and Registration routes come before authentication
+// so that user has chance to get JWT
+app.use('/', authRouter);
+
+// Stop unauthenticated requests from proceeding
+app.use(authMiddleware());
 
 // Evaluate API routes
 app.use('/api/v1', apiRouter);
