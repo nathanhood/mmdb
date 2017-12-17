@@ -16,6 +16,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from './configureStore';
 import initialState from './initialState';
+import { Route } from 'react-router-dom';
 
 // Import root app
 import App from 'containers/App';
@@ -45,7 +46,7 @@ const render = () => {
     ReactDOM.render(
         <Provider store={STORE}>
             <ConnectedRouter history={HISTORY}>
-                <App />
+                <Route component={App} />
             </ConnectedRouter>
         </Provider>,
         MOUNT_NODE
