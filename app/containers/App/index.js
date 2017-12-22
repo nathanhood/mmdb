@@ -20,6 +20,7 @@ import PropTypes from 'prop-types';
 
 import Dashboard from '../DashboardPage/Loadable';
 import LoginPage from '../LoginPage/Loadable';
+import RegisterPage from '../RegisterPage/Loadable';
 import NotFoundPage from '../NotFoundPage/Loadable';
 import theme from 'variables';
 import reducer from './reducer';
@@ -57,7 +58,7 @@ class App extends React.Component {
                 <StyledContainer>
                     <Switch>
                         <Route path="/login" component={LoginPage} />
-                        <Route path="/register" render={() => (<div>register</div>)} />
+                        <Route path="/register" component={RegisterPage} />
                         <ProtectedRoute exact path="/" component={Dashboard} />
                         <Route component={NotFoundPage} />
                     </Switch>
