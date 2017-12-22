@@ -1,5 +1,5 @@
 const DB = require('../index');
-const { toPlainObject } = require('./common');
+const { toPlainObject } = require('./utils');
 
 const createNewUser = (data) => DB.User.create(data).then(toPlainObject);
 

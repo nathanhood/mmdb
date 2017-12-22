@@ -1,5 +1,5 @@
 const DB = require('../index');
-const { toPlainObjects } = require('./common');
+const { toPlainObjects } = require('./utils');
 
 const getAllGenres = (key) => {
     return DB.Genre.findAll().then(toPlainObjects);

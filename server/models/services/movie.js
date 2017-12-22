@@ -1,5 +1,5 @@
 const DB = require('../index');
-const { toPlainObjects, toPlainObject } = require('./common');
+const { toPlainObjects, toPlainObject } = require('./utils');
 
 const getUserMoviesWithGenres = (userId, limit, offset, order = 'ASC') => {
     return DB.UserMovie.findAll({

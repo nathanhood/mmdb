@@ -3,7 +3,7 @@ const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
 const { findUserMoviesByTmdbId } = require('../models/services/movie');
 const { getAllGenres } = require('../models/services/genre');
-const { keyBy } = require('../models/services/common');
+const { keyBy } = require('../models/services/utils');
 
 const searchMovies = (req, res) => {
     const apiService = new MovieApiService();
