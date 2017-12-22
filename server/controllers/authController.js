@@ -41,6 +41,7 @@ const register = async (req, res) => {
     const {
         email,
         password,
+        passwordConfirmation,
         username,
         firstName,
         lastName
@@ -48,6 +49,10 @@ const register = async (req, res) => {
 
     if (!password || password.length < 8) {
         return res.status(INVALID_INPUT_STATUS).json({ message: 'password must be at least 8 characters long' });
+    }
+
+    if (password !== passwordConfirmation) {
+        return res.status(INVALID_INPUT_STATUS).json({ message: 'passwords must match' });
     }
 
     if (!emailValidator.validate(email)) {
