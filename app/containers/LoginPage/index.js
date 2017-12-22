@@ -3,18 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { compose } from 'redux';
-import styled from 'styled-components';
 
 import TextInput from '../../components/Form/TextInput';
 import Button from '../../components/Form/Button';
+import FormContainer from '../../components/FormContainer';
 import { submitLogin } from './thunks';
 
-const FormContainer = styled.div`
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 15%;
-    width: 250px;
-`;
 
 export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
