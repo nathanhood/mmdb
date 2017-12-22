@@ -6,7 +6,7 @@ import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import appReducer from './containers/App/reducer';
-import dashboardReducer from './containers/Dashboard/reducer';
+import dashboardReducer from './containers/DashboardPage/reducer';
 import resourceReducer from './common/resourceCache/reducer';
 import authReducer from './common/auth/reducer';
 import searchReducer from './containers/SearchResults/reducer';

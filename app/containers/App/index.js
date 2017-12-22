@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 
-import Dashboard from '../Dashboard/Loadable';
+import Dashboard from '../DashboardPage/Loadable';
 import LoginPage from '../LoginPage/Loadable';
 import NotFoundPage from '../NotFoundPage/Loadable';
 import theme from 'variables';
