@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const imageConfig = require('../config/tmdb.json').images;
 const formatApiResponse = require('../utils/formatApiResponse');
+const { createTransformMany } = require('./utils');
 
 const ORIGINAL_IMAGE_SIZE = 'original';
 const BASE_IMAGE_URL = imageConfig.base_url;
@@ -41,12 +42,7 @@ const transformMovie = (movie) => {
     };
 };
 
-const transformMovies = (data) => ({
-    ...data,
-    payload: data.movies.map((movie) => transformMovie(movie)),
-});
-
 module.exports = {
     transformOne: transformMovie,
-    transformMany: _.flow(transformMovies, formatApiResponse.forMany),
+    transformMany: _.flow(createTransformMany('movies', transformMovie), formatApiResponse.forMany),
 };

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const emailValidator = require('email-validator');
 const { createNewUser, findUserByUsername } = require('../models/services/user');
 const { INVALID_INPUT_STATUS } = require('../utils/http');
+const { transformOne } = require('../transformers/userTransformer');
 
 const login = async (req, res) => {
     const username = req.body.username;
@@ -10,9 +11,14 @@ const login = async (req, res) => {
 
     try {
         const user = await findUserByUsername(username);
+
+        if (!user) {
+            res.status(401).json({ message: 'username does not exist' });
+        }
+
         const passwordIsValid = await bcrypt.compare(password, user.password);
 
-        if (!user || !passwordIsValid) {
+        if (!passwordIsValid) {
             res.status(401).json({ message: 'authentication failed' });
         }
 
@@ -22,7 +28,10 @@ const login = async (req, res) => {
             { issuer: process.env.JWT_ISSUER }
         );
 
-        res.json({ success: true, token });
+        res.json({
+            success: true,
+            user: transformOne({ ...user, token }),
+        });
     } catch ({ message }) {
         res.status(500).json({ message });
     }
