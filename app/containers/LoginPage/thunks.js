@@ -9,7 +9,7 @@ export const submitLogin = ({ username, password }) => (dispatch, getState) => {
     const { route: { location } } = getState();
     const redirectLocation = location.state && location.state.from;
     const fallbackLocation = {
-        path: '/',
+        pathname: '/',
         state: {
             from: location,
         },
