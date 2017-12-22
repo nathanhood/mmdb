@@ -15,7 +15,7 @@ import {
     getRecentMovieFormats,
 } from '../../gateways/movies';
 import { prepareResource } from '../../utils/resourceCache';
-import { RECENT_FORMATS_RESOURCE_KEY } from '../../common/constants';
+import { RECENT_FORMATS_RESOURCE_KEY } from '../../common/resourceCache/constants';
 import _uniqBy from 'lodash/uniqBy';
 
 export const prepareSearchResults = (query) => (dispatch) => {

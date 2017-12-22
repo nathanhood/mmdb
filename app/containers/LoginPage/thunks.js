@@ -1,6 +1,6 @@
 import { loginUser } from '../../gateways/users';
 import { replace } from 'react-router-redux';
-import { authSuccess, authFailure } from '../../common/actions';
+import { authSuccess, authFailure } from '../../common/auth/actions';
 import { storeUser } from '../../utils/localStorage';
 import { setAuthorization } from '../../gateways/index';
 

@@ -34,7 +34,7 @@ import {
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
 import { prepareMoviesForDashboard } from '../Dashboard/thunks';
-import { markDashboardDirty } from '../../common/actions';
+import { markDashboardDirty } from '../../common/resourceCache/actions';
 import ProtectedRoute from '../ProtectedRoute';
 
 const StyledContainer = styled.div`

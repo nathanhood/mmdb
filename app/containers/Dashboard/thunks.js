@@ -5,7 +5,7 @@ import {
     startLoading,
     endLoading
 } from './actions';
-import { LIBRARY_RECENT_RESOURCE_KEY } from '../../common/constants';
+import { LIBRARY_RECENT_RESOURCE_KEY } from '../../common/resourceCache/constants';
 
 export const prepareMoviesForDashboard = (forceUpdate) => (dispatch) => {
     dispatch(startLoading());

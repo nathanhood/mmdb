@@ -1,12 +1,7 @@
 import {
     SET_RESOURCE,
-    MARK_DASHBOARD_DIRTY,
-    AUTH_SUCCESSFUL,
-    AUTH_FAILURE
+    MARK_DASHBOARD_DIRTY
 } from './actions';
-import { getUser } from '../utils/localStorage';
-
-const user = getUser();
 
 const markAllDirty = (keys, state) => {
     const dirty = {};
@@ -18,18 +13,7 @@ const markAllDirty = (keys, state) => {
     return dirty;
 };
 
-export const authReducer = (state = { user, isAuthenticated: user !== null }, action) => {
-    switch (action.type) {
-        case AUTH_SUCCESSFUL:
-            return { ...state, isAuthenticated: true, user: action.payload };
-        case AUTH_FAILURE:
-            return { ...state, isAuthenticated: false, user: {} };
-        default:
-            return state;
-    }
-}
-
-export const resourceReducer = (state = {}, action) => {
+const resourceReducer = (state = {}, action) => {
     switch (action.type) {
         case MARK_DASHBOARD_DIRTY:
             return {
@@ -44,4 +28,6 @@ export const resourceReducer = (state = {}, action) => {
         default:
             return state;
     }
-}
+};
+
+export default resourceReducer;

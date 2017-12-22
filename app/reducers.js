@@ -7,7 +7,8 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 import appReducer from 'containers/App/reducer';
 import dashboardReducer from 'containers/Dashboard/reducer';
-import { resourceReducer, authReducer } from './common/reducers';
+import resourceReducer from './common/resourceCache/reducer';
+import authReducer from './common/auth/reducer';
 
 /*
  * routeReducer
