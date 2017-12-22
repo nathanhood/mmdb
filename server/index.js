@@ -15,6 +15,7 @@ const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');
 const authMiddleware = require('./middlewares/authMiddleware');
 const app = express();
+const API_PREFIX = '/api/v1';
 
 authMiddleware.initialize(app);
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,13 +23,10 @@ app.use(bodyParser.json());
 
 // Login and Registration routes come before authentication
 // so that user has chance to get JWT
-app.use('/', authRouter);
-
-// Stop unauthenticated requests from proceeding
-app.use(authMiddleware());
+app.use(API_PREFIX, authRouter);
 
 // Evaluate API routes
-app.use('/api/v1', apiRouter);
+app.use(API_PREFIX, authMiddleware(), apiRouter);
 
 /**
  * Dev Mode middleware for hot reloading
