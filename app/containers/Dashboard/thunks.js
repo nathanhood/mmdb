@@ -10,7 +10,7 @@ import { LIBRARY_RECENT_RESOURCE_KEY } from '../../common/resourceCache/constant
 export const prepareMoviesForDashboard = (forceUpdate) => (dispatch) => {
     dispatch(startLoading());
 
-    dispatch(prepareResource(LIBRARY_RECENT_RESOURCE_KEY, getRecentUserMovies, forceUpdate))
+    return dispatch(prepareResource(LIBRARY_RECENT_RESOURCE_KEY, getRecentUserMovies, forceUpdate))
         .then((results) => {
             dispatch(populateDashboard(results.payload));
             dispatch(endLoading());

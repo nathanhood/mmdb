@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { transitionOpacity } from 'mixins';
 import HeaderButton from 'components/HeaderButton';
 import theme from 'theme';
-import { LIBRARY_SEARCH_TYPE, STANDARD_SEARCH_TYPE } from 'containers/App/constants';
+import { LIBRARY_SEARCH_TYPE, STANDARD_SEARCH_TYPE } from 'containers/SearchResults/constants';
 
 const TransitionContainer = styled.div`
     width: 100%;
@@ -94,7 +94,7 @@ const ClearInputButton = styled.button`
     font-size: 12px;
     visibility: ${(props) => props.isVisible ? 'visible' : 'hidden'};
 `;
-class Search extends React.PureComponent {
+class SearchField extends React.PureComponent {
     static propTypes = {
         closeHandler: PropTypes.func.isRequired,
         isVisible: PropTypes.bool.isRequired,
@@ -186,4 +186,4 @@ class Search extends React.PureComponent {
     }
 }
 
-export default Search;
+export default SearchField;

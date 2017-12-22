@@ -5,10 +5,10 @@ import theme from 'theme';
 import feather from 'feather-icons';
 import Hamburger, { Bar } from '../Hamburger';
 import Icon from '../Icon';
-import Search from '../Search';
+import SearchField from '../SearchField';
 import { transitionOpacity } from 'mixins';
 import HeaderButton from '../HeaderButton';
-import { LIBRARY_SEARCH_TYPE } from 'containers/App/constants';
+import { LIBRARY_SEARCH_TYPE } from '../../containers/SearchResults/constants';
 
 
 const MenuButton = HeaderButton.extend`
@@ -44,16 +44,16 @@ const StyledInnerHeader = styled.div`
     ${transitionOpacity}
 `;
 
-const Header = ({ hideSearch, showSearch, searchIsVisible, searchType, submitSearch }) => {
+const Header = ({ hideSearchHandler, showSearchHandler, searchIsVisible, searchType, submitSearchHandler }) => {
     return (
         <StyledHeader role="banner">
-            <Search closeHandler={hideSearch} isVisible={searchIsVisible} type={searchType} submitHandler={submitSearch} />
+            <SearchField closeHandler={hideSearchHandler} isVisible={searchIsVisible} type={searchType} submitHandler={submitSearchHandler} />
             <StyledInnerHeader show={!searchIsVisible}>
                 <MenuButton>
                     <Hamburger />
                 </MenuButton>
                 <Logo>MMDb</Logo>
-                <MenuButton onClick={() => showSearch(LIBRARY_SEARCH_TYPE)}>
+                <MenuButton onClick={() => showSearchHandler(LIBRARY_SEARCH_TYPE)}>
                     <Icon
                       size={22}
                       icon={feather.icons.search}
@@ -65,11 +65,11 @@ const Header = ({ hideSearch, showSearch, searchIsVisible, searchType, submitSea
 };
 
 Header.propTypes = {
-    hideSearch: PropTypes.func,
-    showSearch: PropTypes.func,
+    hideSearchHandler: PropTypes.func,
+    showSearchHandler: PropTypes.func,
     searchIsVisible: PropTypes.bool,
     searchType: PropTypes.string,
-    submitSearch: PropTypes.func,
+    submitSearchHandler: PropTypes.func,
 };
 
 export default Header;

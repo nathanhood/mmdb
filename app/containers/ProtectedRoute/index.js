@@ -15,7 +15,7 @@ class ProtectedRoute extends React.Component {
         const {
             isAuthenticated,
             component: Component,
-            ...rest
+            ...rest,
         } = this.props;
 
         return (
@@ -23,7 +23,7 @@ class ProtectedRoute extends React.Component {
               {...rest}
               render={(props) => {
                   return isAuthenticated ?
-                      <Component {...props} /> :
+                      <Component {...rest} /> :
                       <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
               }}
             />

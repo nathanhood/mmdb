@@ -1,3 +1,1 @@
 export const DEFAULT_LOCALE = 'en';
-export const STANDARD_SEARCH_TYPE = 'STANDARD_SEARCH';
-export const LIBRARY_SEARCH_TYPE = 'LIBRARY_SEARCH';

@@ -12,7 +12,7 @@ import { submitLogin } from './thunks';
 const FormContainer = styled.div`
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15%;
+    padding-top: 15%;
     width: 250px;
 `;
 

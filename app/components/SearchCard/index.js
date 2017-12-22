@@ -118,6 +118,7 @@ class SearchCard extends React.Component {
         this.setState((prevState) => ({
             ...prevState,
             askForFormat: false,
+            askForDefinition: false,
             format: null,
             definition: null,
         }));

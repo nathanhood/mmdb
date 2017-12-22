@@ -21,20 +21,9 @@ import PropTypes from 'prop-types';
 import Dashboard from '../Dashboard/Loadable';
 import LoginPage from '../LoginPage/Loadable';
 import NotFoundPage from '../NotFoundPage/Loadable';
-import Header from '../../components/Header';
-import SearchResults from '../../components/SearchResults';
 import theme from 'variables';
-import { showSearch, hideSearch } from './actions';
-import {
-    prepareSearchResults,
-    addMovieToLibrary,
-    removeMovieFromLibrary,
-    prepareRecentFormats,
-} from './thunks';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
-import { prepareMoviesForDashboard } from '../Dashboard/thunks';
-import { markDashboardDirty } from '../../common/resourceCache/actions';
 import ProtectedRoute from '../ProtectedRoute';
 
 const StyledContainer = styled.div`
@@ -45,19 +34,8 @@ const StyledContainer = styled.div`
 
 class App extends React.Component {
     static propTypes = {
-        searchIsVisible: PropTypes.bool.isRequired,
-        showSearch: PropTypes.func.isRequired,
-        hideSearch: PropTypes.func.isRequired,
-        searchType: PropTypes.string,
-        submitSearch: PropTypes.func.isRequired,
-        searchResultsAreVisible: PropTypes.bool,
-        searchResults: PropTypes.array,
-        addMovieToLibrary: PropTypes.func.isRequired,
-        removeMovieFromLibrary: PropTypes.func.isRequired,
-        formats: PropTypes.object.isRequired,
         definitions: PropTypes.object.isRequired,
-        prepareRecentFormats: PropTypes.func.isRequired,
-        recentFormats: PropTypes.array,
+        formats: PropTypes.object.isRequired,
     };
 
     static childContextTypes = {
@@ -72,57 +50,17 @@ class App extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.props.prepareRecentFormats();
-    }
-
     render() {
         /* eslint-disable no-shadow */
-        const {
-            showSearch,
-            hideSearch,
-            searchIsVisible,
-            searchType,
-            submitSearch,
-            searchResultsAreVisible,
-            searchResults,
-            addMovieToLibrary,
-            removeMovieFromLibrary,
-            recentFormats,
-        } = this.props;
-        let pageContent;
-
-        if (searchResultsAreVisible) {
-            pageContent = (
-                <SearchResults
-                  items={searchResults}
-                  addMovieToLibrary={addMovieToLibrary}
-                  removeMovieFromLibrary={removeMovieFromLibrary}
-                  recentFormats={recentFormats}
-                />
-            );
-        } else {
-            pageContent = (
-                <Switch>
-                    <Route path="/login" component={LoginPage} />
-                    <ProtectedRoute exact path="/" component={Dashboard} showSearch={showSearch} />
-                    <Route component={NotFoundPage} />
-                </Switch>
-            );
-        }
-
         return (
             <ThemeProvider theme={theme}>
                 <StyledContainer>
-                    <Header
-                      searchIsVisible={searchIsVisible}
-                      hideSearch={hideSearch}
-                      showSearch={showSearch}
-                      searchType={searchType}
-                      submitSearch={submitSearch}
-                    />
-
-                    {pageContent}
+                    <Switch>
+                        <Route path="/login" component={LoginPage} />
+                        <Route path="/register" render={() => (<div>register</div>)} />
+                        <ProtectedRoute exact path="/" component={Dashboard} />
+                        <Route component={NotFoundPage} />
+                    </Switch>
                 </StyledContainer>
             </ThemeProvider>
         );
@@ -131,33 +69,8 @@ class App extends React.Component {
 
 const withConnect = connect(
     (state) => ({
-        searchIsVisible: state.app.searchIsVisible,
-        searchType: state.app.searchType,
-        searchResultsAreVisible: state.app.searchResultsAreVisible,
-        PageComponent: state.app.PageComponent,
-        searchResults: state.app.searchResults,
         formats: state.app.formats,
         definitions: state.app.definitions,
-        recentFormats: state.app.recentFormats,
-    }),
-    (dispatch) => ({
-        showSearch: (type) => dispatch(showSearch(type)),
-        hideSearch: () => {
-            dispatch(hideSearch());
-            dispatch(prepareMoviesForDashboard());
-        },
-        submitSearch: (query) => {
-            dispatch(prepareSearchResults(query));
-        },
-        addMovieToLibrary: (data) => {
-            dispatch(addMovieToLibrary(data))
-            dispatch(markDashboardDirty());
-        },
-        removeMovieFromLibrary: (id) => {
-            dispatch(removeMovieFromLibrary(id));
-            dispatch(markDashboardDirty());
-        },
-        prepareRecentFormats: () => dispatch(prepareRecentFormats()),
     })
 );
 

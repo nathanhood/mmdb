@@ -3,8 +3,6 @@ import definitions from '../server/constants/definitions';
 
 export default {
     app: {
-        searchIsVisible: false,
-        searchResults: [],
         recentFormats: [],
         formats,
         definitions,
@@ -14,4 +12,9 @@ export default {
         library: [],
     },
     resourceCache: {},
+    search: {
+        isVisible: false,
+        resultsAreVisible: false,
+        results: [],
+    }
 };
