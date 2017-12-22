@@ -29,7 +29,11 @@ function renderFullPage(html, criticalCSS, preloadedState) { // eslint-disable-l
     return eval('`' + page + '`'); // eslint-disable-line no-eval
 }
 
-export default (data) => {
+const renderSkeleton = () => {
+    return renderFullPage('', '', 'window.__MMDB_PRELOADED_STATE=' + JSON.stringify({ ...initialState }));
+}
+
+const render = (data) => {
     const sheet = new ServerStyleSheet();
 
     // Create redux store with history
@@ -48,4 +52,9 @@ export default (data) => {
         sheet.getStyleTags(),
         'window.__MMDB_PRELOADED_STATE=' + JSON.stringify(STORE.getState())
     );
+};
+
+export default {
+    render,
+    renderSkeleton,
 };
