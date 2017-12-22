@@ -20,7 +20,7 @@ const theme = {
 theme.fixedButtonColor = theme.darkTeal;
 theme.fixedButtonActiveColor = lighten(0.04, theme.fixedButtonColor);
 
-theme.buttonColor = theme.blue;
+theme.buttonColor = theme.black;
 theme.buttonActiveColor = lighten(0.06, theme.buttonColor);
 
 export default theme;

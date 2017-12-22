@@ -1,7 +1,7 @@
 import fetch from './index';
 import _uniqBy from 'lodash/uniqBy';
+import { extractDataFromResponse } from './utils';
 
-const extractDataFromResponse = ({ data }) => data;
 
 export const getUserMovies = (order = 'ASC') => fetch.get('movies', {
     params: { order },
@@ -17,7 +17,13 @@ export const getMovieSearchResults = (query, page = 1) => {
     }).then(extractDataFromResponse);
 };
 
-export const addMovieToUserLibrary = ({ id, format, definition }) => fetch.post('movies', { id, format, definition }).then(extractDataFromResponse);
+export const addMovieToUserLibrary = ({ id, format, definition }) => {
+    return fetch.post('movies', {
+        id,
+        format,
+        definition
+    }).then(extractDataFromResponse);
+};
 
 export const removeMovieFromUserLibrary = (id) => fetch.delete(`movies/${id}`).then(extractDataFromResponse);
 

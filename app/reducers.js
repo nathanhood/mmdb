@@ -7,7 +7,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 import appReducer from 'containers/App/reducer';
 import dashboardReducer from 'containers/Dashboard/reducer';
-import { resourceReducer } from './common/reducers';
+import { resourceReducer, authReducer } from './common/reducers';
 
 /*
  * routeReducer
@@ -31,7 +31,7 @@ function routeReducer(state = routeInitialState, action) {
         case LOCATION_CHANGE:
             return {
                 ...state,
-                location: action.payload,
+                location: { ...action.payload },
             };
         default:
             return state;
@@ -47,6 +47,7 @@ export default function createReducer(injectedReducers) {
         app: appReducer,
         dashboard: dashboardReducer,
         resourceCache: resourceReducer,
+        auth: authReducer,
         ...injectedReducers,
     });
 }

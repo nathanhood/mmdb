@@ -17,7 +17,7 @@ const logger = store => next => action => {
 
 export default function configureStore(initialState = {}, history, ssr = false) {
     // Create the store with two middlewares
-    // 1. sagaMiddleware: Makes redux-sagas work
+    // 1. thunk: Makes redux-thunks work
     // 2. routerMiddleware: Syncs the location/URL path to the state
     const middlewares = [
         thunk,

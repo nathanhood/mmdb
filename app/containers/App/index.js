@@ -18,8 +18,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 
-import Dashboard from 'containers/Dashboard/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import Dashboard from '../Dashboard/Loadable';
+import LoginPage from '../LoginPage/Loadable';
+import NotFoundPage from '../NotFoundPage/Loadable';
 import Header from '../../components/Header';
 import SearchResults from '../../components/SearchResults';
 import theme from 'variables';
@@ -34,6 +35,7 @@ import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
 import { prepareMoviesForDashboard } from '../Dashboard/thunks';
 import { markDashboardDirty } from '../../common/actions';
+import ProtectedRoute from '../ProtectedRoute';
 
 const StyledContainer = styled.div`
     background: ${theme.backgroundColor};
@@ -41,7 +43,7 @@ const StyledContainer = styled.div`
     min-height: 100%;
 `;
 
-class App extends React.PureComponent {
+class App extends React.Component {
     static propTypes = {
         searchIsVisible: PropTypes.bool.isRequired,
         showSearch: PropTypes.func.isRequired,
@@ -102,7 +104,8 @@ class App extends React.PureComponent {
         } else {
             pageContent = (
                 <Switch>
-                    <Route exact path="/" render={() => <Dashboard showSearch={showSearch} />} />
+                    <Route path="/login" component={LoginPage} />
+                    <ProtectedRoute exact path="/" component={Dashboard} showSearch={showSearch} />
                     <Route component={NotFoundPage} />
                 </Switch>
             );

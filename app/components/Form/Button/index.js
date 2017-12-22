@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import theme from 'theme';
 
 const Button = styled.button`
-    border-width: 2px;
+    border-width: 1px;
     border-color: ${theme.buttonColor};
     border-radius: 2px;
     color: ${theme.buttonColor};
-    padding: 6px 15px;
+    padding: 8px 17px;
+    width: ${(props) => props.wide ? '100%' : 'initial'};
     &:hover,
     &:active {
         color: ${theme.white};
