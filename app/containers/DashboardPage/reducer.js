@@ -1,13 +1,16 @@
 import {
     POPULATE_DASHBOARD,
+    RESET_DASHBOARD,
     START_LOADING,
     END_LOADING,
     OPEN_MOBILE_NAV,
     CLOSE_MOBILE_NAV
 } from './actions';
+import initialState from '../../initialState';
 
 const reducerMap = {
     [POPULATE_DASHBOARD]: (state, action) => ({ ...state, library: action.payload }),
+    [RESET_DASHBOARD]: () => ({ ...initialState.dashboard }),
     [START_LOADING]: (state) => ({ ...state, isLoaded: false }),
     [END_LOADING]: (state) => ({ ...state, isLoaded: true }),
     [OPEN_MOBILE_NAV]: (state) => ({ ...state, mobileNavIsOpen: true }),

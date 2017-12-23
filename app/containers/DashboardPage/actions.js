@@ -3,10 +3,15 @@ export const START_LOADING = 'dashboard/START_LOADING';
 export const END_LOADING = 'dashboard/END_LOADING';
 export const OPEN_MOBILE_NAV = 'dashboard/OPEN_MOBILE_NAV';
 export const CLOSE_MOBILE_NAV = 'dashboard/CLOSE_MOBILE_NAV';
+export const RESET_DASHBOARD = 'dashboard/RESET_DASHBOARD';
 
 export const populateDashboard = (list) => ({
     type: POPULATE_DASHBOARD,
     payload: list,
+});
+
+export const resetDashboard = () => ({
+    type: RESET_DASHBOARD,
 });
 
 export const startLoading = () => ({

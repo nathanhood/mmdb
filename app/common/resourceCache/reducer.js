@@ -1,6 +1,7 @@
 import {
     SET_RESOURCE,
-    MARK_DASHBOARD_DIRTY
+    MARK_DASHBOARD_DIRTY,
+    RESET_RESOURCE_CACHE
 } from './actions';
 
 const markAllDirty = (keys, state) => {
@@ -25,6 +26,8 @@ const resourceReducer = (state = {}, action) => {
                 ...state,
                 [action.payload.key]: action.payload.resource,
             };
+        case RESET_RESOURCE_CACHE:
+            return {};
         default:
             return state;
     }

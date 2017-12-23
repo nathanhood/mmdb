@@ -31,7 +31,6 @@ import { logOutUser } from '../../common/auth/thunks';
 class Dashboard extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
         library: PropTypes.array,
-        isLoaded: PropTypes.bool,
         onLoad: PropTypes.func,
         searchIsVisible: PropTypes.bool.isRequired,
         searchResultsAreVisible: PropTypes.bool,
@@ -46,17 +45,12 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
     };
 
     componentDidMount() {
-        const { isLoaded, onLoad } = this.props;
-
-        if (!isLoaded) {
-            onLoad();
-        }
+        this.props.onLoad();
     }
 
     render() {
         const {
             library,
-            isLoaded,
             showSearchHandler,
             searchIsVisible,
             hideSearchHandler,
@@ -69,10 +63,6 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             logOutHandler,
         } = this.props;
         let pageContent;
-
-        if (!isLoaded) {
-            return null;
-        }
 
         if (searchResultsAreVisible) {
             pageContent = <SearchResults />
@@ -121,7 +111,6 @@ const withConnect = connect(
         searchIsVisible: state.search.isVisible,
         searchType: state.search.searchType,
         library: state.dashboard.library,
-        isLoaded: state.dashboard.isLoaded,
         mobileNavIsOpen: state.dashboard.mobileNavIsOpen,
     }),
     (dispatch) => ({
