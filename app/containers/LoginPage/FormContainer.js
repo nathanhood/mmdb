@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const FormContainer = styled.div`
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15%;
+    padding-top: 30px;
     width: 250px;
 `;
 

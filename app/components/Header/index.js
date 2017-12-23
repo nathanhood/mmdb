@@ -9,6 +9,7 @@ import SearchField from '../SearchField';
 import { transitionOpacity } from 'mixins';
 import HeaderButton from '../HeaderButton';
 import { LIBRARY_SEARCH_TYPE } from '../../containers/SearchResults/constants';
+import Logo from '../Logo';
 
 
 const MenuButton = HeaderButton.extend`
@@ -19,15 +20,6 @@ const MenuButton = HeaderButton.extend`
             }
         }
     }
-`;
-const Logo = styled.h1`
-    font-family: Poppins, sans-serif;
-    letter-spacing: 1px;
-    font-size: 30px;
-    margin: 0;
-    display: inline;
-    flex: 0 0 calc(100% - 130px);
-    text-align: center;
 `;
 const StyledHeader = styled.header`
     background: ${theme.white};
@@ -59,7 +51,7 @@ const Header = ({
                 <MenuButton onClick={openMobileNavHandler}>
                     <Hamburger />
                 </MenuButton>
-                <Logo>MMDb</Logo>
+                <Logo header>MMDb</Logo>
                 <MenuButton onClick={() => showSearchHandler(LIBRARY_SEARCH_TYPE)}>
                     <Icon
                       size={22}

@@ -60,8 +60,8 @@ const StyledMenuItem = styled.li`
 `;
 
 const NavLinkText = styled.div`
-padding-left: 15px;
-font-size: 14px;
+    padding-left: 15px;
+    font-size: 14px;
 `;
 
 const MenuHeader = styled.div`
@@ -104,9 +104,13 @@ function MobileNav({ open, closeHandler, navItems }) {
                     <CloseButton onClick={closeHandler}>close</CloseButton>
                 </MenuHeader>
                 <StyledMenu>
-                    {navItems.map(({ display, url, icon }) => (
+                    {navItems.map(({ display, url, icon, onClickHandler }) => (
                         <StyledMenuItem key={url}>
-                            <NavLink to={url} activeStyle={{ color: themeVars.teal }}>
+                            <NavLink
+                                to={url}
+                                activeStyle={{ color: themeVars.teal }}
+                                onClick={onClickHandler || null}
+                            >
                                 {icon ? <Icon icon={icon} /> : null}
                                 <NavLinkText>{display}</NavLinkText>
                             </NavLink>

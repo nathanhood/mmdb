@@ -1,9 +1,9 @@
 // import React from 'react';
 // import { shallow } from 'enzyme';
 
-// import FormContainer from '../index';
+// import Logo from '../index';
 
-describe('<FormContainer />', () => {
+describe('<Logo />', () => {
     it('Expect to have unit tests specified', () => {
         expect(true).toEqual(false);
     });

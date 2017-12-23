@@ -2,6 +2,7 @@ export const AUTH_SUCCESSFUL = 'auth/AUTH_SUCCESSFUL';
 export const AUTH_FAILURE = 'auth/AUTH_FAILURE';
 export const REGISTER_SUCCESSFUL = 'auth/REGISTER_SUCCESSFUL';
 export const REGISTER_FAILURE = 'auth/REGISTER_FAILURE';
+export const LOG_OUT = 'auth/LOG_OUT';
 
 export const authSuccess = (user) => ({
     type: AUTH_SUCCESSFUL,
@@ -18,4 +19,8 @@ export const registerSuccess = () => ({
 
 export const registerFailure = () => ({
     type: REGISTER_FAILURE,
+});
+
+export const logOut = () => ({
+    type: LOG_OUT,
 });
