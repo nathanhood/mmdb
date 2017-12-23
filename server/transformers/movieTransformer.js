@@ -4,7 +4,7 @@ const formatApiResponse = require('../utils/formatApiResponse');
 const { createTransformMany } = require('./utils');
 
 const ORIGINAL_IMAGE_SIZE = 'original';
-const BASE_IMAGE_URL = imageConfig.base_url;
+const BASE_IMAGE_URL = imageConfig.secure_base_url;
 
 const getImageUrl = (baseUrl, size, imagePath) => `${baseUrl}${size}${imagePath}`;
 
