@@ -23,4 +23,9 @@ theme.fixedButtonActiveColor = lighten(0.04, theme.fixedButtonColor);
 theme.buttonColor = theme.black;
 theme.buttonActiveColor = lighten(0.06, theme.buttonColor);
 
+theme.animations = {
+    enterOffScreen: 'cubic-bezier(0.0, 0.0, 0.2, 1)',
+    exitOffScreen: 'cubic-bezier(0.4, 0.0, 1, 1)',
+};
+
 export default theme;

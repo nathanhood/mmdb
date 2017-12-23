@@ -10,6 +10,7 @@ import FixedActionButton from '../../components/FixedActionButton';
 import { STANDARD_SEARCH_TYPE } from '../../containers/SearchResults/constants';
 import Header from '../../components/Header';
 import SearchResults from '../SearchResults';
+import MobileNav from '../../components/MobileNav';
 import { showSearch, hideSearch } from '../SearchResults/actions';
 import {
     prepareRecentFormats
@@ -17,6 +18,9 @@ import {
 import {
     prepareSearchResults
 } from '../SearchResults/thunks';
+import { openMobileNav, closeMobileNav } from './actions';
+import feather from 'feather-icons';
+
 
 class Dashboard extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
@@ -29,6 +33,9 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         hideSearchHandler: PropTypes.func.isRequired,
         searchType: PropTypes.string,
         submitSearchHandler: PropTypes.func.isRequired,
+        openMobileNavHandler: PropTypes.func,
+        closeMobileNavHandler: PropTypes.func,
+        mobileNavIsOpen: PropTypes.bool,
     };
 
     componentDidMount() {
@@ -48,7 +55,10 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             hideSearchHandler,
             searchType,
             submitSearchHandler,
-            searchResultsAreVisible
+            searchResultsAreVisible,
+            openMobileNavHandler,
+            closeMobileNavHandler,
+            mobileNavIsOpen,
         } = this.props;
         let pageContent;
 
@@ -69,12 +79,21 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
 
         return (
             <div>
+                <MobileNav
+                    open={mobileNavIsOpen}
+                    closeHandler={closeMobileNavHandler}
+                    navItems={[
+                        { display: 'Home', url: '/', icon: feather.icons.home },
+                        { display: 'Logout', url: '/logout', icon: feather.icons['log-out'] },
+                    ]}
+                />
                 <Header
                   searchIsVisible={searchIsVisible}
                   hideSearchHandler={hideSearchHandler}
                   showSearchHandler={showSearchHandler}
                   searchType={searchType}
                   submitSearchHandler={submitSearchHandler}
+                  openMobileNavHandler={openMobileNavHandler}
                 />
 
                 {pageContent}
@@ -90,6 +109,7 @@ const withConnect = connect(
         searchType: state.search.searchType,
         library: state.dashboard.library,
         isLoaded: state.dashboard.isLoaded,
+        mobileNavIsOpen: state.dashboard.mobileNavIsOpen,
     }),
     (dispatch) => ({
         onLoad: () => {
@@ -103,6 +123,12 @@ const withConnect = connect(
         },
         submitSearchHandler: (query) => {
             dispatch(prepareSearchResults(query));
+        },
+        openMobileNavHandler: () => {
+            dispatch(openMobileNav());
+        },
+        closeMobileNavHandler: () => {
+            dispatch(closeMobileNav());
         },
     })
 );

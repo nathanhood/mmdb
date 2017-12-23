@@ -44,12 +44,19 @@ const StyledInnerHeader = styled.div`
     ${transitionOpacity}
 `;
 
-const Header = ({ hideSearchHandler, showSearchHandler, searchIsVisible, searchType, submitSearchHandler }) => {
+const Header = ({
+    hideSearchHandler,
+    showSearchHandler,
+    searchIsVisible,
+    searchType,
+    submitSearchHandler,
+    openMobileNavHandler,
+}) => {
     return (
         <StyledHeader role="banner">
             <SearchField closeHandler={hideSearchHandler} isVisible={searchIsVisible} type={searchType} submitHandler={submitSearchHandler} />
             <StyledInnerHeader show={!searchIsVisible}>
-                <MenuButton>
+                <MenuButton onClick={openMobileNavHandler}>
                     <Hamburger />
                 </MenuButton>
                 <Logo>MMDb</Logo>
@@ -70,6 +77,7 @@ Header.propTypes = {
     searchIsVisible: PropTypes.bool,
     searchType: PropTypes.string,
     submitSearchHandler: PropTypes.func,
+    openMobileNavHandler: PropTypes.func,
 };
 
 export default Header;
