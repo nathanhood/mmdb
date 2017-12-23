@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Route, Redirect } from 'react-router-dom';
+import { LOGIN_URL } from '../../common/constants';
 
 
 class ProtectedRoute extends React.Component {
@@ -24,7 +25,7 @@ class ProtectedRoute extends React.Component {
               render={(props) => {
                   return isAuthenticated ?
                       <Component {...rest} /> :
-                      <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
+                      <Redirect to={{ pathname: LOGIN_URL, state: { from: props.location } }} />;
               }}
             />
         );

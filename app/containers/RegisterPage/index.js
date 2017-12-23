@@ -5,9 +5,11 @@ import { Helmet } from 'react-helmet';
 import { compose } from 'redux';
 
 import TextInput from '../../components/Form/TextInput';
-import FormContainer from '../../components/FormContainer';
+import FormContainer from '../LoginPage/FormContainer';
 import Button from '../../components/Form/Button';
 import { submitRegister } from './thunks';
+import Logo from '../../components/Logo';
+import Header from '../LoginPage/Header';
 
 
 export class RegisterPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -59,6 +61,10 @@ export class RegisterPage extends React.Component { // eslint-disable-line react
                     <title>Register</title>
                     <meta name="description" content="Register for an account" />
                 </Helmet>
+
+                <Header>
+                    <Logo>MMDb</Logo>
+                </Header>
 
                 <FormContainer>
                     <form

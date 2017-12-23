@@ -6,9 +6,10 @@ import { compose } from 'redux';
 
 import TextInput from '../../components/Form/TextInput';
 import Button from '../../components/Form/Button';
-import FormContainer from '../../components/FormContainer';
+import FormContainer from './FormContainer';
 import { submitLogin } from './thunks';
-
+import Logo from '../../components/Logo';
+import Header from './Header';
 
 export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
@@ -43,6 +44,10 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
                     <title>Login | MMDb</title>
                     <meta name="description" content="Log into mmdb" />
                 </Helmet>
+
+                <Header>
+                    <Logo>MMDb</Logo>
+                </Header>
 
                 <FormContainer>
                     <form

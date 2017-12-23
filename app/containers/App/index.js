@@ -26,6 +26,11 @@ import theme from 'variables';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
 import ProtectedRoute from '../ProtectedRoute';
+import {
+    LOGIN_URL,
+    DASHBOARD_URL,
+    REGISTER_URL
+} from '../../common/constants';
 
 const StyledContainer = styled.div`
     background: ${theme.backgroundColor};
@@ -57,9 +62,9 @@ class App extends React.Component {
             <ThemeProvider theme={theme}>
                 <StyledContainer>
                     <Switch>
-                        <Route path="/login" component={LoginPage} />
-                        <Route path="/register" component={RegisterPage} />
-                        <ProtectedRoute exact path="/" component={Dashboard} />
+                        <Route path={LOGIN_URL} component={LoginPage} />
+                        <Route path={REGISTER_URL} component={RegisterPage} />
+                        <ProtectedRoute exact path={DASHBOARD_URL} component={Dashboard} />
                         <Route component={NotFoundPage} />
                     </Switch>
                 </StyledContainer>
