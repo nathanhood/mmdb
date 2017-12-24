@@ -8,16 +8,18 @@ import Icon from '../Icon';
 
 const menuItemBorder = `1px solid ${themeVars.lightGray}`;
 const menuItemLineHeight = '21px';
+const navWidth = '300px';
 
 const StyledMobileNav = styled.div`
+    -webkit-backface-visibility: hidden;
     background-color: ${themeVars.backgroundColor};
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    right: 100px;
     z-index: 300;
-    transform: ${(props) => props.open ? 'translateX(0)' : 'translateX(calc(-100% - 100px))'};
+    width: ${navWidth};
+    transform: translateX(${({ open }) => open ? 0 : '-' + navWidth});
     transition: transform .35s ${({ open }) => open ? themeVars.animations.enterOffScreen : themeVars.animations.exitOffScreen};
     background: ${theme.white};
     border-right: 1px solid ${theme.lightGray};
@@ -34,6 +36,7 @@ const StyledOverlay = styled.div`
     opacity: ${({ open }) => open ? 1 : 0};
     visibility: ${({ open }) => open ? 'visible' : 'hidden'};
     transition: opacity .4s, visibility 0s ${({ open }) => open ? '0s' : '0.4s'};
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
 `;
 
 const StyledMenu = styled.ul`
@@ -61,7 +64,7 @@ const StyledMenuItem = styled.li`
 
 const NavLinkText = styled.div`
     padding-left: 15px;
-    font-size: 14px;
+    font-size: 15px;
 `;
 
 const MenuHeader = styled.div`
