@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import theme from '../../../theme';
 
-const labelHeight = '14px';
+const labelHeight = '16px';
 const getSpacing = (val) => typeof val === 'boolean' ? '20px' : val;
 
 const StyledDiv = styled.div`
@@ -80,27 +80,29 @@ class TextInput extends React.Component {
         return (
             <StyledDiv spaced={spaced}>
                 <StyledInput
-                  type={type || 'text'}
-                  name={name}
-                  id={name}
-                  innerRef={(input) => {
-                      this.input = input;
-                  }}
-                  onFocus={this.setActive}
-                  onBlur={this.setInActive}
-                  onChange={(e) => {
-                      if (onChangeHandler) {
-                          onChangeHandler(e.target.value);
-                      }
-                  }}
+                    type={type || 'text'}
+                    name={name}
+                    id={name}
+                    innerRef={(input) => {
+                        this.input = input;
+                    }}
+                    onFocus={this.setActive}
+                    onBlur={this.setInActive}
+                    onChange={(e) => {
+                        if (onChangeHandler) {
+                            onChangeHandler(e.target.value);
+                        }
+                    }}
+                    autoCapitalize="none"
+                    autoComplete="off"
                 />
                 <StyledLabel
-                  isActive={this.state.isActive}
-                  for={name}
-                  onClick={() => {
-                      this.setActive();
-                      this.input.focus();
-                  }}
+                    isActive={this.state.isActive}
+                    for={name}
+                    onClick={() => {
+                        this.setActive();
+                        this.input.focus();
+                    }}
                 >
                     {label}
                 </StyledLabel>
