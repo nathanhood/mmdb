@@ -1,12 +1,28 @@
+const Op = require('sequelize').Op;
 const DB = require('../index');
-const { toPlainObjects, toPlainObject } = require('./utils');
+const {
+    toPlainObjects,
+    toPlainObject,
+    movieWhere,
+} = require('./utils');
+const {
+    MAX_LIMIT,
+    DEFAULT_ORDER,
+    DEFAULT_OFFSET,
+} = require('./constants');
 
-const getUserMoviesWithGenres = (userId, limit, offset, order = 'ASC') => {
+const getUserMovies = ({ userId, ...options }) => {
+    const limit = options.limit || MAX_LIMIT;
+    const offset = options.offset || DEFAULT_OFFSET;
+    const order = options.order || DEFAULT_ORDER;
+    const associations = options.associations || { model: DB.Genre };
+    const query = options.query || null;
+
     return DB.UserMovie.findAll({
         attributes: ['id', 'format', 'definition', 'isFavorite', 'createdAt', 'updatedAt'],
         include: [
             { model: DB.User, where: { id: userId }, required: true },
-            { model: DB.Movie, required: true, include: { model: DB.Genre } },
+            { model: DB.Movie, where: movieWhere(query), required: true, include: associations },
         ],
         limit,
         offset,
@@ -43,11 +59,12 @@ const getRecentUserMovieAdditions = (userId, limit) => {
     }).then((movies) => toPlainObjects(movies));
 };
 
-const countUserMovies = (userId) => {
+const countUserMovies = (userId, query) => {
     return DB.Movie.count({
         include: [
             { model: DB.User, where: { id: userId } },
         ],
+        where: movieWhere(query),
     });
 };
 
@@ -67,7 +84,7 @@ const addUserMovie = (User, Movie, format, definition) => {
 }
 
 module.exports = {
-    getUserMoviesWithGenres,
+    getUserMovies,
     countUserMovies,
     findUserMoviesByTmdbId,
     addUserMovie,

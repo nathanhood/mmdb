@@ -91,12 +91,12 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
                     ]}
                 />
                 <Header
-                  searchIsVisible={searchIsVisible}
-                  hideSearchHandler={hideSearchHandler}
-                  showSearchHandler={showSearchHandler}
-                  searchType={searchType}
-                  submitSearchHandler={submitSearchHandler}
-                  openMobileNavHandler={openMobileNavHandler}
+                    searchIsVisible={searchIsVisible}
+                    hideSearchHandler={hideSearchHandler}
+                    showSearchHandler={showSearchHandler}
+                    searchType={searchType}
+                    submitSearchHandler={(query) => submitSearchHandler(query, searchType)}
+                    openMobileNavHandler={openMobileNavHandler}
                 />
 
                 {pageContent}
@@ -123,8 +123,8 @@ const withConnect = connect(
             dispatch(hideSearch());
             dispatch(prepareMoviesForDashboard());
         },
-        submitSearchHandler: (query) => {
-            dispatch(prepareSearchResults(query));
+        submitSearchHandler: (query, searchType) => {
+            dispatch(prepareSearchResults(query, searchType));
         },
         openMobileNavHandler: () => {
             dispatch(openMobileNav());

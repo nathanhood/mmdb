@@ -1,6 +1,9 @@
 import fetch from './index';
 import _uniqBy from 'lodash/uniqBy';
-import { extractDataFromResponse } from './utils';
+import {
+    extractDataFromResponse,
+    EMPTY_API_RESPONSE
+} from './utils';
 
 
 export const getUserMovies = (order = 'ASC') => fetch.get('movies', {
@@ -8,12 +11,23 @@ export const getUserMovies = (order = 'ASC') => fetch.get('movies', {
 }).then(extractDataFromResponse);
 
 export const getMovieSearchResults = (query, page = 1) => {
+    // TODO: Account for promise with null result
     if (!query) {
-        return null;
+        return Promise.resolve(EMPTY_API_RESPONSE);
     }
 
     return fetch.get('search/movie', {
         params: { query, page },
+    }).then(extractDataFromResponse);
+};
+
+export const getMovieLibrarySearchResults = (query) => {
+    if (!query) {
+        return Promise.resolve(EMPTY_API_RESPONSE);
+    }
+
+    return fetch.get('movies', {
+        params: { query },
     }).then(extractDataFromResponse);
 };
 

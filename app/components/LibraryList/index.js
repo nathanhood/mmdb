@@ -11,13 +11,13 @@ function LibraryList({ items }) {
             {items.map((item) => (
                 <Card key={item.id}>
                     <MovieCard
-                      title={item.title}
-                      releaseDate={item.releaseDate}
-                      poster={item.images.poster}
-                      rating={item.rating}
-                      isFavorite={item.isFavorite}
-                      genres={item.Genres}
-                      definition={item.definition}
+                        title={item.title}
+                        releaseDate={item.releaseDate}
+                        poster={item.images.poster}
+                        rating={item.rating}
+                        isFavorite={item.isFavorite}
+                        genres={item.Genres}
+                        definition={item.definition}
                     />
                 </Card>
             ))}

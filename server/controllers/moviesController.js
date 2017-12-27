@@ -1,24 +1,42 @@
 const DB = require('../models');
 const MovieApiService = require('../services/MovieApiService');
 const {
-    getUserMoviesWithGenres,
+    getUserMovies,
     countUserMovies,
     addUserMovie,
     getRecentUserMovieAdditions
 } = require('../models/services/movie');
 const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
+const { MAX_LIMIT } = require('../models/services/constants');
 
-const get = (req, res) => {
-    const { order, limit, page } = req.query;
+const search = async (req, res) => {
+    const { query, page } = req.query;
+    const { id: userId } = req.user;
+    const pagination = await paginate(countUserMovies(userId, query), page, MAX_LIMIT);
+    const movies = await getUserMovies({ userId, query });
+
+    res.json(movieTransformer.transformMany({ ...pagination, movies }));
+};
+
+const get = async (req, res) => {
+    const { order, limit, page, query } = req.query;
     const { id: userId } = req.user;
 
-    paginate(countUserMovies(userId), page, limit)
-        .then((pagination) => {
-            getUserMoviesWithGenres(userId, pagination.limit, pagination.offset, order).then((movies) => {
-                res.json(movieTransformer.transformMany({ ...pagination, movies }));
-            });
-        });
+    if (query) {
+        return search(req, res);
+    }
+
+    const pagination = await paginate(countUserMovies(userId, query), page, limit);
+    const movies = await getUserMovies({
+        userId,
+        limit: pagination.limit,
+        offset: pagination.offset,
+        order,
+        query,
+    });
+
+    return res.json(movieTransformer.transformMany({ ...pagination, movies }));
 };
 
 const getRecentFormats = (req, res) => {

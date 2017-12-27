@@ -8,12 +8,18 @@ import {
 import {
     getMovieSearchResults,
     addMovieToUserLibrary,
-    removeMovieFromUserLibrary
+    removeMovieFromUserLibrary,
+    getMovieLibrarySearchResults
 } from '../../gateways/movies';
 import { prepareRecentFormats } from '../App/thunks';
+import { LIBRARY_SEARCH_TYPE } from './constants';
 
-export const prepareSearchResults = (query) => (dispatch) => {
-    getMovieSearchResults(query).then((results) => {
+export const prepareSearchResults = (query, searchType) => (dispatch) => {
+    const getResults = searchType === LIBRARY_SEARCH_TYPE ?
+        getMovieLibrarySearchResults :
+        getMovieSearchResults;
+
+    getResults(query).then((results) => {
         dispatch(populateSearchResults(results.payload));
         dispatch(showSearchResults());
     });
