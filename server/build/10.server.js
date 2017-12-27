@@ -1,0 +1,1 @@
+exports.ids=[10],exports.modules={"./app/containers/App/selectors.js":function(e,t,o){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.makeSelectLocation=void 0;var r=o("reselect"),n=function(e){return e.get("route")},c=function(){return(0,r.createSelector)(n,function(e){return e.get("location").toJS()})};t.makeSelectLocation=c}};
