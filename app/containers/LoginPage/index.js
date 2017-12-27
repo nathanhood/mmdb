@@ -10,6 +10,9 @@ import FormContainer from './FormContainer';
 import { submitLogin } from './thunks';
 import Logo from '../../components/Logo';
 import Header from './Header';
+import AlternatePageMessage from './AlternatePageMessage';
+import { REGISTER_URL } from '../../common/constants';
+import StyledLink from '../../components/StyledLink';
 
 export class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
@@ -74,6 +77,9 @@ export class Login extends React.Component { // eslint-disable-line react/prefer
                         <Button wide>Login</Button>
                     </form>
                 </FormContainer>
+                <AlternatePageMessage>
+                    Don&apos;t have an account? <StyledLink to={REGISTER_URL}>Register</StyledLink>.
+                </AlternatePageMessage>
             </div>
         );
     }

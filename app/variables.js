@@ -1,4 +1,4 @@
-import { lighten } from 'polished';
+import { lighten, darken } from 'polished';
 
 const theme = {
     black: '#202121',
@@ -16,6 +16,9 @@ const theme = {
     font: 'Roboto, Arial, sans-serif',
     headerHeight: '70px',
 };
+
+theme.linkColor = theme.teal;
+theme.linkHoverColor = darken(0.05, theme.linkColor);
 
 theme.fixedButtonColor = theme.darkTeal;
 theme.fixedButtonActiveColor = lighten(0.04, theme.fixedButtonColor);

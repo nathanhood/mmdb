@@ -10,6 +10,9 @@ import Button from '../../components/Form/Button';
 import { submitRegister } from './thunks';
 import Logo from '../../components/Logo';
 import Header from '../LoginPage/Header';
+import AlternatePageMessage from '../LoginPage/AlternatePageMessage';
+import StyledLink from '../../components/StyledLink';
+import { LOGIN_URL } from '../../common/constants';
 
 
 export class RegisterPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -104,6 +107,9 @@ export class RegisterPage extends React.Component { // eslint-disable-line react
                         />
                         <Button wide>Register</Button>
                     </form>
+                    <AlternatePageMessage>
+                        Already have an account? <StyledLink to={LOGIN_URL}>Login</StyledLink>.
+                    </AlternatePageMessage>
                 </FormContainer>
             </div>
         );
