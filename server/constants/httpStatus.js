@@ -1,5 +1,7 @@
 const INVALID_INPUT_STATUS = 422;
+const NOT_FOUND_STATUS = 404;
 
 module.exports = {
     INVALID_INPUT_STATUS,
+    NOT_FOUND_STATUS,
 };

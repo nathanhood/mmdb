@@ -60,7 +60,15 @@ const InfoRow = styled.div`
     align-items: center;
 `;
 
-function MovieCard({ poster, title, releaseDate, isFavorite, genres, definition }, { definitions }) {
+function MovieCard({
+    poster,
+    title,
+    releaseDate,
+    isFavorite,
+    genres,
+    definition,
+    clickFavoriteHandler,
+}, { definitions }) {
     const icon = definitions.movie[definition].icon;
     let DefinitionIcon = null;
 
@@ -88,6 +96,7 @@ function MovieCard({ poster, title, releaseDate, isFavorite, genres, definition 
                       fill={isFavorite ? themeVars.loveRed : 'none'}
                       color={isFavorite ? themeVars.loveRed : themeVars.gray}
                       icon={feather.icons.heart}
+                      onClick={clickFavoriteHandler}
                     />
                 </ActionBar>
             </InfoContainer>
@@ -106,6 +115,7 @@ MovieCard.propTypes = {
     genres: PropTypes.array.isRequired,
     isFavorite: PropTypes.bool,
     definition: PropTypes.string.isRequired,
+    clickFavoriteHandler: PropTypes.func.isRequired,
 };
 
 export default MovieCard;

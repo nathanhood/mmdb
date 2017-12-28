@@ -1,5 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
     let UserMovie = sequelize.define('UserMovie', {
+        id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            primaryKey: true,
+            autoIncrement: true,
+        },
         userId: DataTypes.INTEGER.UNSIGNED,
         movieId: DataTypes.INTEGER.UNSIGNED,
         format: DataTypes.STRING,

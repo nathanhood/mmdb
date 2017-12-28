@@ -7,7 +7,11 @@ import { Helmet } from 'react-helmet';
 import LibraryList from '../../components/LibraryList';
 import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
-import { prepareMoviesForDashboard } from './thunks';
+import {
+    prepareMoviesForDashboard,
+    favoriteMovie,
+    unFavoriteMovie
+} from './thunks';
 import FixedActionButton from '../../components/FixedActionButton';
 import { STANDARD_SEARCH_TYPE } from '../../containers/SearchResults/constants';
 import Header from '../../components/Header';
@@ -42,6 +46,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         closeMobileNavHandler: PropTypes.func,
         mobileNavIsOpen: PropTypes.bool,
         logOutHandler: PropTypes.func,
+        toggleFavoriteHandler: PropTypes.func,
     };
 
     componentDidMount() {
@@ -61,6 +66,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             closeMobileNavHandler,
             mobileNavIsOpen,
             logOutHandler,
+            toggleFavoriteHandler,
         } = this.props;
         let pageContent;
 
@@ -69,7 +75,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         } else {
             pageContent = (
                 <div>
-                    <LibraryList items={library} />
+                    <LibraryList items={library} favoriteHandler={toggleFavoriteHandler} />
                     <FixedActionButton clickHandler={() => showSearchHandler(STANDARD_SEARCH_TYPE)} />
                 </div>
             );
@@ -135,6 +141,13 @@ const withConnect = connect(
         logOutHandler: () => {
             dispatch(closeMobileNav());
             dispatch(logOutUser());
+        },
+        toggleFavoriteHandler: ({ isFavorite, id }) => {
+            if (isFavorite) {
+                dispatch(unFavoriteMovie(id))
+            } else {
+                dispatch(favoriteMovie(id));
+            }
         },
     })
 );

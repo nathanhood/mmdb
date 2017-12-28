@@ -2,13 +2,16 @@ const DB = require('../models');
 const MovieApiService = require('../services/MovieApiService');
 const {
     getUserMovies,
+    getUserMovie,
     countUserMovies,
     addUserMovie,
     getRecentUserMovieAdditions
 } = require('../models/services/movie');
+const { findUserMovieById } = require('../models/services/usermovie');
 const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
 const { MAX_LIMIT } = require('../models/services/constants');
+const response = require('../utils/apiResponse');
 
 const search = async (req, res) => {
     const { query, page } = req.query;
@@ -47,12 +50,13 @@ const getRecentFormats = (req, res) => {
     });
 };
 
-const store = (req, res) => {
+const store = async (req, res) => {
     const {
         id: movieId,
         format,
         definition,
     } = req.body;
+    const { id: userId } = req.user;
     const movieApi = new MovieApiService();
 
     DB.Movie.findOneByTmbdId(movieId)
@@ -75,23 +79,51 @@ const store = (req, res) => {
         }).then((movie) => {
             return addUserMovie(req.user, movie, format, definition);
         }).then((movie) => {
+            // Retrieve full movie data for response
+            return getUserMovie(userId, movie.id);
+        }).then((movie) => {
             res.json(movieTransformer.transformOne(movie));
         });
 };
 
 const destroy = async (req, res) => {
-    const userMovie = await DB.UserMovie.find({
-        where: {
-            userId: req.user.id,
-            movieId: req.params.id,
-        },
-    });
+    const userMovie = await findUserMovieById(req.params.id);
 
     if (userMovie) {
         userMovie.destroy();
     }
 
-    res.json({ success: true });
+    res.json(response.success());
+};
+
+const favorite = async (req, res) => {
+    const { id: movieId } = req.params;
+    const userMovie = await findUserMovieById(movieId);
+
+    if (!userMovie) {
+        return response.notFound(res);
+    }
+
+    await userMovie.update({
+        isFavorite: true,
+    });
+
+    return res.json(response.success());
+};
+
+const unFavorite = async (req, res) => {
+    const { id: movieId } = req.params;
+    const userMovie = await findUserMovieById(movieId);
+
+    if (!userMovie) {
+        return response.notFound(res);
+    }
+
+    await userMovie.update({
+        isFavorite: false,
+    });
+
+    return res.json(response.success());
 };
 
 module.exports = {
@@ -99,4 +131,6 @@ module.exports = {
     store,
     destroy,
     getRecentFormats,
+    favorite,
+    unFavorite,
 };

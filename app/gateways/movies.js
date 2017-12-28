@@ -48,3 +48,7 @@ export const getRecentMovieFormats = () => {
 };
 
 export const getRecentUserMovies = () => getUserMovies('DESC');
+
+export const favoriteUserMovie = (id) => fetch.put(`movies/${id}/favorite`);
+
+export const unFavoriteUserMovie = (id) => fetch.put(`movies/${id}/unfavorite`);

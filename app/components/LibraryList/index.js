@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from 'components/Card';
-import MovieCard from 'components/MovieCard';
-import ListContainer from 'components/ListContainer';
+import Card from '../Card';
+import MovieCard from '../MovieCard';
+import ListContainer from '../ListContainer';
 
 
-function LibraryList({ items }) {
+function LibraryList({ items, favoriteHandler }) {
     return (
         <ListContainer>
             {items.map((item) => (
@@ -16,6 +16,7 @@ function LibraryList({ items }) {
                         poster={item.images.poster}
                         rating={item.rating}
                         isFavorite={item.isFavorite}
+                        clickFavoriteHandler={() => favoriteHandler(item)}
                         genres={item.Genres}
                         definition={item.definition}
                     />
@@ -27,6 +28,7 @@ function LibraryList({ items }) {
 
 LibraryList.propTypes = {
     items: PropTypes.array.isRequired,
+    favoriteHandler: PropTypes.func.isRequired,
 };
 
 export default LibraryList;

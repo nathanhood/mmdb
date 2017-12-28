@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const emailValidator = require('email-validator');
 const { createNewUser, findUserByUsername } = require('../models/services/user');
-const { INVALID_INPUT_STATUS } = require('../utils/http');
+const { INVALID_INPUT_STATUS } = require('../constants/httpStatus');
 const { transformOne } = require('../transformers/userTransformer');
 
 const login = async (req, res) => {

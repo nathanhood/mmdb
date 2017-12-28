@@ -1,7 +1,7 @@
 const MovieApiService = require('../services/MovieApiService');
 const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
-const { findUserMoviesByTmdbId } = require('../models/services/movie');
+const { getUserMoviesByTmdbId } = require('../models/services/movie');
 const { getAllGenres } = require('../models/services/genre');
 const { keyBy } = require('../models/services/utils');
 
@@ -10,7 +10,7 @@ const searchMovies = (req, res) => {
 
     apiService.searchForNewMovie(req.query.query, req.query.page || 1)
         .then(async ({ totalResults, page, movies }) => {
-            const ownedMovieDictionary = await findUserMoviesByTmdbId(
+            const ownedMovieDictionary = await getUserMoviesByTmdbId(
                 req.user.id,
                 movies.map((movie) => movie.tmdbId)
             ).then(keyBy('tmdbId'));

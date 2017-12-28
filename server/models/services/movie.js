@@ -1,4 +1,3 @@
-const Op = require('sequelize').Op;
 const DB = require('../index');
 const {
     toPlainObjects,
@@ -11,43 +10,73 @@ const {
     DEFAULT_OFFSET,
 } = require('./constants');
 
+
+const _defaultMovieAssociations = { model: DB.Genre };
+const _movieAttributes = ['id', 'format', 'definition', 'isFavorite', 'createdAt', 'updatedAt'];
+const _includeUser = (id) => ({
+    model: DB.User,
+    where: { id },
+    required: true
+});
+const _includeMovie = (where = null, associations = _defaultMovieAssociations) => ({
+    model: DB.Movie,
+    where,
+    required: true,
+    include: associations
+});
+const _formatMovieFromUserMovie = (movie) => {
+    delete movie.Movie.createdAt;
+    delete movie.Movie.updatedAt;
+
+    return {
+        ...movie.Movie,
+        id: movie.id,
+        User: movie.User,
+        format: movie.format,
+        definition: movie.definition,
+        isFavorite: movie.isFavorite,
+        createdAt: movie.createdAt,
+        updatedAt: movie.updatedAt,
+    };
+};
+const _formatManyMoviesFromUserMovies = (plainMovies) => plainMovies.map(_formatMovieFromUserMovie);
+
 const getUserMovies = ({ userId, ...options }) => {
     const limit = options.limit || MAX_LIMIT;
     const offset = options.offset || DEFAULT_OFFSET;
     const order = options.order || DEFAULT_ORDER;
-    const associations = options.associations || { model: DB.Genre };
-    const query = options.query || null;
+    const {
+        associations,
+        query,
+    } = options;
 
     return DB.UserMovie.findAll({
-        attributes: ['id', 'format', 'definition', 'isFavorite', 'createdAt', 'updatedAt'],
+        attributes: _movieAttributes,
         include: [
-            { model: DB.User, where: { id: userId }, required: true },
-            { model: DB.Movie, where: movieWhere(query), required: true, include: associations },
+            _includeUser(userId),
+            _includeMovie(movieWhere(query), associations),
         ],
         limit,
         offset,
         order: [
             ['createdAt', order],
         ],
-    }).then((movies) => {
-        const plainMovies = toPlainObjects(movies);
-
-        return plainMovies.map((movie) => {
-            delete movie.Movie.createdAt;
-            delete movie.Movie.updatedAt;
-
-            return {
-                ...movie.Movie,
-                User: movie.User,
-                format: movie.format,
-                definition: movie.definition,
-                isFavorite: movie.isFavorite,
-                createdAt: movie.createdAt,
-                updatedAt: movie.updatedAt,
-            };
-        });
-    });
+    })
+        .then(toPlainObjects)
+        .then(_formatManyMoviesFromUserMovies);
 };
+
+const getUserMovie = (userId, movieId, associations = _defaultMovieAssociations) => {
+    return DB.UserMovie.findOne({
+        attributes: _movieAttributes,
+        include: [
+            _includeUser(userId),
+            _includeMovie({ id: movieId }, associations),
+        ],
+    })
+        .then(toPlainObject)
+        .then(_formatMovieFromUserMovie);
+}
 
 const getRecentUserMovieAdditions = (userId, limit) => {
     return DB.UserMovie.findAll({
@@ -68,15 +97,15 @@ const countUserMovies = (userId, query) => {
     });
 };
 
-const findUserMoviesByTmdbId = (userId, movieIds) => {
-    return DB.Movie.findAll({
-        where: {
-            tmdbId: { in: movieIds },
-        },
+const getUserMoviesByTmdbId = (userId, movieIds) => {
+    return DB.UserMovie.findAll({
         include: [
-            { model: DB.User, where: { id: userId } },
+            _includeUser(userId),
+            _includeMovie({ tmdbId: { in: movieIds } }),
         ]
-    }).then(toPlainObjects);
+    })
+        .then(toPlainObjects)
+        .then(_formatManyMoviesFromUserMovies);
 };
 
 const addUserMovie = (User, Movie, format, definition) => {
@@ -85,8 +114,9 @@ const addUserMovie = (User, Movie, format, definition) => {
 
 module.exports = {
     getUserMovies,
+    getUserMovie,
     countUserMovies,
-    findUserMoviesByTmdbId,
+    getUserMoviesByTmdbId,
     addUserMovie,
     getRecentUserMovieAdditions,
 };
