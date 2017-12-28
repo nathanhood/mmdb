@@ -2,10 +2,12 @@ const DB = require('../models');
 const MovieApiService = require('../services/MovieApiService');
 const {
     getUserMovies,
-    getUserMovie,
+    getUserMovieById,
     countUserMovies,
     addUserMovie,
-    getRecentUserMovieAdditions
+    getRecentUserMovieAdditions,
+    getUserMoviesByGenre,
+    getUserMovieByUserAndMovie
 } = require('../models/services/movie');
 const { findUserMovieById } = require('../models/services/usermovie');
 const movieTransformer = require('../transformers/movieTransformer');
@@ -13,33 +15,71 @@ const paginate = require('../utils/pagination')();
 const { MAX_LIMIT } = require('../models/services/constants');
 const response = require('../utils/apiResponse');
 
-const search = async (req, res) => {
+const _search = async (req, res) => {
     const { query, page } = req.query;
     const { id: userId } = req.user;
-    const pagination = await paginate(countUserMovies(userId, query), page, MAX_LIMIT);
+    const pagination = await paginate(
+        countUserMovies({ userId, query }),
+        page,
+        MAX_LIMIT
+    );
     const movies = await getUserMovies({ userId, query });
 
     res.json(movieTransformer.transformMany({ ...pagination, movies }));
 };
 
-const get = async (req, res) => {
-    const { order, limit, page, query } = req.query;
+const index = async (req, res) => {
+    const {
+        order,
+        limit,
+        page,
+        query,
+        genre,
+    } = req.query;
     const { id: userId } = req.user;
+    let movies;
 
+    // Text search
     if (query) {
-        return search(req, res);
+        return _search(req, res);
     }
 
-    const pagination = await paginate(countUserMovies(userId, query), page, limit);
-    const movies = await getUserMovies({
+    const pagination = await paginate(
+        countUserMovies({ userId, genre }),
+        page,
+        limit
+    );
+    const options = {
         userId,
         limit: pagination.limit,
         offset: pagination.offset,
         order,
         query,
-    });
+        genre,
+    };
+
+    if (genre) {
+        movies = await getUserMoviesByGenre(options)
+    }
+
+    // Default retrieval of user movies
+    if (!movies) {
+        movies = await getUserMovies(options);
+    }
 
     return res.json(movieTransformer.transformMany({ ...pagination, movies }));
+};
+
+const show = async (req, res) => {
+    const movieId = req.params.id;
+
+    const movie = await getUserMovieById(movieId);
+
+    if (!movie) {
+        return response.notFound();
+    }
+
+    return res.json(movieTransformer.transformOne(movie));
 };
 
 const getRecentFormats = (req, res) => {
@@ -80,7 +120,7 @@ const store = async (req, res) => {
             return addUserMovie(req.user, movie, format, definition);
         }).then((movie) => {
             // Retrieve full movie data for response
-            return getUserMovie(userId, movie.id);
+            return getUserMovieByUserAndMovie(userId, movie.id);
         }).then((movie) => {
             res.json(movieTransformer.transformOne(movie));
         });
@@ -127,7 +167,8 @@ const unFavorite = async (req, res) => {
 };
 
 module.exports = {
-    get,
+    index,
+    show,
     store,
     destroy,
     getRecentFormats,

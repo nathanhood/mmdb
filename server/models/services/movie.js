@@ -11,13 +11,21 @@ const {
 } = require('./constants');
 
 
-const _defaultMovieAssociations = { model: DB.Genre };
+const _defaultMovieAssociations = [{ model: DB.Genre }];
 const _movieAttributes = ['id', 'format', 'definition', 'isFavorite', 'createdAt', 'updatedAt'];
-const _includeUser = (id) => ({
-    model: DB.User,
-    where: { id },
-    required: true
-});
+const _includeUser = (id) => {
+    let where;
+
+    if (id) {
+        where = { id };
+    }
+
+    return {
+        model: DB.User,
+        where,
+        required: true
+    };
+};
 const _includeMovie = (where = null, associations = _defaultMovieAssociations) => ({
     model: DB.Movie,
     where,
@@ -41,7 +49,7 @@ const _formatMovieFromUserMovie = (movie) => {
 };
 const _formatManyMoviesFromUserMovies = (plainMovies) => plainMovies.map(_formatMovieFromUserMovie);
 
-const getUserMovies = ({ userId, ...options }) => {
+const getUserMovies = ({ userId, ...options }, raw = false) => {
     const limit = options.limit || MAX_LIMIT;
     const offset = options.offset || DEFAULT_OFFSET;
     const order = options.order || DEFAULT_ORDER;
@@ -50,7 +58,7 @@ const getUserMovies = ({ userId, ...options }) => {
         query,
     } = options;
 
-    return DB.UserMovie.findAll({
+    const result = DB.UserMovie.findAll({
         attributes: _movieAttributes,
         include: [
             _includeUser(userId),
@@ -61,12 +69,40 @@ const getUserMovies = ({ userId, ...options }) => {
         order: [
             ['createdAt', order],
         ],
-    })
-        .then(toPlainObjects)
-        .then(_formatManyMoviesFromUserMovies);
+    });
+
+    return raw ?
+        result :
+        result.then(toPlainObjects).then(_formatManyMoviesFromUserMovies);
 };
 
-const getUserMovie = (userId, movieId, associations = _defaultMovieAssociations) => {
+const getUserMoviesByGenre = ({ genre, ...options }) => {
+    const associations = {
+        model: DB.Genre,
+        where: {
+            name: genre,
+        },
+    };
+
+    return getUserMovies({
+        ...options,
+        associations,
+    }, true)
+        .then((userMovies) => {
+            return Promise.all(
+                userMovies.map((userMovie) => userMovie.Movie.getGenres())
+            ).then((genres) => {
+                return toPlainObjects(userMovies).map((userMovie, i) => {
+                    userMovie.Movie.Genres = toPlainObjects(genres[i]);
+
+                    return userMovie;
+                });
+            })
+                .then(_formatManyMoviesFromUserMovies);
+        });
+};
+
+const getUserMovieByUserAndMovie = (userId, movieId, associations) => {
     return DB.UserMovie.findOne({
         attributes: _movieAttributes,
         include: [
@@ -78,6 +114,19 @@ const getUserMovie = (userId, movieId, associations = _defaultMovieAssociations)
         .then(_formatMovieFromUserMovie);
 }
 
+const getUserMovieById = (movieId, associations) => {
+    return DB.UserMovie.findOne({
+        attributes: _movieAttributes,
+        where: { id: movieId },
+        include: [
+            _includeUser(),
+            _includeMovie(null, associations),
+        ],
+    })
+        .then(toPlainObject)
+        .then(_formatMovieFromUserMovie);
+};
+
 const getRecentUserMovieAdditions = (userId, limit) => {
     return DB.UserMovie.findAll({
         where: { userId },
@@ -88,11 +137,20 @@ const getRecentUserMovieAdditions = (userId, limit) => {
     }).then((movies) => toPlainObjects(movies));
 };
 
-const countUserMovies = (userId, query) => {
+const countUserMovies = ({ userId, genre, query }) => {
+    let associations = [
+        { model: DB.User, where: { id: userId } },
+    ];
+
+    if (genre) {
+        associations = [
+            ...associations,
+            { model: DB.Genre, where: { name: genre } },
+        ];
+    }
+
     return DB.Movie.count({
-        include: [
-            { model: DB.User, where: { id: userId } },
-        ],
+        include: associations,
         where: movieWhere(query),
     });
 };
@@ -114,9 +172,11 @@ const addUserMovie = (User, Movie, format, definition) => {
 
 module.exports = {
     getUserMovies,
-    getUserMovie,
+    getUserMovieById,
+    getUserMovieByUserAndMovie,
     countUserMovies,
     getUserMoviesByTmdbId,
     addUserMovie,
     getRecentUserMovieAdditions,
+    getUserMoviesByGenre
 };
