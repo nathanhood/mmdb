@@ -12,9 +12,9 @@ export const setResource = (key, resource) => ({
     },
 });
 
-export const markDashboardDirty = () => ({
+export const markDashboardDirty = (resourceKeys = []) => ({
     type: MARK_DASHBOARD_DIRTY,
-    payload: [LIBRARY_RECENT_RESOURCE_KEY],
+    payload: [LIBRARY_RECENT_RESOURCE_KEY].concat(resourceKeys),
 });
 
 export const resetResourceCache = () => ({

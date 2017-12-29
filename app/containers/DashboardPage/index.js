@@ -163,11 +163,13 @@ const withConnect = connect(
             dispatch(closeMobileNav());
             dispatch(logOutUser());
         },
-        toggleFavoriteHandler: ({ isFavorite, id }) => {
+        toggleFavoriteHandler: (movie) => {
+            const { isFavorite } = movie;
+
             if (isFavorite) {
-                dispatch(unFavoriteMovie(id))
+                dispatch(unFavoriteMovie(movie))
             } else {
-                dispatch(favoriteMovie(id));
+                dispatch(favoriteMovie(movie));
             }
         },
     })

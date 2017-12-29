@@ -10,10 +10,14 @@ import {
     unFavoriteLibraryItem,
     populateSubMenuWithMovieGenres
 } from './actions';
-import { mapLocationToResource } from '../../common/resourceCache/utils';
+import {
+    mapLocationToResource,
+    getGenreKeysFromMovie
+} from '../../common/resourceCache/utils';
 import { DASHBOARD_URL } from '../../common/constants';
 import { LIBRARY_MOVIE_GENRES_KEY } from '../../common/resourceCache/constants';
 import { toLinkObjects } from '../../transformers/genres';
+import { markDashboardDirty } from '../../common/resourceCache/actions';
 
 export const prepareMoviesForDashboard = (location = { pathname: DASHBOARD_URL, search: '' }, forceUpdate = false) => (dispatch) => {
     const { resourceKey, gateway } = mapLocationToResource(location);
@@ -24,19 +28,21 @@ export const prepareMoviesForDashboard = (location = { pathname: DASHBOARD_URL, 
         });
 };
 
-export const favoriteMovie = (movieId) => (dispatch) => {
-    dispatch(favoriteLibraryItem(movieId));
+export const favoriteMovie = (movie) => (dispatch) => {
+    dispatch(favoriteLibraryItem(movie.id));
+    dispatch(markDashboardDirty(getGenreKeysFromMovie(movie.Genres)));
 
-    return favoriteUserMovie(movieId)
+    return favoriteUserMovie(movie.id)
         .catch(() => {
             // TODO: unfavorite movie and notify user that something went wrong
         });
 };
 
-export const unFavoriteMovie = (movieId) => (dispatch) => {
-    dispatch(unFavoriteLibraryItem(movieId));
+export const unFavoriteMovie = (movie) => (dispatch) => {
+    dispatch(unFavoriteLibraryItem(movie.id));
+    dispatch(markDashboardDirty(getGenreKeysFromMovie(movie.Genres)));
 
-    return unFavoriteUserMovie(movieId)
+    return unFavoriteUserMovie(movie.id)
         .catch(() => {
             // TODO: unfavorite movie and notify user that something went wrong
         });
