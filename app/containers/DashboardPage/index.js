@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import feather from 'feather-icons';
 import { Helmet } from 'react-helmet';
+import styled from 'styled-components';
 
 import LibraryList from '../../components/LibraryList';
 import injectReducer from '../../utils/injectReducer';
@@ -34,6 +35,10 @@ import {
 } from '../../common/constants';
 import { logOutUser } from '../../common/auth/thunks';
 
+
+const LibraryContainer = styled.div`
+    padding-bottom: 50px;
+`;
 
 class Dashboard extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
@@ -88,10 +93,10 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             pageContent = <SearchResults />
         } else {
             pageContent = (
-                <div>
+                <LibraryContainer>
                     <LibraryList items={library} favoriteHandler={toggleFavoriteHandler} />
                     <FixedActionButton clickHandler={() => showSearchHandler(STANDARD_SEARCH_TYPE)} />
-                </div>
+                </LibraryContainer>
             );
         }
 
