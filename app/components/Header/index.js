@@ -48,7 +48,7 @@ const Header = ({
         <StyledHeader role="banner">
             <SearchField closeHandler={hideSearchHandler} isVisible={searchIsVisible} type={searchType} submitHandler={submitSearchHandler} />
             <StyledInnerHeader show={!searchIsVisible}>
-                <MenuButton onClick={openMobileNavHandler}>
+                <MenuButton onClick={openMobileNavHandler} borderRight>
                     <Hamburger />
                 </MenuButton>
                 <Logo header>MMDb</Logo>

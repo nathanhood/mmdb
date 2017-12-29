@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import theme from 'theme';
+import themeVars from '../../variables';
 
 
 const HeaderButton = styled.div`
@@ -9,7 +9,7 @@ const HeaderButton = styled.div`
     align-items: center;
     height: 100%;
     width: 65px;
-    border-right: 1px solid ${theme.lightGray};
+    border-right: ${({ borderRight }) => borderRight ? '1px solid ' + themeVars.lightGray : 'none'};
     flex: 0 0 65px;
 `;
 
