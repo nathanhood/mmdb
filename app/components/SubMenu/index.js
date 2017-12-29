@@ -47,6 +47,7 @@ const MenuContainer = styled.div`
     background: ${theme.white};
     overflow: hidden;
     border-bottom: 1px solid ${themeVars.lightGray};
+    -webkit-overflow-scrolling: touch;
     &::before,
     &::after {
         content: '';
