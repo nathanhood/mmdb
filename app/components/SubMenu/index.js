@@ -50,7 +50,7 @@ const MenuContainer = styled.div`
     &::before,
     &::after {
         content: '';
-        background: linear-gradient(90deg, ${themeVars.white} 20%, transparent 100%);
+        background: linear-gradient(90deg, ${themeVars.white} 20%, rgba(255, 255, 255, 0.001) 100%);
         position: absolute;
         top: 0;
         z-index: 1;
