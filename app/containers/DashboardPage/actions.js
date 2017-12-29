@@ -6,6 +6,7 @@ export const CLOSE_MOBILE_NAV = 'dashboard/CLOSE_MOBILE_NAV';
 export const RESET_DASHBOARD = 'dashboard/RESET_DASHBOARD';
 export const FAVORITE_LIBRARY_ITEM = 'dashboard/FAVORITE_LIBRARY_ITEM';
 export const UNFAVORITE_LIBRARY_ITEM = 'dashboard/UNFAVORITE_LIBRARY_ITEM';
+export const POPULATE_SUB_MENU_WITH_MOVIE_GENRES = 'dashboard/POPULATE_SUB_MENU_WITH_MOVIE_GENRES';
 
 export const populateDashboard = (list) => ({
     type: POPULATE_DASHBOARD,
@@ -40,4 +41,9 @@ export const favoriteLibraryItem = (id) => ({
 export const unFavoriteLibraryItem = (id) => ({
     type: UNFAVORITE_LIBRARY_ITEM,
     payload: id,
+});
+
+export const populateSubMenuWithMovieGenres = (genres) => ({
+    type: POPULATE_SUB_MENU_WITH_MOVIE_GENRES,
+    payload: genres,
 });

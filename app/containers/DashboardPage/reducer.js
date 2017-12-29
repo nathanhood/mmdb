@@ -6,9 +6,11 @@ import {
     OPEN_MOBILE_NAV,
     CLOSE_MOBILE_NAV,
     FAVORITE_LIBRARY_ITEM,
-    UNFAVORITE_LIBRARY_ITEM
+    UNFAVORITE_LIBRARY_ITEM,
+    POPULATE_SUB_MENU_WITH_MOVIE_GENRES
 } from './actions';
 import initialState from '../../initialState';
+import { SUB_MENU_BASE } from './constants';
 
 const reducerMap = {
     [POPULATE_DASHBOARD]: (state, action) => ({ ...state, library: action.payload }),
@@ -31,6 +33,10 @@ const reducerMap = {
             isFavorite: item.id === id ? false : item.isFavorite,
         })),
     }),
+    [POPULATE_SUB_MENU_WITH_MOVIE_GENRES]: (state, { payload: genres }) => ({
+        ...state,
+        subMenu: SUB_MENU_BASE.concat(genres),
+    })
 };
 
 function dashboardReducer(state = {}, action) {

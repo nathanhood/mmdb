@@ -14,6 +14,8 @@ const movieTransformer = require('../transformers/movieTransformer');
 const paginate = require('../utils/pagination')();
 const { MAX_LIMIT } = require('../models/services/constants');
 const response = require('../utils/apiResponse');
+const { getUserMovieGenres } = require('../models/services/genre');
+const genreTransformer = require('../transformers/genreTransformer');
 
 const _search = async (req, res) => {
     const { query, page } = req.query;
@@ -166,6 +168,14 @@ const unFavorite = async (req, res) => {
     return res.json(response.success());
 };
 
+const genreIndex = async (req, res) => {
+    const { id: userId } = req.user;
+    const genres = await getUserMovieGenres(userId);
+    const pagination = await paginate(Promise.resolve(genres.length));
+
+    res.json(genreTransformer.transformMany({ ...pagination, genres }));
+};
+
 module.exports = {
     index,
     show,
@@ -174,4 +184,5 @@ module.exports = {
     getRecentFormats,
     favorite,
     unFavorite,
+    genreIndex,
 };

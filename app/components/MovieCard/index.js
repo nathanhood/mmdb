@@ -83,7 +83,9 @@ function MovieCard({
             </PosterContainer>
             <InfoContainer>
                 {genres.slice(0, 2).map((genre, i) => (
-                    <Genre key={genre.id}>{i >= 1 ? genre.name : `${genre.name} | `}</Genre>
+                    <Genre key={genre.id}>
+                        {i >= 1 || genres.length === 1 ? genre.name : `${genre.name} | `}
+                    </Genre>
                 ))}
                 <Title>{title}</Title>
                 <InfoRow>

@@ -80,7 +80,7 @@ const getUserMoviesByGenre = ({ genre, ...options }) => {
     const associations = {
         model: DB.Genre,
         where: {
-            name: genre,
+            slug: genre,
         },
     };
 
@@ -145,7 +145,7 @@ const countUserMovies = ({ userId, genre, query }) => {
     if (genre) {
         associations = [
             ...associations,
-            { model: DB.Genre, where: { name: genre } },
+            { model: DB.Genre, where: { slug: genre } },
         ];
     }
 

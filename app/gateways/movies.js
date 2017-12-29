@@ -49,6 +49,12 @@ export const getRecentMovieFormats = () => {
 
 export const getRecentUserMovies = () => getUserMovies('DESC');
 
+export const getUserMoviesByGenre = (genre) => fetch.get('movies', {
+    params: { genre },
+}).then(extractDataFromResponse);
+
 export const favoriteUserMovie = (id) => fetch.put(`movies/${id}/favorite`);
 
 export const unFavoriteUserMovie = (id) => fetch.put(`movies/${id}/unfavorite`);
+
+export const getUserMovieGenres = () => fetch.get('/movies/genres').then(extractDataFromResponse);

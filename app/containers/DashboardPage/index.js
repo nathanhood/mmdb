@@ -4,19 +4,22 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import feather from 'feather-icons';
 import { Helmet } from 'react-helmet';
+
 import LibraryList from '../../components/LibraryList';
 import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import {
     prepareMoviesForDashboard,
     favoriteMovie,
-    unFavoriteMovie
+    unFavoriteMovie,
+    prepareMovieGenres
 } from './thunks';
 import FixedActionButton from '../../components/FixedActionButton';
 import { STANDARD_SEARCH_TYPE } from '../../containers/SearchResults/constants';
 import Header from '../../components/Header';
 import SearchResults from '../SearchResults';
 import MobileNav from '../../components/MobileNav';
+import SubMenu from '../../components/SubMenu';
 import { showSearch, hideSearch } from '../SearchResults/actions';
 import {
     prepareRecentFormats
@@ -47,10 +50,20 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         mobileNavIsOpen: PropTypes.bool,
         logOutHandler: PropTypes.func,
         toggleFavoriteHandler: PropTypes.func,
+        subMenuItems: PropTypes.array,
+        refreshDashboard: PropTypes.func.isRequired,
+    };
+
+    static defaultProps = {
+        subMenuItems: [],
     };
 
     componentDidMount() {
         this.props.onLoad();
+    }
+
+    componentDidUpdate() {
+        this.props.refreshDashboard();
     }
 
     render() {
@@ -67,6 +80,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             mobileNavIsOpen,
             logOutHandler,
             toggleFavoriteHandler,
+            subMenuItems,
         } = this.props;
         let pageContent;
 
@@ -104,6 +118,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
                     submitSearchHandler={(query) => submitSearchHandler(query, searchType)}
                     openMobileNavHandler={openMobileNavHandler}
                 />
+                <SubMenu items={subMenuItems} />
 
                 {pageContent}
             </div>
@@ -118,11 +133,17 @@ const withConnect = connect(
         searchType: state.search.searchType,
         library: state.dashboard.library,
         mobileNavIsOpen: state.dashboard.mobileNavIsOpen,
+        subMenuItems: state.dashboard.subMenu,
     }),
-    (dispatch) => ({
+    (dispatch, { location }) => ({
         onLoad: () => {
-            dispatch(prepareMoviesForDashboard())
-                .then(() => dispatch(prepareRecentFormats()));
+            Promise.all([
+                dispatch(prepareMoviesForDashboard(location)),
+                dispatch(prepareMovieGenres()),
+            ]).then(() => dispatch(prepareRecentFormats()));
+        },
+        refreshDashboard: () => {
+            dispatch(prepareMoviesForDashboard(location));
         },
         showSearchHandler: (type) => dispatch(showSearch(type)),
         hideSearchHandler: () => {

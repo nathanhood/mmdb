@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import { transitionOpacity } from 'mixins';
-import HeaderButton from 'components/HeaderButton';
+import { transitionOpacity } from '../../mixins';
+import HeaderButton from '../HeaderButton';
 import theme from 'theme';
 import { LIBRARY_SEARCH_TYPE, STANDARD_SEARCH_TYPE } from 'containers/SearchResults/constants';
 

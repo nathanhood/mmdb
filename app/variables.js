@@ -2,6 +2,7 @@ import { lighten, darken } from 'polished';
 
 const theme = {
     black: '#202121',
+    darkGray: '#8d8e8e',
     gray: '#a6abab',
     lighterGray: '#f3f3f3',
     lightGray: '#e6eaea',
