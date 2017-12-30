@@ -67,8 +67,14 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         this.props.onLoad();
     }
 
-    componentDidUpdate() {
-        this.props.refreshDashboard();
+    componentWillReceiveProps({ location: newLocation }) {
+        const { location: oldLocation } = this.props;
+
+        // Only refresh dashboard if we have navigated
+        // to different submenu link
+        if (oldLocation !== newLocation) {
+            this.props.refreshDashboard(newLocation);
+        }
     }
 
     render() {
