@@ -24,7 +24,7 @@ export default function configureStore(initialState = {}, history, ssr = false) 
         routerMiddleware(history),
     ];
 
-    if (!ssr) {
+    if (!ssr && process.env.NODE_ENV !== 'production') {
         middlewares.unshift(logger);
     }
 
