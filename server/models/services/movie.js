@@ -1,3 +1,4 @@
+const sequelize = require('sequelize');
 const DB = require('../index');
 const {
     toPlainObjects,
@@ -52,7 +53,7 @@ const _formatManyMoviesFromUserMovies = (plainMovies) => plainMovies.map(_format
 const getUserMovies = ({ userId, ...options }, raw = false) => {
     const limit = options.limit || MAX_LIMIT;
     const offset = options.offset || DEFAULT_OFFSET;
-    const order = options.order || DEFAULT_ORDER;
+    const order = options.order ? ['createdAt', options.order] : [sequelize.literal('`Movie.title`'), DEFAULT_ORDER];
     const {
         associations,
         query,
@@ -66,9 +67,7 @@ const getUserMovies = ({ userId, ...options }, raw = false) => {
         ],
         limit,
         offset,
-        order: [
-            ['createdAt', order],
-        ],
+        order: [order],
     });
 
     return raw ?

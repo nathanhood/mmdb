@@ -1,5 +1,6 @@
 const DB = require('../index');
 const { toPlainObjects } = require('./utils');
+const { DEFAULT_ORDER } = require('./constants');
 
 const getAllGenres = () => {
     return DB.Genre.findAll().then(toPlainObjects);
@@ -17,7 +18,10 @@ const getUserMovieGenres = (userId) => {
                     required: true,
                 },
             },
-        ]
+        ],
+        order: [
+            ['name', DEFAULT_ORDER]
+        ],
     })
         .then(toPlainObjects)
         .then((genres) => genres.map((genre) => {
