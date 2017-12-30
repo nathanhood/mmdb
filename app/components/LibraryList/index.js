@@ -5,7 +5,7 @@ import MovieCard from '../MovieCard';
 import ListContainer from '../ListContainer';
 
 
-function LibraryList({ items, favoriteHandler }) {
+function LibraryList({ items, favoriteHandler, removeHandler }) {
     return (
         <ListContainer>
             {items.map((item) => (
@@ -16,7 +16,8 @@ function LibraryList({ items, favoriteHandler }) {
                         poster={item.images.poster}
                         rating={item.rating}
                         isFavorite={item.isFavorite}
-                        clickFavoriteHandler={() => favoriteHandler(item)}
+                        clickHeartHandler={() => favoriteHandler(item)}
+                        clickTrashHandler={() => removeHandler(item)}
                         genres={item.Genres}
                         definition={item.definition}
                     />
@@ -29,6 +30,7 @@ function LibraryList({ items, favoriteHandler }) {
 LibraryList.propTypes = {
     items: PropTypes.array.isRequired,
     favoriteHandler: PropTypes.func.isRequired,
+    removeHandler: PropTypes.func.isRequired,
 };
 
 export default LibraryList;

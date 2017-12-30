@@ -8,8 +8,10 @@ import reducer from './reducer';
 import theme from '../../theme';
 import {
     addMovieToLibrary,
-    removeMovieFromLibrary
+    removeMovieFromLibrary,
+    toggleFavorite
 } from './thunks';
+import { removeFromSearchResult } from './actions';
 import { markDashboardDirty } from '../../common/resourceCache/actions';
 import ListContainer from '../../components/ListContainer';
 import Card from '../../components/Card';
@@ -33,7 +35,9 @@ class SearchResults extends React.Component {
     static propTypes = {
         results: PropTypes.array.isRequired,
         addMovieToLibraryHandler: PropTypes.func.isRequired,
-        removeMovieFromLibraryHandler: PropTypes.func.isRequired,
+        removeFromLibraryHandler: PropTypes.func.isRequired,
+        removeFromSearchAndLibraryHandler: PropTypes.func.isRequired,
+        toggleFavoriteHandler: PropTypes.func.isRequired,
         recentFormats: PropTypes.array,
         searchType: PropTypes.string,
     };
@@ -46,9 +50,11 @@ class SearchResults extends React.Component {
         const {
             results,
             addMovieToLibraryHandler,
-            removeMovieFromLibraryHandler,
+            removeFromLibraryHandler,
             recentFormats,
             searchType,
+            removeFromSearchAndLibraryHandler,
+            toggleFavoriteHandler,
         } = this.props;
         let Results;
 
@@ -65,6 +71,8 @@ class SearchResults extends React.Component {
                                 isFavorite={item.isFavorite}
                                 definition={item.definition}
                                 genres={item.Genres}
+                                clickHeartHandler={() => toggleFavoriteHandler(item)}
+                                clickTrashHandler={() => removeFromSearchAndLibraryHandler(item)}
                             />
                         </Card>
                     ))}
@@ -83,7 +91,7 @@ class SearchResults extends React.Component {
                                 releaseDate={item.releaseDate}
                                 isOwned={item.isOwned}
                                 addToLibraryHandler={addMovieToLibraryHandler}
-                                removeFromLibraryHandler={removeMovieFromLibraryHandler}
+                                removeFromLibraryHandler={() => removeFromLibraryHandler(item)}
                                 recentFormats={recentFormats}
                             />
                         </Card>
@@ -108,12 +116,18 @@ const withConnect = connect(
     }),
     (dispatch) => ({
         addMovieToLibraryHandler: (data) => {
-            dispatch(addMovieToLibrary(data))
+            dispatch(addMovieToLibrary(data));
             dispatch(markDashboardDirty());
         },
-        removeMovieFromLibraryHandler: (id) => {
-            dispatch(removeMovieFromLibrary(id));
-            dispatch(markDashboardDirty());
+        removeFromLibraryHandler: (movie) => {
+            dispatch(removeMovieFromLibrary(movie));
+        },
+        removeFromSearchAndLibraryHandler: (movie) => {
+            dispatch(removeFromSearchResult(movie.id));
+            dispatch(removeMovieFromLibrary(movie));
+        },
+        toggleFavoriteHandler: (movie) => {
+            dispatch(toggleFavorite(movie));
         },
     })
 );

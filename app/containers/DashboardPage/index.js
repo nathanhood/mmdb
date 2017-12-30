@@ -11,9 +11,9 @@ import injectReducer from '../../utils/injectReducer';
 import reducer from './reducer';
 import {
     prepareMoviesForDashboard,
-    favoriteMovie,
-    unFavoriteMovie,
-    prepareMovieGenres
+    toggleFavorite,
+    prepareMovieGenres,
+    removeFromLibrary
 } from './thunks';
 import FixedActionButton from '../../components/FixedActionButton';
 import { STANDARD_SEARCH_TYPE } from '../../containers/SearchResults/constants';
@@ -57,6 +57,8 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         toggleFavoriteHandler: PropTypes.func,
         subMenuItems: PropTypes.array,
         refreshDashboard: PropTypes.func.isRequired,
+        location: PropTypes.object.isRequired,
+        removeFromLibraryHandler: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -92,15 +94,22 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             logOutHandler,
             toggleFavoriteHandler,
             subMenuItems,
+            removeFromLibraryHandler,
         } = this.props;
         let pageContent;
 
         if (searchResultsAreVisible) {
-            pageContent = <SearchResults />
+            pageContent = (
+                <SearchResults />
+            );
         } else {
             pageContent = (
                 <LibraryContainer>
-                    <LibraryList items={library} favoriteHandler={toggleFavoriteHandler} />
+                    <LibraryList
+                        items={library}
+                        favoriteHandler={toggleFavoriteHandler}
+                        removeHandler={removeFromLibraryHandler}
+                    />
                     <FixedActionButton clickHandler={() => showSearchHandler(STANDARD_SEARCH_TYPE)} />
                 </LibraryContainer>
             );
@@ -153,13 +162,13 @@ const withConnect = connect(
                 dispatch(prepareMovieGenres()),
             ]).then(() => dispatch(prepareRecentFormats()));
         },
-        refreshDashboard: () => {
-            dispatch(prepareMoviesForDashboard(location));
+        refreshDashboard: (newLocation) => {
+            dispatch(prepareMoviesForDashboard(newLocation));
         },
         showSearchHandler: (type) => dispatch(showSearch(type)),
         hideSearchHandler: () => {
             dispatch(hideSearch());
-            dispatch(prepareMoviesForDashboard());
+            dispatch(prepareMoviesForDashboard(location));
         },
         submitSearchHandler: (query, searchType) => {
             dispatch(prepareSearchResults(query, searchType));
@@ -175,14 +184,11 @@ const withConnect = connect(
             dispatch(logOutUser());
         },
         toggleFavoriteHandler: (movie) => {
-            const { isFavorite } = movie;
-
-            if (isFavorite) {
-                dispatch(unFavoriteMovie(movie))
-            } else {
-                dispatch(favoriteMovie(movie));
-            }
+            dispatch(toggleFavorite(movie));
         },
+        removeFromLibraryHandler: (movie) => {
+            dispatch(removeFromLibrary(movie));
+        }
     })
 );
 

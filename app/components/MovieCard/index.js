@@ -55,6 +55,11 @@ const ActionBar = styled.div`
     padding-right: 5px;
 `;
 
+const ActionBarItem = styled.div`
+    padding-left: ${({ spaced, spacedLeft }) => spaced || spacedLeft ? '7px' : 0};
+    padding-right: ${({ spaced, spacedRight }) => spaced || spacedRight ? '7px' : 0};
+`;
+
 const InfoRow = styled.div`
     display: flex;
     align-items: center;
@@ -67,7 +72,8 @@ function MovieCard({
     isFavorite,
     genres,
     definition,
-    clickFavoriteHandler,
+    clickHeartHandler,
+    clickTrashHandler,
 }, { definitions }) {
     const icon = definitions.movie[definition].icon;
     let DefinitionIcon = null;
@@ -93,13 +99,21 @@ function MovieCard({
                     {DefinitionIcon}
                 </InfoRow>
                 <ActionBar>
-                    <Icon
-                      size={18}
-                      fill={isFavorite ? themeVars.loveRed : 'none'}
-                      color={isFavorite ? themeVars.loveRed : themeVars.gray}
-                      icon={feather.icons.heart}
-                      onClick={clickFavoriteHandler}
-                    />
+                    <ActionBarItem spacedRight>
+                        <Icon
+                            icon={feather.icons['trash-2']}
+                            color={themeVars.gray}
+                            onClick={clickTrashHandler}
+                        />
+                    </ActionBarItem>
+                    <ActionBarItem spacedLeft>
+                        <Icon
+                            fill={isFavorite ? themeVars.loveRed : 'none'}
+                            color={isFavorite ? themeVars.loveRed : themeVars.gray}
+                            icon={feather.icons.heart}
+                            onClick={clickHeartHandler}
+                        />
+                    </ActionBarItem>
                 </ActionBar>
             </InfoContainer>
         </Container>
@@ -117,7 +131,8 @@ MovieCard.propTypes = {
     genres: PropTypes.array.isRequired,
     isFavorite: PropTypes.bool,
     definition: PropTypes.string.isRequired,
-    clickFavoriteHandler: PropTypes.func.isRequired,
+    clickHeartHandler: PropTypes.func.isRequired,
+    clickTrashHandler: PropTypes.func.isRequired,
 };
 
 export default MovieCard;

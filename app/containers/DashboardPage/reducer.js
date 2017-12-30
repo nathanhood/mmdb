@@ -7,7 +7,8 @@ import {
     CLOSE_MOBILE_NAV,
     FAVORITE_LIBRARY_ITEM,
     UNFAVORITE_LIBRARY_ITEM,
-    POPULATE_SUB_MENU_WITH_MOVIE_GENRES
+    POPULATE_SUB_MENU_WITH_MOVIE_GENRES,
+    REMOVE_LIBRARY_ITEM
 } from './actions';
 import initialState from '../../initialState';
 import { SUB_MENU_BASE } from './constants';
@@ -36,7 +37,11 @@ const reducerMap = {
     [POPULATE_SUB_MENU_WITH_MOVIE_GENRES]: (state, { payload: genres }) => ({
         ...state,
         subMenu: SUB_MENU_BASE.concat(genres),
-    })
+    }),
+    [REMOVE_LIBRARY_ITEM]: (state, { payload: id }) => ({
+        ...state,
+        library: state.library.filter((item) => item.id !== id),
+    }),
 };
 
 function dashboardReducer(state = {}, action) {

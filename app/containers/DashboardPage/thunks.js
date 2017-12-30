@@ -1,14 +1,16 @@
 import {
     favoriteUserMovie,
     unFavoriteUserMovie,
-    getUserMovieGenres
+    getUserMovieGenres,
+    removeMovieFromUserLibrary
 } from '../../gateways/movies';
 import { prepareResource } from '../../utils/resourceCache';
 import {
     populateDashboard,
     favoriteLibraryItem,
     unFavoriteLibraryItem,
-    populateSubMenuWithMovieGenres
+    populateSubMenuWithMovieGenres,
+    removeLibraryItem
 } from './actions';
 import {
     mapLocationToResource,
@@ -48,6 +50,16 @@ export const unFavoriteMovie = (movie) => (dispatch) => {
         });
 };
 
+export const toggleFavorite = (movie) => (dispatch) => {
+    const { isFavorite } = movie;
+
+    if (isFavorite) {
+        return dispatch(unFavoriteMovie(movie))
+    }
+
+    return dispatch(favoriteMovie(movie));
+};
+
 export const prepareMovieGenres = (forceUpdate) => (dispatch) => {
     return dispatch(prepareResource(LIBRARY_MOVIE_GENRES_KEY, getUserMovieGenres, forceUpdate))
         .then(({ payload }) => {
@@ -58,4 +70,13 @@ export const prepareMovieGenres = (forceUpdate) => (dispatch) => {
 
             dispatch(populateSubMenuWithMovieGenres(genres));
         });
+};
+
+export const removeFromLibrary = (movie) => (dispatch) => {
+    dispatch(removeLibraryItem(movie.id));
+    dispatch(markDashboardDirty(getGenreKeysFromMovie(movie.Genres)));
+
+    removeMovieFromUserLibrary(movie.id).catch(() => {
+        // TODO: unclaim search result and notify user that something went wrong
+    });
 };

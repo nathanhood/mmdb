@@ -5,6 +5,9 @@ export const HIDE_SEARCH = 'search/HIDE';
 export const CLAIM_SEARCH_RESULT_AS_OWNED = 'search/CLAIM_SEARCH_RESULT_AS_OWNED';
 export const UNCLAIM_SEARCH_RESULT_AS_OWNED = 'search/UNCLAIM_SEARCH_RESULT_AS_OWNED';
 export const SET_ID_ON_SEARCH_RESULT = 'search/SET_ID_ON_SEARCH_RESULT';
+export const REMOVE_FROM_SEARCH_RESULT = 'search/REMOVE_FROM_SEARCH_RESULT';
+export const FAVORITE_SEARCH_RESULT = 'dashboard/FAVORITE_SEARCH_RESULT';
+export const UNFAVORITE_SEARCH_RESULT = 'dashboard/UNFAVORITE_SEARCH_RESULT';
 
 export const populateSearchResults = (list) => ({
     type: POPULATE_SEARCH_RESULTS,
@@ -37,4 +40,19 @@ export const unclaimSearchResultAsOwned = (id) => ({
 export const setIdOnSearchResult = (result) => ({
     type: SET_ID_ON_SEARCH_RESULT,
     payload: result,
+});
+
+export const removeFromSearchResult = (id) => ({
+    type: REMOVE_FROM_SEARCH_RESULT,
+    payload: id,
+});
+
+export const favoriteSearchResult = (id) => ({
+    type: FAVORITE_SEARCH_RESULT,
+    payload: id,
+});
+
+export const unFavoriteSearchResult = (id) => ({
+    type: UNFAVORITE_SEARCH_RESULT,
+    payload: id,
 });

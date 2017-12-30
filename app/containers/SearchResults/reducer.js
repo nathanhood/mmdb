@@ -5,7 +5,10 @@ import {
     SHOW_SEARCH_RESULTS,
     CLAIM_SEARCH_RESULT_AS_OWNED,
     UNCLAIM_SEARCH_RESULT_AS_OWNED,
-    SET_ID_ON_SEARCH_RESULT
+    SET_ID_ON_SEARCH_RESULT,
+    REMOVE_FROM_SEARCH_RESULT,
+    FAVORITE_SEARCH_RESULT,
+    UNFAVORITE_SEARCH_RESULT
 } from './actions';
 
 const reducerMap = {
@@ -43,13 +46,31 @@ const reducerMap = {
     }),
     [SET_ID_ON_SEARCH_RESULT]: (state, { payload: updatedResult }) => ({
         ...state,
-        searchResults: state.searchResults.map((result) => {
+        results: state.results.map((result) => {
             if (result.apiId === updatedResult.apiId) {
                 return { ...result, id: updatedResult.id };
             }
 
             return result;
         }),
+    }),
+    [REMOVE_FROM_SEARCH_RESULT]: (state, { payload: id }) => ({
+        ...state,
+        results: state.results.filter((result) => result.id !== id),
+    }),
+    [FAVORITE_SEARCH_RESULT]: (state, { payload: id }) => ({
+        ...state,
+        results: state.results.map((item) => ({
+            ...item,
+            isFavorite: item.isFavorite || item.id === id,
+        })),
+    }),
+    [UNFAVORITE_SEARCH_RESULT]: (state, { payload: id }) => ({
+        ...state,
+        results: state.results.map((item) => ({
+            ...item,
+            isFavorite: item.id === id ? false : item.isFavorite,
+        })),
     }),
 };
 
