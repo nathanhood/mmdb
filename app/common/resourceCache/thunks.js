@@ -1,5 +1,5 @@
 import _isEmpty from 'lodash/isEmpty';
-import { setResource } from '../common/resourceCache/actions';
+import { setResource } from './actions';
 import moment from 'moment';
 
 const CACHE_MAX_LIFE = 3600000;

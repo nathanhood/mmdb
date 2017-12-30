@@ -4,7 +4,7 @@ import {
     getUserMovieGenres,
     removeMovieFromUserLibrary
 } from '../../gateways/movies';
-import { prepareResource } from '../../utils/resourceCache';
+import { prepareResource } from '../../common/resourceCache/thunks';
 import {
     populateDashboard,
     favoriteLibraryItem,
