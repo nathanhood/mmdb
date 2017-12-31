@@ -1,4 +1,4 @@
-export const POPULATE_DASHBOARD = 'dashboard/POPULATE_DASHBOARD';
+export const POPULATE_LIBRARY = 'dashboard/POPULATE_LIBRARY';
 export const START_LOADING = 'dashboard/START_LOADING';
 export const END_LOADING = 'dashboard/END_LOADING';
 export const OPEN_MOBILE_NAV = 'dashboard/OPEN_MOBILE_NAV';
@@ -8,10 +8,19 @@ export const FAVORITE_LIBRARY_ITEM = 'dashboard/FAVORITE_LIBRARY_ITEM';
 export const UNFAVORITE_LIBRARY_ITEM = 'dashboard/UNFAVORITE_LIBRARY_ITEM';
 export const POPULATE_SUB_MENU_WITH_MOVIE_GENRES = 'dashboard/POPULATE_SUB_MENU_WITH_MOVIE_GENRES';
 export const REMOVE_LIBRARY_ITEM = 'dashboard/REMOVE_LIBRARY_ITEM';
+export const APPEND_TO_LIBRARY = 'dashboard/APPEND_TO_LIBRARY';
+export const PREPEND_TO_LIBRARY = 'dashboard/PREPEND_TO_LIBRARY';
+export const PAGINATION_SET_TYPE = 'dashboard/SET_PAGINATION_TYPE';
+export const PAGINATION_MAX_REACHED = 'dashboard/PAGINATION_MAX_REACHED';
 
-export const populateDashboard = (list) => ({
-    type: POPULATE_DASHBOARD,
-    payload: list,
+
+export const populateLibrary = ({ payload: library, page, totalPages }) => ({
+    type: POPULATE_LIBRARY,
+    payload: {
+        library,
+        page,
+        totalPages,
+    },
 });
 
 export const resetDashboard = () => ({
@@ -52,4 +61,23 @@ export const populateSubMenuWithMovieGenres = (genres) => ({
 export const removeLibraryItem = (id) => ({
     type: REMOVE_LIBRARY_ITEM,
     payload: id,
+});
+
+export const appendToLibrary = (list) => ({
+    type: APPEND_TO_LIBRARY,
+    payload: list,
+});
+
+export const prependToLibrary = (list) => ({
+    type: PREPEND_TO_LIBRARY,
+    payload: list,
+});
+
+export const setPaginationType = (type) => ({
+    type: PAGINATION_SET_TYPE,
+    payload: type,
+});
+
+export const maxPaginationReached = () => ({
+    type: PAGINATION_MAX_REACHED,
 });

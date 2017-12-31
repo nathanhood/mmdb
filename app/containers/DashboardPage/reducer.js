@@ -1,5 +1,5 @@
 import {
-    POPULATE_DASHBOARD,
+    POPULATE_LIBRARY,
     RESET_DASHBOARD,
     START_LOADING,
     END_LOADING,
@@ -8,13 +8,31 @@ import {
     FAVORITE_LIBRARY_ITEM,
     UNFAVORITE_LIBRARY_ITEM,
     POPULATE_SUB_MENU_WITH_MOVIE_GENRES,
-    REMOVE_LIBRARY_ITEM
+    REMOVE_LIBRARY_ITEM,
+    APPEND_TO_LIBRARY,
+    PREPEND_TO_LIBRARY,
+    PAGINATION_SET_TYPE
 } from './actions';
 import initialState from '../../initialState';
 import { SUB_MENU_BASE } from './constants';
 
 const reducerMap = {
-    [POPULATE_DASHBOARD]: (state, action) => ({ ...state, library: action.payload }),
+    [APPEND_TO_LIBRARY]: (state, { payload }) => ({
+        ...state,
+        library: state.library.concat(payload),
+        libraryPage: state.library.page + 1,
+    }),
+    [PREPEND_TO_LIBRARY]: (state, { payload }) => ({
+        ...state,
+        library: payload.concat(state.library),
+        libraryPage: state.library.page - 1,
+    }),
+    [POPULATE_LIBRARY]: (state, { payload }) => ({
+        ...state,
+        library: payload.library,
+        libraryPage: payload.page,
+        libraryTotalPages: payload.totalPages,
+    }),
     [RESET_DASHBOARD]: () => ({ ...initialState.dashboard }),
     [START_LOADING]: (state) => ({ ...state, isLoaded: false }),
     [END_LOADING]: (state) => ({ ...state, isLoaded: true }),
@@ -41,6 +59,10 @@ const reducerMap = {
     [REMOVE_LIBRARY_ITEM]: (state, { payload: id }) => ({
         ...state,
         library: state.library.filter((item) => item.id !== id),
+    }),
+    [PAGINATION_SET_TYPE]: (state, { payload: paginationType }) => ({
+        ...state,
+        paginationType,
     }),
 };
 

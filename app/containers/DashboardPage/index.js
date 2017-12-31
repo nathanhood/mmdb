@@ -13,7 +13,9 @@ import {
     prepareMoviesForDashboard,
     toggleFavorite,
     prepareMovieGenres,
-    removeFromLibrary
+    removeFromLibrary,
+    appendMoviesToLibrary,
+    prependMoviesToLibrary
 } from './thunks';
 import FixedActionButton from '../../components/FixedActionButton';
 import { STANDARD_SEARCH_TYPE } from '../../containers/SearchResults/constants';
@@ -169,7 +171,7 @@ const withConnect = connect(
     (dispatch, { location }) => ({
         onLoad: () => {
             Promise.all([
-                dispatch(prepareMoviesForDashboard(location)),
+                dispatch(prepareMoviesForDashboard(location, true)),
                 dispatch(prepareMovieGenres()),
             ]).then(() => dispatch(prepareRecentFormats()));
         },
@@ -201,18 +203,10 @@ const withConnect = connect(
             dispatch(removeFromLibrary(movie));
         },
         addNextPageToLibrary: () => {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve();
-                }, 2000);
-            });
+            return dispatch(appendMoviesToLibrary(location));
         },
         addPreviousPageToLibrary: () => {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve();
-                }, 2000);
-            });
+            return dispatch(prependMoviesToLibrary(location));
         },
     })
 );

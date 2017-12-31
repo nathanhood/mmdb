@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 
-class InfinityScroll extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class InfinityScrollEvent extends React.Component { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
         handleScrollTop: PropTypes.func,
         handleScrollBottom: PropTypes.func,
@@ -39,6 +39,14 @@ class InfinityScroll extends React.Component { // eslint-disable-line react/pref
         this.setState((prevState) => ({ ...prevState, topIsEnabled: true }));
     };
 
+    _resolveHandler = (handlerResult, enabler) => {
+        if (handlerResult instanceof Promise) {
+            handlerResult.then(enabler).catch(enabler);
+        } else {
+            enabler();
+        }
+    };
+
     // TODO: Make this compatible with SSR
     _handleScroll = throttle(() => {
         const {
@@ -56,13 +64,19 @@ class InfinityScroll extends React.Component { // eslint-disable-line react/pref
             (window.innerHeight + window.pageYOffset) >= (document.body.offsetHeight - this.props.offset)
         ) {
             this._disableBottom();
-            this.props.handleScrollBottom().then(this._enableBottom).catch(this._enableBottom);
+            const result = this.props.handleScrollBottom();
+
+            return this._resolveHandler(result, this._enableBottom);
         }
 
         if (topIsEnabled && scrollingUp && window.scrollY <= this.props.offset) {
             this._disableTop();
-            this.props.handleScrollTop().then(this._enableTop).catch(this._enableTop);
+            const result = this.props.handleScrollTop();
+
+            this._resolveHandler(result, this._enableTop);
         }
+
+        return null;
     }, 100);
 
     componentWillUnount() {
@@ -74,4 +88,4 @@ class InfinityScroll extends React.Component { // eslint-disable-line react/pref
     }
 }
 
-export default InfinityScroll;
+export default InfinityScrollEvent;
