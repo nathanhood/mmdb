@@ -21,6 +21,7 @@ import Header from '../../components/Header';
 import SearchResults from '../SearchResults';
 import MobileNav from '../../components/MobileNav';
 import SubMenu from '../../components/SubMenu';
+import InfinityScrollEvent from '../../components/InfinityScrollEvent';
 import { showSearch, hideSearch } from '../SearchResults/actions';
 import {
     prepareRecentFormats
@@ -95,6 +96,8 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             toggleFavoriteHandler,
             subMenuItems,
             removeFromLibraryHandler,
+            addNextPageToLibrary,
+            addPreviousPageToLibrary,
         } = this.props;
         let pageContent;
 
@@ -117,6 +120,11 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
 
         return (
             <div>
+                <InfinityScrollEvent 
+                    offset={500}
+                    handleScrollTop={addPreviousPageToLibrary} 
+                    handleScrollBottom={addNextPageToLibrary} 
+                />
                 <Helmet>
                     <title>Dashboard | MMDb</title>
                     <meta name="description" content="My movie database" />
@@ -188,7 +196,23 @@ const withConnect = connect(
         },
         removeFromLibraryHandler: (movie) => {
             dispatch(removeFromLibrary(movie));
-        }
+        },
+        addNextPageToLibrary: () => {
+            console.warn('next');
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve();
+                }, 2000);
+            });
+        },
+        addPreviousPageToLibrary: () => {
+            console.warn('prev');
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve();
+                }, 2000);
+            });
+        },
     })
 );
 
