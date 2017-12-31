@@ -60,6 +60,9 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         refreshDashboard: PropTypes.func.isRequired,
         location: PropTypes.object.isRequired,
         removeFromLibraryHandler: PropTypes.func.isRequired,
+        addNextPageToLibrary: PropTypes.func,
+        addPreviousPageToLibrary: PropTypes.func,
+
     };
 
     static defaultProps = {
@@ -120,10 +123,10 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
 
         return (
             <div>
-                <InfinityScrollEvent 
+                <InfinityScrollEvent
                     offset={500}
-                    handleScrollTop={addPreviousPageToLibrary} 
-                    handleScrollBottom={addNextPageToLibrary} 
+                    handleScrollTop={addPreviousPageToLibrary}
+                    handleScrollBottom={addNextPageToLibrary}
                 />
                 <Helmet>
                     <title>Dashboard | MMDb</title>
@@ -198,16 +201,14 @@ const withConnect = connect(
             dispatch(removeFromLibrary(movie));
         },
         addNextPageToLibrary: () => {
-            console.warn('next');
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve();
                 }, 2000);
             });
         },
         addPreviousPageToLibrary: () => {
-            console.warn('prev');
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve();
                 }, 2000);

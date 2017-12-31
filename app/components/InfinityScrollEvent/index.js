@@ -47,12 +47,12 @@ class InfinityScroll extends React.Component { // eslint-disable-line react/pref
             topIsEnabled,
         } = this.state;
 
-        let scrollingUp = oldScroll > window.scrollY;
+        const scrollingUp = oldScroll > window.scrollY;
         this.setState((prevState) => ({ ...prevState, oldScroll: window.scrollY }));
-        
+
         if (
             bottomIsEnabled &&
-            ! scrollingUp && 
+            !scrollingUp &&
             (window.innerHeight + window.pageYOffset) >= (document.body.offsetHeight - this.props.offset)
         ) {
             this._disableBottom();
