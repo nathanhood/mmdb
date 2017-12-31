@@ -10,18 +10,20 @@ import queryString from 'query-string';
 import { toPascalCaseFromKebabCase } from '../../utils/string';
 
 const _getGenreResourceKey = (genre) => `${LIBRARY_RESOURCE_KEY_PREFIX}${toPascalCaseFromKebabCase(genre)}Genre`;
+const _getRecentResourceKey = () => LIBRARY_RECENT_RESOURCE_KEY;
 
 export const mapLocationToResource = ({ search }) => {
-    const { genre } = queryString.parse(search);
-    let gateway = getRecentUserMovies;
-    let resourceKey = LIBRARY_RECENT_RESOURCE_KEY;
+    const { genre, page } = queryString.parse(search);
+    let gateway = () => getRecentUserMovies(page);
+    let resourceKey = _getRecentResourceKey();
+    const pagination = page || 1;
 
     if (genre) {
-        gateway = () => getUserMoviesByGenre(genre);
+        gateway = () => getUserMoviesByGenre(genre, page);
         resourceKey = _getGenreResourceKey(genre);
     }
 
-    return { gateway, resourceKey };
+    return { gateway, resourceKey, pagination };
 };
 
-export const getGenreKeysFromMovie = (genres) => genres.map(({ slug }) => _getGenreResourceKey(slug));
+export const getLibraryGenreKeysFromMovie = (genres) => genres.map(({ slug }) => _getGenreResourceKey(slug));

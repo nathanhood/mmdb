@@ -6,8 +6,8 @@ import {
 } from './utils';
 
 
-export const getUserMovies = (order = 'ASC') => fetch.get('movies', {
-    params: { order },
+export const getUserMovies = (order = 'asc', page = 1) => fetch.get('movies', {
+    params: { order, page },
 }).then(extractDataFromResponse);
 
 export const getMovieSearchResults = (query, page = 1) => {
@@ -47,10 +47,10 @@ export const getRecentMovieFormats = () => {
     }).then(({ data }) => _uniqBy(data.payload, 'format').map((movie) => movie.format));
 };
 
-export const getRecentUserMovies = () => getUserMovies('DESC');
+export const getRecentUserMovies = (page = 1) => getUserMovies('desc', page);
 
-export const getUserMoviesByGenre = (genre) => fetch.get('movies', {
-    params: { genre },
+export const getUserMoviesByGenre = (genre, page = 1) => fetch.get('movies', {
+    params: { genre, page },
 }).then(extractDataFromResponse);
 
 export const favoriteUserMovie = (id) => fetch.put(`movies/${id}/favorite`);

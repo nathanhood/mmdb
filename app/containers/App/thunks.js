@@ -1,6 +1,6 @@
 import { populateRecentFormats } from './actions';
 import { getRecentMovieFormats } from '../../gateways/movies';
-import { prepareResource } from '../../utils/resourceCache';
+import { prepareResource } from '../../common/resourceCache/thunks';
 import { RECENT_FORMATS_RESOURCE_KEY } from '../../common/resourceCache/constants';
 import _uniqBy from 'lodash/uniqBy';
 
