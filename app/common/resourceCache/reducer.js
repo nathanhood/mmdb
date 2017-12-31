@@ -8,7 +8,9 @@ const markAllDirty = (keys, state) => {
     const dirty = {};
 
     keys.forEach((key) => {
-        dirty[key] = { ...state[key], dirty: true };
+        if (state[key]) {
+            dirty[key] = { ...state[key], dirty: true };
+        }
     });
 
     return dirty;
