@@ -17,7 +17,7 @@ import {
 } from '../../gateways/movies';
 import { prepareRecentFormats } from '../App/thunks';
 import { LIBRARY_SEARCH_TYPE } from './constants';
-import { getGenreKeysFromMovie } from '../../common/resourceCache/utils';
+import { getLibraryGenreKeysFromMovie } from '../../common/resourceCache/utils';
 import { markDashboardDirty } from '../../common/resourceCache/actions';
 
 export const prepareSearchResults = (query, searchType) => (dispatch) => {
@@ -46,7 +46,7 @@ export const removeMovieFromLibrary = (movie) => (dispatch) => {
     const { id, Genres } = movie;
 
     dispatch(unclaimSearchResultAsOwned(id));
-    dispatch(markDashboardDirty(getGenreKeysFromMovie(Genres)));
+    dispatch(markDashboardDirty(getLibraryGenreKeysFromMovie(Genres)));
 
     removeMovieFromUserLibrary(id).catch(() => {
         // TODO: unclaim search result and notify user that something went wrong
@@ -55,7 +55,7 @@ export const removeMovieFromLibrary = (movie) => (dispatch) => {
 
 export const favoriteMovie = (movie) => (dispatch) => {
     dispatch(favoriteSearchResult(movie.id));
-    dispatch(markDashboardDirty(getGenreKeysFromMovie(movie.Genres)));
+    dispatch(markDashboardDirty(getLibraryGenreKeysFromMovie(movie.Genres)));
 
     return favoriteUserMovie(movie.id)
         .catch(() => {
@@ -65,7 +65,7 @@ export const favoriteMovie = (movie) => (dispatch) => {
 
 export const unFavoriteMovie = (movie) => (dispatch) => {
     dispatch(unFavoriteSearchResult(movie.id));
-    dispatch(markDashboardDirty(getGenreKeysFromMovie(movie.Genres)));
+    dispatch(markDashboardDirty(getLibraryGenreKeysFromMovie(movie.Genres)));
 
     return unFavoriteUserMovie(movie.id)
         .catch(() => {
