@@ -20,14 +20,17 @@ import { DASHBOARD_URL } from '../../common/constants';
 import { LIBRARY_MOVIE_GENRES_KEY } from '../../common/resourceCache/constants';
 import { toLinkObjects } from '../../transformers/genres';
 import { markDashboardDirty } from '../../common/resourceCache/actions';
+import { getMovies } from '../../common/entities/actions';
 
-export const prepareMoviesForDashboard = (location = { pathname: DASHBOARD_URL, search: '' }, forceUpdate = false) => (dispatch) => {
-    const { resourceKey, gateway, pagination } = mapLocationToResource(location);
+export const prepareMoviesForDashboard = (
+    location = { pathname: DASHBOARD_URL, search: '' }
+) => (dispatch) => {
+    const { resourceKey, pagination: page } = mapLocationToResource(location);
 
-    return dispatch(prepareResource(resourceKey, gateway, forceUpdate, pagination))
-        .then((results) => {
-            dispatch(populateDashboard(results.payload));
-        });
+    // TODO: Finish this thunk to retrieve active resource
+    // TODO: Set activeResource through SubMenuRoute / possibly set currentPage on the paginated resource as well
+    return dispatch(getMovies({ order: 'desc', page }, { resourceName: resourceKey }))
+        .then((results) => dispatch(populateDashboard(results.raw.payload)));
 };
 
 export const favoriteMovie = (movie) => (dispatch) => {

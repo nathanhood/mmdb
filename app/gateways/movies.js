@@ -4,11 +4,25 @@ import {
     extractDataFromResponse,
     EMPTY_API_RESPONSE
 } from './utils';
+import {
+    DEFAULT_ORDER,
+    DEFAULT_PAGE
+} from './constants';
 
 
-export const getUserMovies = (order = 'asc', page = 1) => fetch.get('movies', {
-    params: { order, page },
-}).then(extractDataFromResponse);
+export const getUserMovies = ({
+    order = DEFAULT_ORDER,
+    page = DEFAULT_PAGE,
+    genre = null,
+}) => {
+    let params = { order, page };
+
+    if (genre) {
+        params = { ...params, genre };
+    }
+
+    return fetch.get('movies', { params }).then(extractDataFromResponse);
+};
 
 export const getMovieSearchResults = (query, page = 1) => {
     // TODO: Account for promise with null result

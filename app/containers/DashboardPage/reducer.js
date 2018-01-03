@@ -10,10 +10,21 @@ import {
     POPULATE_SUB_MENU_WITH_MOVIE_GENRES,
     REMOVE_LIBRARY_ITEM
 } from './actions';
+import { ADD_MOVIES } from '../../common/entities/actions';
 import initialState from '../../initialState';
 import { SUB_MENU_BASE } from './constants';
+import { paginateEntity } from '../../common/entities/pagination';
 
 const reducerMap = {
+    [ADD_MOVIES]: (state, { payload }) => {
+        const activeResource = payload.meta.resourceName;
+
+        return {
+            ...state,
+            activeResource,
+            [activeResource]: paginateEntity(payload, state[activeResource]),
+        };
+    },
     [POPULATE_DASHBOARD]: (state, action) => ({ ...state, library: action.payload }),
     [RESET_DASHBOARD]: () => ({ ...initialState.dashboard }),
     [START_LOADING]: (state) => ({ ...state, isLoaded: false }),

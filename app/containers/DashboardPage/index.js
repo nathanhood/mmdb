@@ -15,6 +15,7 @@ import {
     prepareMovieGenres,
     removeFromLibrary
 } from './thunks';
+import { selectPaginatedLibraryResource } from './selectors';
 import FixedActionButton from '../../components/FixedActionButton';
 import { STANDARD_SEARCH_TYPE } from '../../containers/SearchResults/constants';
 import Header from '../../components/Header';
@@ -34,6 +35,7 @@ import {
     DASHBOARD_URL
 } from '../../common/constants';
 import { logOutUser } from '../../common/auth/thunks';
+import { paginationPropTypeShape } from '../../common/entities/pagination';
 
 
 const LibraryContainer = styled.div`
@@ -42,7 +44,7 @@ const LibraryContainer = styled.div`
 
 class Dashboard extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
-        library: PropTypes.array,
+        paginatedLibrary: paginationPropTypeShape,
         onLoad: PropTypes.func,
         searchIsVisible: PropTypes.bool.isRequired,
         searchResultsAreVisible: PropTypes.bool,
@@ -81,7 +83,6 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
 
     render() {
         const {
-            library,
             showSearchHandler,
             searchIsVisible,
             hideSearchHandler,
@@ -95,6 +96,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             toggleFavoriteHandler,
             subMenuItems,
             removeFromLibraryHandler,
+            paginatedLibrary,
         } = this.props;
         let pageContent;
 
@@ -106,7 +108,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             pageContent = (
                 <LibraryContainer>
                     <LibraryList
-                        items={library}
+                        items={paginatedLibrary}
                         favoriteHandler={toggleFavoriteHandler}
                         removeHandler={removeFromLibraryHandler}
                     />
@@ -151,7 +153,7 @@ const withConnect = connect(
         searchResultsAreVisible: state.search.resultsAreVisible,
         searchIsVisible: state.search.isVisible,
         searchType: state.search.searchType,
-        library: state.dashboard.library,
+        paginatedLibrary: selectPaginatedLibraryResource(state),
         mobileNavIsOpen: state.dashboard.mobileNavIsOpen,
         subMenuItems: state.dashboard.subMenu,
     }),
@@ -160,7 +162,9 @@ const withConnect = connect(
             Promise.all([
                 dispatch(prepareMoviesForDashboard(location)),
                 dispatch(prepareMovieGenres()),
-            ]).then(() => dispatch(prepareRecentFormats()));
+            ]).then(() => {
+                dispatch(prepareRecentFormats());
+            });
         },
         refreshDashboard: (newLocation) => {
             dispatch(prepareMoviesForDashboard(newLocation));
