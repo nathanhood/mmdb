@@ -6,6 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import createReducer from './reducers';
+import schema from './common/entities/schema';
 
 const logger = store => next => action => {
     /* eslint-disable no-console */
@@ -20,7 +21,7 @@ export default function configureStore(initialState = {}, history, ssr = false) 
     // 1. thunk: Makes redux-thunks work
     // 2. routerMiddleware: Syncs the location/URL path to the state
     const middlewares = [
-        thunk,
+        thunk.withExtraArgument(schema),
         routerMiddleware(history),
     ];
 

@@ -10,6 +10,7 @@ import dashboardReducer from './containers/DashboardPage/reducer';
 import resourceReducer from './common/resourceCache/reducer';
 import authReducer from './common/auth/reducer';
 import searchReducer from './containers/SearchResults/reducer';
+import entityReducer from './common/entities/reducer';
 
 /*
  * routeReducer
@@ -51,6 +52,7 @@ export default function createReducer(injectedReducers) {
         resourceCache: resourceReducer,
         auth: authReducer,
         search: searchReducer,
+        entities: entityReducer,
         ...injectedReducers,
     });
 }
