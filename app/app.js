@@ -12,11 +12,11 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from './configureStore';
 import initialState from './initialState';
 import { Route } from 'react-router-dom';
+import ConnectedRouter from './containers/ConnectedRouter';
 
 // Import root app
 import App from 'containers/App';
