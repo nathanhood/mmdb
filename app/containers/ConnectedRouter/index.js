@@ -6,17 +6,17 @@ import queryString from 'query-string';
 
 
 class CustomConnectedRouter extends ConnectedRouter {
-    handleLocationChange = (location) => {
-        const query = queryString.parse(location.search);
+    updateLocation = (location) => ({
+        ...location,
+        query: queryString.parse(location.search)
+    });
 
+    handleLocationChange = (location) => {
         this.store.dispatch({
             type: LOCATION_CHANGE,
-            payload: {
-                ...location,
-                query,
-            },
+            payload: this.updateLocation(location),
         });
-    }
+    };
 }
 
 export default CustomConnectedRouter;
