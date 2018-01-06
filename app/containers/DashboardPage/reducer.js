@@ -1,5 +1,4 @@
 import {
-    POPULATE_DASHBOARD,
     RESET_DASHBOARD,
     START_LOADING,
     END_LOADING,
@@ -25,7 +24,6 @@ const reducerMap = {
             [activeResource]: paginateEntity(payload, state[activeResource]),
         };
     },
-    [POPULATE_DASHBOARD]: (state, action) => ({ ...state, library: action.payload }),
     [RESET_DASHBOARD]: () => ({ ...initialState.dashboard }),
     [START_LOADING]: (state) => ({ ...state, isLoaded: false }),
     [END_LOADING]: (state) => ({ ...state, isLoaded: true }),

@@ -9,7 +9,6 @@ export default {
     },
     dashboard: {
         isLoaded: process.env.NODE_ENV === 'production',
-        library: [],
         mobileNavIsOpen: false,
     },
     resourceCache: {},

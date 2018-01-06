@@ -1,4 +1,3 @@
-export const POPULATE_DASHBOARD = 'dashboard/POPULATE_DASHBOARD';
 export const START_LOADING = 'dashboard/START_LOADING';
 export const END_LOADING = 'dashboard/END_LOADING';
 export const OPEN_MOBILE_NAV = 'dashboard/OPEN_MOBILE_NAV';
@@ -9,11 +8,7 @@ export const UNFAVORITE_LIBRARY_ITEM = 'dashboard/UNFAVORITE_LIBRARY_ITEM';
 export const POPULATE_SUB_MENU_WITH_MOVIE_GENRES = 'dashboard/POPULATE_SUB_MENU_WITH_MOVIE_GENRES';
 export const REMOVE_LIBRARY_ITEM = 'dashboard/REMOVE_LIBRARY_ITEM';
 
-export const populateDashboard = (list) => ({
-    type: POPULATE_DASHBOARD,
-    payload: list,
-});
-
+// TODO: Update reset dashboard to reflect new dashboard state
 export const resetDashboard = () => ({
     type: RESET_DASHBOARD,
 });

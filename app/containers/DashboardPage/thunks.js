@@ -1,3 +1,4 @@
+import queryString from 'query-string';
 import {
     favoriteUserMovie,
     unFavoriteUserMovie,
@@ -6,14 +7,13 @@ import {
 } from '../../gateways/movies';
 import { prepareResource } from '../../common/resourceCache/thunks';
 import {
-    populateDashboard,
     favoriteLibraryItem,
     unFavoriteLibraryItem,
     populateSubMenuWithMovieGenres,
     removeLibraryItem
 } from './actions';
 import {
-    mapLocationToResource,
+    getDashboardResourceName,
     getLibraryGenreKeysFromMovie
 } from '../../common/resourceCache/utils';
 import { DASHBOARD_URL } from '../../common/constants';
@@ -22,15 +22,23 @@ import { toLinkObjects } from '../../transformers/genres';
 import { markDashboardDirty } from '../../common/resourceCache/actions';
 import { getMovies } from '../../common/entities/actions';
 
-export const prepareMoviesForDashboard = (
-    location = { pathname: DASHBOARD_URL, search: '' }
-) => (dispatch) => {
-    const { resourceKey, pagination: page } = mapLocationToResource(location);
+export const prepareMoviesForDashboard = (location) => (dispatch, getState) => {
+    if (!location) {
+        location = getState().location;
+    }
 
-    // TODO: Finish this thunk to retrieve active resource
-    // TODO: Set activeResource through SubMenuRoute / possibly set currentPage on the paginated resource as well
-    return dispatch(getMovies({ order: 'desc', page }, { resourceName: resourceKey }))
-        .then((results) => dispatch(populateDashboard(results.raw.payload)));
+    const { genre, page } = queryString.parse(location.search);
+    // TODO: Rethink where getDashboardResourceName should live
+    const resourceName = getDashboardResourceName(genre);
+    let options = { page };
+
+    if (genre) {
+        options = { ...options, genre };
+    } else {
+        options = { ...options, order: 'desc' };
+    }
+
+    return dispatch(getMovies(options, { resourceName }));
 };
 
 export const favoriteMovie = (movie) => (dispatch) => {

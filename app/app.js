@@ -16,7 +16,7 @@ import createHistory from 'history/createBrowserHistory';
 import configureStore from './configureStore';
 import initialState from './initialState';
 import { Route } from 'react-router-dom';
-import ConnectedRouter from './containers/ConnectedRouter';
+import { ConnectedRouter } from 'react-router-redux';
 
 // Import root app
 import App from 'containers/App';
