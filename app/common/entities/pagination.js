@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
+import { push } from 'react-router-redux';
 
 export const paginationPropTypeShape = PropTypes.shape({
     currentPage: PropTypes.number,
@@ -8,6 +10,31 @@ export const paginationPropTypeShape = PropTypes.shape({
 });
 
 export const PAGINATE_ENTITY = 'entities/PAGINATE';
+
+export const firstPageExists = (paginatedEntity) => paginatedEntity.pageResult[0] <= 1;
+
+export const lastPageExists = (paginatedEntity) => {
+    const { pageResult, totalPages } = paginatedEntity;
+
+    return pageResult[pageResult.length - 1] >= totalPages;
+};
+
+export const getPreviousPage = ({ pageResult }) => {
+    return pageResult[0];
+};
+
+export const getNextPage = ({ pageResult }) => {
+    return pageResult[pageResult.length - 1];
+};
+
+export const paginateLocation = (location, page) => (dispatch) => {
+    const query = {
+        ...queryString.parse(location.search),
+        page
+    };
+
+    dispatch(push({ ...location, search: queryString.stringify(query) }));
+};
 
 const _insertCurrentPage = (currentPage, pageResult = []) => {
     const resultLength = pageResult.length;
@@ -40,7 +67,7 @@ const initialState = {
  * @param {object} prevState
  */
 export const paginateEntity = (normalizedData, prevState = initialState) => {
-    const { raw: { page } } = normalizedData;
+    const { raw: { page, totalPages } } = normalizedData;
     const currentPage = parseInt(page);
     const pageResult = _insertCurrentPage(currentPage, prevState.pageResult);
     const pages = {
@@ -50,11 +77,27 @@ export const paginateEntity = (normalizedData, prevState = initialState) => {
     const result = pageResult.reduce((accumulator, pageId) => accumulator.concat(pages[pageId]), []);
 
     return {
+        totalPages: parseInt(totalPages),
         currentPage,
         result,
         pages,
         pageResult,
     };
+};
+
+export const removeFromPaginatedEntity = (paginatedEntity, entityId) => {
+    const pages = paginatedEntity.pageResult.reduce((mergedPages, pageId) => {
+        return {
+            ...mergedPages,
+            [pageId]: paginatedEntity.pages[pageId].filter((id) => id !== entityId),
+        };
+    }, {});
+
+    return {
+        ...paginatedEntity,
+        result: paginatedEntity.result.filter((id) => id !== entityId),
+        pages,
+    }
 };
 
 export const selectHydrated = (entity, selector, state) => {

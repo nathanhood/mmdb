@@ -1,6 +1,10 @@
 export {
     ADD_MOVIES,
-    getMovies
+    REMOVE_MOVIE,
+    getMovies,
+    favoriteMovie,
+    unFavoriteMovie,
+    removeMovie
 } from './modules/movies';
 
 export const ADD_ENTITIES = 'entities/ADD_ENTITIES';

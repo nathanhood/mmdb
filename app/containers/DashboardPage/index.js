@@ -35,7 +35,17 @@ import {
     DASHBOARD_URL
 } from '../../common/constants';
 import { logOutUser } from '../../common/auth/thunks';
-import { paginationPropTypeShape } from '../../common/entities/pagination';
+import ScrollPagination from '../../components/ScrollPagination';
+import {
+    paginationPropTypeShape,
+    firstPageExists,
+    lastPageExists,
+    paginateLocation,
+    getPreviousPage,
+    getNextPage
+} from '../../common/entities/pagination';
+import BarLoader from '../../components/BarLoader';
+import PageBreakHeading from '../../components/PageBreakHeading';
 
 
 const LibraryContainer = styled.div`
@@ -61,6 +71,8 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
         refreshDashboard: PropTypes.func.isRequired,
         location: PropTypes.object.isRequired,
         removeFromLibraryHandler: PropTypes.func.isRequired,
+        addNextPageToLibrary: PropTypes.func.isRequired,
+        addPreviousPageToLibrary: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -97,21 +109,39 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
             subMenuItems,
             removeFromLibraryHandler,
             paginatedLibrary,
+            addNextPageToLibrary,
+            addPreviousPageToLibrary,
         } = this.props;
         let pageContent;
 
         if (searchResultsAreVisible) {
-            pageContent = (
-                <SearchResults />
-            );
+            pageContent = <SearchResults />;
+        } else if (!paginatedLibrary) {
+            // TODO: Finish loader (ScrollPagination as well)
         } else {
             pageContent = (
                 <LibraryContainer>
-                    <LibraryList
-                        items={paginatedLibrary}
-                        favoriteHandler={toggleFavoriteHandler}
-                        removeHandler={removeFromLibraryHandler}
-                    />
+                    <ScrollPagination
+                        scrollOffset={300}
+                        Loader={BarLoader}
+                        scrolledToTopHandler={() => addPreviousPageToLibrary(getPreviousPage(paginatedLibrary))}
+                        scrolledToBottomHandler={() => addNextPageToLibrary(getNextPage(paginatedLibrary))}
+                        topIsDisabled={firstPageExists(paginatedLibrary)}
+                        bottomIsDisabled={lastPageExists(paginatedLibrary)}
+                    >
+                        {paginatedLibrary.pageResult.map((pageId) => {
+                            return (
+                                <div key={`libraryPage${pageId}`}>
+                                    {pageId === 1 ? null : <PageBreakHeading>Page {pageId}</PageBreakHeading>}
+                                    <LibraryList
+                                        items={paginatedLibrary.pages[pageId]}
+                                        favoriteHandler={toggleFavoriteHandler}
+                                        removeHandler={removeFromLibraryHandler}
+                                    />
+                                </div>
+                            );
+                        })}
+                    </ScrollPagination>
                     <FixedActionButton clickHandler={() => showSearchHandler(STANDARD_SEARCH_TYPE)} />
                 </LibraryContainer>
             );
@@ -140,7 +170,7 @@ class Dashboard extends React.PureComponent { // eslint-disable-line react/prefe
                     submitSearchHandler={(query) => submitSearchHandler(query, searchType)}
                     openMobileNavHandler={openMobileNavHandler}
                 />
-                <SubMenu items={subMenuItems} />
+                {!searchIsVisible ? <SubMenu items={subMenuItems} /> : null}
 
                 {pageContent}
             </div>
@@ -169,6 +199,12 @@ const withConnect = connect(
         refreshDashboard: (newLocation) => {
             dispatch(prepareMoviesForDashboard(newLocation));
         },
+        addNextPageToLibrary: (currentPage) => {
+            dispatch(paginateLocation(location, currentPage + 1));
+        },
+        addPreviousPageToLibrary: (currentPage) => {
+            dispatch(paginateLocation(location, currentPage - 1));
+        },
         showSearchHandler: (type) => dispatch(showSearch(type)),
         hideSearchHandler: () => {
             dispatch(hideSearch());
@@ -192,7 +228,7 @@ const withConnect = connect(
         },
         removeFromLibraryHandler: (movie) => {
             dispatch(removeFromLibrary(movie));
-        }
+        },
     })
 );
 

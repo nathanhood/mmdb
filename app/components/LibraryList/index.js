@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Card from '../Card';
 import MovieCard from '../MovieCard';
 import ListContainer from '../ListContainer';
-import { paginationPropTypeShape } from '../../common/entities/pagination';
 
 
 function LibraryList({ items, favoriteHandler, removeHandler }) {
@@ -11,11 +10,9 @@ function LibraryList({ items, favoriteHandler, removeHandler }) {
         return null;
     }
 
-    // TODO: Finish Paginate Heading
-    const content = items.pageResult.map((pageNumber) => (
-        <div key={'libaryPage' + pageNumber}>
-            <div>{pageNumber}</div>
-            {items.pages[pageNumber].map((item) => (
+    return (
+        <ListContainer>
+            {items.map((item) => (
                 <Card key={item.id}>
                     <MovieCard
                         title={item.title}
@@ -30,18 +27,12 @@ function LibraryList({ items, favoriteHandler, removeHandler }) {
                     />
                 </Card>
             ))}
-        </div>
-    ));
-
-    return (
-        <ListContainer>
-            {content}
         </ListContainer>
     );
 }
 
 LibraryList.propTypes = {
-    items: paginationPropTypeShape,
+    items: PropTypes.array,
     favoriteHandler: PropTypes.func.isRequired,
     removeHandler: PropTypes.func.isRequired,
 };

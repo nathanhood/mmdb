@@ -1,18 +1,22 @@
+import _isEmpty from 'lodash/isEmpty';
 import {
     RESET_DASHBOARD,
     START_LOADING,
     END_LOADING,
     OPEN_MOBILE_NAV,
     CLOSE_MOBILE_NAV,
-    FAVORITE_LIBRARY_ITEM,
-    UNFAVORITE_LIBRARY_ITEM,
-    POPULATE_SUB_MENU_WITH_MOVIE_GENRES,
-    REMOVE_LIBRARY_ITEM
+    POPULATE_SUB_MENU_WITH_MOVIE_GENRES
 } from './actions';
-import { ADD_MOVIES } from '../../common/entities/actions';
+import {
+    ADD_MOVIES,
+    REMOVE_MOVIE
+} from '../../common/entities/actions';
 import initialState from '../../initialState';
 import { SUB_MENU_BASE } from './constants';
-import { paginateEntity } from '../../common/entities/pagination';
+import {
+    paginateEntity,
+    removeFromPaginatedEntity
+} from '../../common/entities/pagination';
 
 const reducerMap = {
     [ADD_MOVIES]: (state, { payload }) => {
@@ -24,32 +28,24 @@ const reducerMap = {
             [activeResource]: paginateEntity(payload, state[activeResource]),
         };
     },
+    [REMOVE_MOVIE]: (state, { payload }) => {
+        return Object.entries(state).reduce((mergedObj, [key, value]) => {
+            return {
+                ...mergedObj,
+                [key]: typeof value === 'object' && !_isEmpty(value.pages) ?
+                    removeFromPaginatedEntity(value, payload.id) :
+                    value,
+            }
+        }, {});
+    },
     [RESET_DASHBOARD]: () => ({ ...initialState.dashboard }),
     [START_LOADING]: (state) => ({ ...state, isLoaded: false }),
     [END_LOADING]: (state) => ({ ...state, isLoaded: true }),
     [OPEN_MOBILE_NAV]: (state) => ({ ...state, mobileNavIsOpen: true }),
     [CLOSE_MOBILE_NAV]: (state) => ({ ...state, mobileNavIsOpen: false }),
-    [FAVORITE_LIBRARY_ITEM]: (state, { payload: id }) => ({
-        ...state,
-        library: state.library.map((item) => ({
-            ...item,
-            isFavorite: item.isFavorite || item.id === id,
-        })),
-    }),
-    [UNFAVORITE_LIBRARY_ITEM]: (state, { payload: id }) => ({
-        ...state,
-        library: state.library.map((item) => ({
-            ...item,
-            isFavorite: item.id === id ? false : item.isFavorite,
-        })),
-    }),
     [POPULATE_SUB_MENU_WITH_MOVIE_GENRES]: (state, { payload: genres }) => ({
         ...state,
         subMenu: SUB_MENU_BASE.concat(genres),
-    }),
-    [REMOVE_LIBRARY_ITEM]: (state, { payload: id }) => ({
-        ...state,
-        library: state.library.filter((item) => item.id !== id),
     }),
 };
 

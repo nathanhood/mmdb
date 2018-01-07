@@ -6,12 +6,7 @@ import {
     removeMovieFromUserLibrary
 } from '../../gateways/movies';
 import { prepareResource } from '../../common/resourceCache/thunks';
-import {
-    favoriteLibraryItem,
-    unFavoriteLibraryItem,
-    populateSubMenuWithMovieGenres,
-    removeLibraryItem
-} from './actions';
+import { populateSubMenuWithMovieGenres } from './actions';
 import {
     getDashboardResourceName,
     getLibraryGenreKeysFromMovie
@@ -20,16 +15,16 @@ import { DASHBOARD_URL } from '../../common/constants';
 import { LIBRARY_MOVIE_GENRES_KEY } from '../../common/resourceCache/constants';
 import { toLinkObjects } from '../../transformers/genres';
 import { markDashboardDirty } from '../../common/resourceCache/actions';
-import { getMovies } from '../../common/entities/actions';
+import {
+    getMovies,
+    favoriteMovie,
+    unFavoriteMovie,
+    removeMovie
+} from '../../common/entities/actions';
 
-export const prepareMoviesForDashboard = (location) => (dispatch, getState) => {
-    if (!location) {
-        location = getState().location;
-    }
 
+const _createOptionsFromLocation = (location) => {
     const { genre, page } = queryString.parse(location.search);
-    // TODO: Rethink where getDashboardResourceName should live
-    const resourceName = getDashboardResourceName(genre);
     let options = { page };
 
     if (genre) {
@@ -38,11 +33,19 @@ export const prepareMoviesForDashboard = (location) => (dispatch, getState) => {
         options = { ...options, order: 'desc' };
     }
 
+    return options;
+};
+
+export const prepareMoviesForDashboard = (location) => (dispatch) => {
+    const options = _createOptionsFromLocation(location);
+    // TODO: Rethink where getDashboardResourceName should live
+    const resourceName = getDashboardResourceName(options.genre);
+
     return dispatch(getMovies(options, { resourceName }));
 };
 
-export const favoriteMovie = (movie) => (dispatch) => {
-    dispatch(favoriteLibraryItem(movie.id));
+export const favoriteDashboardMovie = (movie) => (dispatch) => {
+    dispatch(favoriteMovie({ id: movie.id }));
     dispatch(markDashboardDirty(getLibraryGenreKeysFromMovie(movie.Genres)));
 
     return favoriteUserMovie(movie.id)
@@ -51,8 +54,8 @@ export const favoriteMovie = (movie) => (dispatch) => {
         });
 };
 
-export const unFavoriteMovie = (movie) => (dispatch) => {
-    dispatch(unFavoriteLibraryItem(movie.id));
+export const unFavoriteDashboardMovie = (movie) => (dispatch) => {
+    dispatch(unFavoriteMovie({ id: movie.id }));
     dispatch(markDashboardDirty(getLibraryGenreKeysFromMovie(movie.Genres)));
 
     return unFavoriteUserMovie(movie.id)
@@ -65,10 +68,10 @@ export const toggleFavorite = (movie) => (dispatch) => {
     const { isFavorite } = movie;
 
     if (isFavorite) {
-        return dispatch(unFavoriteMovie(movie))
+        return dispatch(unFavoriteDashboardMovie(movie))
     }
 
-    return dispatch(favoriteMovie(movie));
+    return dispatch(favoriteDashboardMovie(movie));
 };
 
 export const prepareMovieGenres = (forceUpdate) => (dispatch) => {
@@ -84,7 +87,7 @@ export const prepareMovieGenres = (forceUpdate) => (dispatch) => {
 };
 
 export const removeFromLibrary = (movie) => (dispatch) => {
-    dispatch(removeLibraryItem(movie.id));
+    dispatch(removeMovie({ id: movie.id }));
     dispatch(markDashboardDirty(getLibraryGenreKeysFromMovie(movie.Genres)));
 
     removeMovieFromUserLibrary(movie.id).catch(() => {
