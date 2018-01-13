@@ -63,7 +63,7 @@ export const favoriteMovie = (payload) => ({
 });
 
 export const unFavoriteMovie = (payload) => ({
-    type: FAVORITE_MOVIE,
+    type: UNFAVORITE_MOVIE,
     payload,
 });
 
