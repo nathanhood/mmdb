@@ -19,7 +19,8 @@ import {
     getMovies,
     favoriteMovie,
     unFavoriteMovie,
-    removeMovie
+    removeMovie,
+    getFormats
 } from '../../common/entities/actions';
 
 
@@ -42,6 +43,10 @@ export const prepareMoviesForDashboard = (location) => (dispatch) => {
     const resourceName = getDashboardResourceName(options.genre);
 
     return dispatch(getMovies(options, { resourceName }));
+};
+
+export const prepareFormatsForDashboard = () => (dispatch) => {
+    return dispatch(getFormats());
 };
 
 export const favoriteDashboardMovie = (movie) => (dispatch) => {

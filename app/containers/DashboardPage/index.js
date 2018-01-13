@@ -13,7 +13,8 @@ import {
     prepareMoviesForDashboard,
     toggleFavorite,
     prepareMovieGenres,
-    removeFromLibrary
+    removeFromLibrary,
+    prepareFormatsForDashboard,
 } from './thunks';
 import { selectPaginatedLibraryResource } from './selectors';
 import FixedActionButton from '../../components/FixedActionButton';
@@ -192,6 +193,7 @@ const withConnect = connect(
             Promise.all([
                 dispatch(prepareMoviesForDashboard(location)),
                 dispatch(prepareMovieGenres()),
+                dispatch(prepareFormatsForDashboard()),
             ]).then(() => {
                 dispatch(prepareRecentFormats());
             });

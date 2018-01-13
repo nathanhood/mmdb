@@ -4,8 +4,15 @@ export {
     getMovies,
     favoriteMovie,
     unFavoriteMovie,
-    removeMovie
+    removeMovie,
+    addMoviesFromAPI
 } from './modules/movies';
+
+export { getFormats } from './modules/formats';
+
+export { addDefinitions } from './modules/definitions';
+
+export { addPlatforms } from './modules/platforms';
 
 export const ADD_ENTITIES = 'entities/ADD_ENTITIES';
 

@@ -1,5 +1,5 @@
 import fetch from './index';
-import _uniqBy from 'lodash/uniqBy';
+import _uniq from 'lodash/uniq';
 import {
     extractDataFromResponse,
     EMPTY_API_RESPONSE
@@ -45,11 +45,12 @@ export const getMovieLibrarySearchResults = (query) => {
     }).then(extractDataFromResponse);
 };
 
-export const addMovieToUserLibrary = ({ id, format, definition }) => {
+export const addMovieToUserLibrary = ({ id, format, definition, platform }) => {
     return fetch.post('movies', {
         id,
         format,
-        definition
+        definition,
+        platform,
     }).then(extractDataFromResponse);
 };
 
@@ -58,7 +59,7 @@ export const removeMovieFromUserLibrary = (id) => fetch.delete(`movies/${id}`).t
 export const getRecentMovieFormats = () => {
     return fetch.get('movies/recent-formats', {
         params: { limit: 3 },
-    }).then(({ data }) => _uniqBy(data.payload, 'format').map((movie) => movie.format));
+    }).then(({ data }) => _uniq(data.payload));
 };
 
 export const getRecentUserMovies = (page = 1) => getUserMovies('desc', page);

@@ -19,6 +19,9 @@ const StyledSelect = styled.select`
     display: block;
     margin-left: auto;
     margin-right: auto;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 `;
 
 function Select({ options, placeholder, onChange, ...otherProps }) {

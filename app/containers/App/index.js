@@ -16,7 +16,6 @@ import { Switch, Route } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import PropTypes from 'prop-types';
 
 import Dashboard from '../DashboardPage/Loadable';
 import LoginPage from '../LoginPage/Loadable';
@@ -39,23 +38,6 @@ const StyledContainer = styled.div`
 `;
 
 class App extends React.Component {
-    static propTypes = {
-        definitions: PropTypes.object.isRequired,
-        formats: PropTypes.object.isRequired,
-    };
-
-    static childContextTypes = {
-        formats: PropTypes.object,
-        definitions: PropTypes.object,
-    };
-
-    getChildContext() {
-        return {
-            formats: this.props.formats,
-            definitions: this.props.definitions,
-        };
-    }
-
     render() {
         /* eslint-disable no-shadow */
         return (
@@ -73,12 +55,7 @@ class App extends React.Component {
     }
 }
 
-const withConnect = connect(
-    (state) => ({
-        formats: state.app.formats,
-        definitions: state.app.definitions,
-    })
-);
+const withConnect = connect();
 
 const withReducer = injectReducer({ key: 'app', reducer });
 

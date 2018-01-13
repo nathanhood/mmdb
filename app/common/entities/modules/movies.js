@@ -72,20 +72,30 @@ export const removeMovie = (payload) => ({
     payload,
 });
 
+/**
+ * Normalize and add movies to state from API response
+ * This method is extracted from 'getMovies' so we are not married to
+ * one gateway method (ie - search results)
+ *
+ * @param {object} results - API response
+ * @param {object|undefined} meta - Additional data to be used for reducer context
+ */
+export const addMoviesFromAPI = (results, meta) => (dispatch, getState, schema) => {
+    const normalizedData = normalize(results.payload, [schema[MOVIES_STATE_KEY]]);
+    const movies = combineResponse(results, normalizedData, meta);
+
+    dispatch(addMovies(movies));
+
+    return movies;
+};
+
 export const getMovies = ({
     page = null,
     order = 'asc',
     genre = null,
-} = {}, meta) => (dispatch, getState, schema) => {
+} = {}, meta) => (dispatch) => {
     return getUserMovies({ page, order, genre })
-        .then((results) => {
-            const normalizedData = normalize(results.payload, [schema[MOVIES_STATE_KEY]]);
-            const movies = combineResponse(results, normalizedData, meta);
-
-            dispatch(addMovies(movies));
-
-            return movies;
-        });
+        .then((results) => dispatch(addMoviesFromAPI(results, meta)));
 };
 
 export const selectHydrated = (state, id) => denormalize(id, movieSchema, state);

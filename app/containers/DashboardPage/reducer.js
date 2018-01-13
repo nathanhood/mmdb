@@ -22,6 +22,10 @@ const reducerMap = {
     [ADD_MOVIES]: (state, { payload }) => {
         const activeResource = payload.meta.resourceName;
 
+        if (!activeResource) {
+            return state;
+        }
+
         return {
             ...state,
             activeResource,

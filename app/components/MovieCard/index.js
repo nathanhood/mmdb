@@ -6,7 +6,11 @@ import theme from '../../theme';
 import Icon from '../Icon';
 import PosterImage from '../PosterImage';
 import themeVars from '../../variables';
-import { formatYear } from '../../utils/datetime';
+import {
+    formatYear,
+    fromMinutesToHoursAndMinutes
+} from '../../utils/datetime';
+
 
 const Container = styled.div`
     display: flex;
@@ -28,15 +32,26 @@ const Title = styled.h2`
     margin-top: 6px;
     margin-bottom: 8px;
     font-family: ${theme.font};
-    font-size: 19px;
+    font-size: 17px;
 `;
 
 const ReleaseDate = styled.div`
     color: ${theme.gray};
     font-family: ${theme.font};
     font-weight: 300;
-    font-size: 13px;
-    padding-right: 15px;
+    font-size: 12px;
+    padding-right: 7px;
+`;
+
+const Runtime = styled(ReleaseDate)`
+    padding-left: 7px;
+    padding-right: 0;
+    position: relative;
+    &::before {
+        content: '|';
+        position: absolute;
+        left: 0;
+    }
 `;
 
 const Genre = styled.span`
@@ -63,6 +78,11 @@ const ActionBarItem = styled.div`
 const InfoRow = styled.div`
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
+`;
+
+const PlatformLogo = styled.img`
+    max-height: 15px;
 `;
 
 function MovieCard({
@@ -71,16 +91,21 @@ function MovieCard({
     releaseDate,
     isFavorite,
     genres,
+    format,
     definition,
+    platform,
+    runtime,
     clickHeartHandler,
     clickTrashHandler,
-}, { definitions }) {
-    const icon = definitions.movie[definition].icon;
-    let DefinitionIcon = null;
-
-    if (icon) {
-        DefinitionIcon = <Icon size="20" viewBox="0 0 128 80" icon={icon} />
-    }
+}) {
+    const formatIcon = format.value === 'digital' ? feather.icons.cloud : feather.icons.disc;
+    const Definition = definition.icon ?
+        <Icon size="20" viewBox="0 0 128 80" spacing="10px" icon={definition.icon} /> :
+        null;
+    const platformLogo = platform ?
+        <PlatformLogo alt={platform.display} src={platform.logo} /> :
+        null;
+    const formattedRuntime = runtime ? <Runtime>{fromMinutesToHoursAndMinutes(runtime)}</Runtime> : null;
 
     return (
         <Container>
@@ -96,7 +121,12 @@ function MovieCard({
                 <Title>{title}</Title>
                 <InfoRow>
                     <ReleaseDate>{formatYear(releaseDate)}</ReleaseDate>
-                    {DefinitionIcon}
+                    {formattedRuntime}
+                    <Icon icon={formatIcon} spacing="10px" size="15" />
+                    {Definition}
+                </InfoRow>
+                <InfoRow>
+                    {platformLogo}
                 </InfoRow>
                 <ActionBar>
                     <ActionBarItem spacedRight>
@@ -130,7 +160,10 @@ MovieCard.propTypes = {
     releaseDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
     genres: PropTypes.array.isRequired,
     isFavorite: PropTypes.bool,
-    definition: PropTypes.string.isRequired,
+    definition: PropTypes.object.isRequired,
+    platform: PropTypes.object,
+    format: PropTypes.object.isRequired,
+    runtime: PropTypes.number.isRequired,
     clickHeartHandler: PropTypes.func.isRequired,
     clickTrashHandler: PropTypes.func.isRequired,
 };

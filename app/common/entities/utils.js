@@ -12,3 +12,22 @@ export const combineResponse = (apiResponse, normalizedData, meta = {}) => ({
     result: normalizedData.result,
     meta,
 });
+
+/**
+ * Reducer helper method for adding entities to state
+ *
+ * @param {object} entities - Set of normalized entities
+ * @param {object} state - State to be mutated
+ */
+export const copyAndAddToState = (entities, state) => {
+    return Object.entries(entities)
+        .reduce((mergedResults, [id, entity]) => {
+            return {
+                ...mergedResults,
+                [id]: {
+                    ...(mergedResults[id] || {}),
+                    ...entity,
+                }
+            }
+        }, state);
+}

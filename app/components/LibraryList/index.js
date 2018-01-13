@@ -24,6 +24,9 @@ function LibraryList({ items, favoriteHandler, removeHandler }) {
                         clickTrashHandler={() => removeHandler(item)}
                         genres={item.Genres}
                         definition={item.definition}
+                        platform={item.platform}
+                        format={item.format}
+                        runtime={item.runtime}
                     />
                 </Card>
             ))}

@@ -18,6 +18,8 @@ import Card from '../../components/Card';
 import SearchCard from '../../components/SearchCard';
 import MovieCard from '../../components/MovieCard';
 import { LIBRARY_SEARCH_TYPE } from './constants';
+import { selectFormat } from '../../common/entities/selectors';
+import { selectSearchResults } from './selectors';
 
 
 const StyledContainer = styled.div`
@@ -40,6 +42,7 @@ class SearchResults extends React.Component {
         toggleFavoriteHandler: PropTypes.func.isRequired,
         recentFormats: PropTypes.array,
         searchType: PropTypes.string,
+        formats: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
@@ -55,6 +58,7 @@ class SearchResults extends React.Component {
             searchType,
             removeFromSearchAndLibraryHandler,
             toggleFavoriteHandler,
+            formats,
         } = this.props;
         let Results;
 
@@ -71,6 +75,9 @@ class SearchResults extends React.Component {
                                 isFavorite={item.isFavorite}
                                 definition={item.definition}
                                 genres={item.Genres}
+                                platform={item.platform}
+                                format={item.format}
+                                runtime={item.runtime}
                                 clickHeartHandler={() => toggleFavoriteHandler(item)}
                                 clickTrashHandler={() => removeFromSearchAndLibraryHandler(item)}
                             />
@@ -93,6 +100,7 @@ class SearchResults extends React.Component {
                                 addToLibraryHandler={addMovieToLibraryHandler}
                                 removeFromLibraryHandler={() => removeFromLibraryHandler(item)}
                                 recentFormats={recentFormats}
+                                formats={formats}
                             />
                         </Card>
                     ))}
@@ -110,8 +118,14 @@ class SearchResults extends React.Component {
 
 const withConnect = connect(
     (state) => ({
-        results: state.search.results,
-        recentFormats: state.app.recentFormats,
+        results: selectSearchResults(state),
+        recentFormats: state.app.recentFormats.map((formatValue) => selectFormat(state.entities, formatValue)),
+        formats: Object.entries(state.entities.formats).reduce((merged, [key, value]) => {
+            return {
+                ...merged,
+                [key]: selectFormat(state.entities, value),
+            }
+        }, {}),
         searchType: state.search.searchType,
     }),
     (dispatch) => ({

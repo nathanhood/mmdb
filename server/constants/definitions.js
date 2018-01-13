@@ -1,6 +1,11 @@
-const MOVIE_DEFINITIONS = {
-    sd: { display: 'SD', value: 'sd', resolution: '720p', icon: null },
-    hd: {
+module.exports = [
+    {
+        display: 'SD',
+        value: 'sd',
+        resolution: '720p',
+        icon: null,
+    },
+    {
         display: 'HD',
         value: 'hd',
         resolution: '1080p',
@@ -13,7 +18,7 @@ const MOVIE_DEFINITIONS = {
             </g>
         </g>`,
     },
-    '4k': {
+    {
         display: '4k',
         value: '4k',
         resolution: '4096p',
@@ -27,8 +32,4 @@ const MOVIE_DEFINITIONS = {
             </g>
         </g>`,
     },
-};
-
-module.exports = {
-    movie: MOVIE_DEFINITIONS,
-};
+];

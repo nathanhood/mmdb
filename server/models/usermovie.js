@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         movieId: DataTypes.INTEGER.UNSIGNED,
         format: DataTypes.STRING,
         definition: DataTypes.STRING,
+        platform: DataTypes.STRING,
         isFavorite: DataTypes.BOOLEAN,
     });
 

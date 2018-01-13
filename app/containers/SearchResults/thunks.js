@@ -19,22 +19,34 @@ import { prepareRecentFormats } from '../App/thunks';
 import { LIBRARY_SEARCH_TYPE } from './constants';
 import { getLibraryGenreKeysFromMovie } from '../../common/resourceCache/utils';
 import { markDashboardDirty } from '../../common/resourceCache/actions';
+import { MOVIES_STATE_KEY } from '../../common/entities/constants';
+import { addMoviesFromAPI } from '../../common/entities/actions';
 
-export const prepareSearchResults = (query, searchType) => (dispatch) => {
-    const getResults = searchType === LIBRARY_SEARCH_TYPE ?
+export const prepareSearchResults = (query, searchType) => (dispatch, getState) => {
+    const state = getState();
+    const isLibrarySearch = searchType === LIBRARY_SEARCH_TYPE;
+    const getResults = isLibrarySearch ?
         getMovieLibrarySearchResults :
         getMovieSearchResults;
 
     getResults(query).then((results) => {
+        if (isLibrarySearch) {
+            const newEntities = results.payload.filter((result) => !state.entities[MOVIES_STATE_KEY][result.id]);
+
+            if (newEntities.length) {
+                dispatch(addMoviesFromAPI({ payload: newEntities }));
+            }
+        }
+
         dispatch(populateSearchResults(results.payload));
         dispatch(showSearchResults());
     });
 };
 
-export const addMovieToLibrary = ({ id, format, definition }) => (dispatch) => {
+export const addMovieToLibrary = ({ id, format, definition, platform }) => (dispatch) => {
     dispatch(claimSearchResultAsOwned(id));
 
-    addMovieToUserLibrary({ id, format, definition }).then((movie) => {
+    addMovieToUserLibrary({ id, format, definition, platform }).then((movie) => {
         dispatch(setIdOnSearchResult(movie));
         dispatch(prepareRecentFormats(true));
     }).catch(() => {
@@ -43,10 +55,10 @@ export const addMovieToLibrary = ({ id, format, definition }) => (dispatch) => {
 };
 
 export const removeMovieFromLibrary = (movie) => (dispatch) => {
-    const { id, Genres } = movie;
+    const { id, genres } = movie;
 
     dispatch(unclaimSearchResultAsOwned(id));
-    dispatch(markDashboardDirty(getLibraryGenreKeysFromMovie(Genres)));
+    dispatch(markDashboardDirty(getLibraryGenreKeysFromMovie(genres)));
 
     removeMovieFromUserLibrary(id).catch(() => {
         // TODO: unclaim search result and notify user that something went wrong

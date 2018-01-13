@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const moviesController = require('../controllers/moviesController');
 const searchNewController = require('../controllers/searchNewController');
+const formatsController = require('../controllers/formatsController');
 const checkTmdbConfig = require('../middlewares/movieApiMiddlware');
 
 checkTmdbConfig(router);
@@ -15,5 +16,7 @@ router.get('/movies/:id', moviesController.show);
 router.put('/movies/:id/favorite', moviesController.favorite);
 router.put('/movies/:id/unfavorite', moviesController.unFavorite);
 router.delete('/movies/:id', moviesController.destroy);
+
+router.get('/formats', formatsController.index);
 
 module.exports = router;

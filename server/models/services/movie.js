@@ -13,7 +13,7 @@ const {
 
 
 const _defaultMovieAssociations = [{ model: DB.Genre }];
-const _movieAttributes = ['id', 'format', 'definition', 'isFavorite', 'createdAt', 'updatedAt'];
+const _movieAttributes = ['id', 'format', 'definition', 'isFavorite', 'platform', 'createdAt', 'updatedAt'];
 const _includeUser = (id) => {
     let where;
 
@@ -43,6 +43,7 @@ const _formatMovieFromUserMovie = (movie) => {
         User: movie.User,
         format: movie.format,
         definition: movie.definition,
+        platform: movie.platform,
         isFavorite: movie.isFavorite,
         createdAt: movie.createdAt,
         updatedAt: movie.updatedAt,
@@ -128,12 +129,13 @@ const getUserMovieById = (movieId, associations) => {
 
 const getRecentUserMovieAdditions = (userId, limit) => {
     return DB.UserMovie.findAll({
+        attributes: ['format'],
         where: { userId },
         order: [
             ['createdAt', 'DESC'],
         ],
         limit,
-    }).then((movies) => toPlainObjects(movies));
+    }).then((movies) => toPlainObjects(movies).map((userMovie) => userMovie.format));
 };
 
 const countUserMovies = ({ userId, genre, query }) => {
@@ -165,8 +167,8 @@ const getUserMoviesByTmdbId = (userId, movieIds) => {
         .then(_formatManyMoviesFromUserMovies);
 };
 
-const addUserMovie = (User, Movie, format, definition) => {
-    return User.addMovie(Movie, { through: { format, definition } }).then(() => toPlainObject(Movie));
+const addUserMovie = (User, Movie, format, definition, platform) => {
+    return User.addMovie(Movie, { through: { format, definition, platform } }).then(() => toPlainObject(Movie));
 }
 
 module.exports = {

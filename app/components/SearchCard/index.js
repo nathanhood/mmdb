@@ -19,7 +19,7 @@ const Title = styled.h2`
     margin-top: 6px;
     margin-bottom: 8px;
     font-family: ${theme.font};
-    font-size: 19px;
+    font-size: 17px;
 `;
 
 const PosterContainer = styled.div`
@@ -67,21 +67,20 @@ class SearchCard extends React.Component {
         addToLibraryHandler: PropTypes.func.isRequired,
         removeFromLibraryHandler: PropTypes.func.isRequired,
         recentFormats: PropTypes.array,
+        formats: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
         recentFormats: [],
     };
 
-    static contextTypes = {
-        formats: PropTypes.object,
-        definitions: PropTypes.object,
-    };
-
     state = {
         askForFormat: false,
+        askForDefinition: false,
+        askForPlatform: false,
         format: null,
         definition: null,
+        platform: null,
     };
 
     _askForFormat = () => {
@@ -89,6 +88,7 @@ class SearchCard extends React.Component {
             ...prevState,
             askForFormat: true,
             askForDefinition: false,
+            askForPlatform: false,
         }));
     };
 
@@ -97,21 +97,52 @@ class SearchCard extends React.Component {
             ...prevState,
             askForFormat: false,
             askForDefinition: true,
+            askForPlatform: false,
         }));
     };
 
-    _setFormat = (format) => {
+    _askForPlatform = () => {
         this.setState((prevState) => ({
             ...prevState,
-            format,
+            askForFormat: false,
+            askForDefinition: false,
+            askForPlatform: true,
         }));
+    };
+
+    _setFormat = (format, cb) => {
+        this.setState({ format }, cb);
     };
 
     _setDefinition = (definition, cb) => {
-        this.setState((prevState) => ({
-            ...prevState,
-            definition,
-        }), cb);
+        this.setState({ definition }, cb);
+    }
+
+    _setPlatform = (platform, cb) => {
+        this.setState({ platform }, cb);
+    }
+
+    _seekNextQuestion = () => {
+        if (!this.state.format) {
+            return this._askForFormat();
+        }
+
+        const format = this.props.formats[this.state.format];
+
+        // If only one definition, answer question for user
+        if (!this.state.definition && format.definitions.length === 1) {
+            return this._setDefinition(format.definitions[0].value, this._seekNextQuestion);
+        }
+
+        if (!this.state.definition) {
+            return this._askForDefinition();
+        }
+
+        if (format.platforms.length && !this.state.platform) {
+            return this._askForPlatform();
+        }
+
+        return this._addToLibrary();
     }
 
     _resetCard = () => {
@@ -119,22 +150,19 @@ class SearchCard extends React.Component {
             ...prevState,
             askForFormat: false,
             askForDefinition: false,
+            askForPlatform: false,
             format: null,
             definition: null,
+            platform: null,
         }));
     };
 
-    _addToLibrary = (apiId) => {
-        if (!this.state.format) {
-            this._askForFormat();
-        } else if (!this.state.definition) {
-            this._askForDefinition();
-        }
-
+    _addToLibrary = () => {
         this.props.addToLibraryHandler({
-            id: apiId,
+            id: this.props.apiId,
             format: this.state.format,
             definition: this.state.definition,
+            platform: this.state.platform,
         });
 
         this._resetCard();
@@ -143,7 +171,6 @@ class SearchCard extends React.Component {
     render() {
         const {
             id,
-            apiId,
             title,
             poster,
             releaseDate,
@@ -151,6 +178,7 @@ class SearchCard extends React.Component {
             isFavorite,
             removeFromLibraryHandler,
             recentFormats,
+            formats,
         } = this.props;
 
         if (this.state.askForFormat) {
@@ -158,23 +186,27 @@ class SearchCard extends React.Component {
                 <div>
                     <SelectDiv>
                         <Select
-                          id="format"
-                          options={this.context.formats.movie}
-                          placeholder="Format"
-                          onChange={(e) => {
-                              this._setFormat(e.target.value);
-                              this._askForDefinition();
-                          }}
+                            id="format"
+                            options={Object.keys(formats).map((formatValue) => formats[formatValue])}
+                            placeholder="Format"
+                            onChange={(e) => {
+                                this._setFormat(
+                                    e.target.value,
+                                    () => this._seekNextQuestion()
+                                );
+                            }}
                         />
                     </SelectDiv>
                     <TagContainer>
                         {recentFormats.map((format) => (
                             <Tag
-                              key={format.value}
-                              onClick={() => {
-                                  this._setFormat(format.value);
-                                  this._askForDefinition();
-                              }}
+                                key={format.value}
+                                onClick={() => {
+                                    this._setFormat(
+                                        format.value,
+                                        () => this._seekNextQuestion()
+                                    );
+                                }}
                             >
                                 {format.display}
                             </Tag>
@@ -186,23 +218,40 @@ class SearchCard extends React.Component {
             return (
                 <div>
                     <TagContainer>
-                        {Object.keys(this.context.definitions.movie).map((key) => {
-                            const definition = this.context.definitions.movie[key];
-
+                        {formats[this.state.format].definitions.map((definition) => {
                             return (
                                 <Tag
-                                  key={definition.value}
-                                  onClick={() => {
-                                      this._setDefinition(definition.value, () => {
-                                          this._addToLibrary(apiId);
-                                      });
-                                  }}
+                                    key={definition.value}
+                                    onClick={() => {
+                                        this._setDefinition(
+                                            definition.value,
+                                            () => this._seekNextQuestion()
+                                        );
+                                    }}
                                 >
                                     {definition.display}
                                 </Tag>
                             );
                         })}
                     </TagContainer>
+                </div>
+            );
+        } else if (this.state.askForPlatform) {
+            return (
+                <div>
+                    <SelectDiv>
+                        <Select
+                            id="platform"
+                            options={formats[this.state.format].platforms}
+                            placeholder="Platform"
+                            onChange={(e) => {
+                                this._setPlatform(
+                                    e.target.value,
+                                    () => this._seekNextQuestion()
+                                );
+                            }}
+                        />
+                    </SelectDiv>
                 </div>
             );
         }

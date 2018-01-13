@@ -97,6 +97,7 @@ const store = async (req, res) => {
         id: movieId,
         format,
         definition,
+        platform,
     } = req.body;
     const { id: userId } = req.user;
     const movieApi = new MovieApiService();
@@ -119,7 +120,13 @@ const store = async (req, res) => {
 
             return movie.addGenres(genres).then(() => movie);
         }).then((movie) => {
-            return addUserMovie(req.user, movie, format, definition);
+            return addUserMovie(
+                req.user,
+                movie,
+                format,
+                definition,
+                platform
+            );
         }).then((movie) => {
             // Retrieve full movie data for response
             return getUserMovieByUserAndMovie(userId, movie.id);
